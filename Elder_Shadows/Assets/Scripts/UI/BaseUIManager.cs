@@ -15,4 +15,10 @@ public class BaseUIManager : MonoBehaviour
     {
         SceneManager.LoadScene(scene.SceneName);
     }
+
+    public void OnQuitButtonClicked()
+    {
+        Debug.Log("Quit game");
+        Application.Quit();
+    }
 }

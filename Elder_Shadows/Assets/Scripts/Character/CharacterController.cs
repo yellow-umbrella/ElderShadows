@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Joystick joystick;
+    [SerializeField] private float movespeed;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        transform.position += new Vector3(joystick.Horizontal, joystick.Vertical, transform.position.z) * movespeed * Time.deltaTime;
     }
 }

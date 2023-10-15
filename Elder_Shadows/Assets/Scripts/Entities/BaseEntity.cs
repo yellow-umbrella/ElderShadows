@@ -1,10 +1,14 @@
 using MyBox;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class BaseEntity : MonoBehaviour
 {
+    public event EventHandler OnDeath;
+
     [SerializeField] private int health = 10;
     [SerializeField] private int demage = 2;
 
@@ -48,9 +52,11 @@ public class BaseEntity : MonoBehaviour
         }
     }
 
+    [ContextMenu("Die")]
     private void Die()
     {
         Debug.Log(gameObject.ToString() + " is dead");
+        OnDeath?.Invoke(this, EventArgs.Empty);
         Destroy(gameObject);
     }
 

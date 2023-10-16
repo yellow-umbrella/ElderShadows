@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7840178585070204745}
   - component: {fileID: 7840178585070204744}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BaseEntityVisuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7840178585703063436}
   - component: {fileID: 7840178585703063439}
-  m_Layer: 0
+  - component: {fileID: 1631742108304453275}
+  - component: {fileID: 1995415335157025527}
+  m_Layer: 6
   m_Name: BaseEntity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,3 +139,40 @@ MonoBehaviour:
   timeBetweenTurns: 0.2
   turnSpeed: 5
   turnAngleRange: 135
+  aggroRange: {fileID: 1631742108304453275}
+  attackRange: {fileID: 1995415335157025527}
+  attackMask:
+    serializedVersion: 2
+    m_Bits: 192
+--- !u!58 &1631742108304453275
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7840178585703063437}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 2
+--- !u!58 &1995415335157025527
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7840178585703063437}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1

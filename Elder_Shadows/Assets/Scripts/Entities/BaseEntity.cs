@@ -14,6 +14,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
     {
         Aggressive = 0,
         Defensive = 1,
+        Relaxed = 2,
     }
 
     [SerializeField] private int health = 10;
@@ -27,7 +28,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
     [SerializeField] private int damage = 2;
     [SerializeField] private float attackCooldown = 3;
     [SerializeField] private Collider2D attackRange;
-    [SerializeField] private Collider2D aggroRange;
+    [SerializeField] private Collider2D seeingRange;
     [SerializeField] private LayerMask intrudersMask;
 
     [Header("Wandering parameters")]
@@ -56,6 +57,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
         {
             {Behavior.Aggressive, new AggressiveBehavior() },
             {Behavior.Defensive, new DefensiveBehavior() },
+            {Behavior.Relaxed, new RelaxedBehavior() },
         };
 
     private void Start()
@@ -103,19 +105,24 @@ public class BaseEntity : MonoBehaviour, IAttackable
         contactFilter.SetLayerMask(intrudersMask);
         contactFilter.useTriggers = true;
 
-        aggroRange.OverlapCollider(contactFilter, intruders);
+        seeingRange.OverlapCollider(contactFilter, intruders);
 
         foreach (Collider2D collider in intruders)
         {
             GameObject potentialTarget = collider.gameObject;
             if (!potentialTarget.Equals(gameObject))
             {
-                if (aggroRange.OverlapPoint(potentialTarget.transform.position))
+                if (seeingRange.OverlapPoint(potentialTarget.transform.position))
                 {
                     behavior.OnSee(potentialTarget);
                 }
             }
         }
+    }
+
+    public bool CanSee(GameObject target)
+    {
+        return seeingRange.OverlapPoint(target.transform.position);
     }
 
     public void TakeDamage(int damage, GameObject attacker)

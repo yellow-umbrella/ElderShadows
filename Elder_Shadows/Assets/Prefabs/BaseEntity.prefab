@@ -138,7 +138,7 @@ MonoBehaviour:
   damage: 2
   attackCooldown: 3
   attackRange: {fileID: 1995415335157025527}
-  aggroRange: {fileID: 1631742108304453275}
+  seeingRange: {fileID: 1631742108304453275}
   intrudersMask:
     serializedVersion: 2
     m_Bits: 192

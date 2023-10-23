@@ -55,13 +55,8 @@ public class BaseEntity : MonoBehaviour, IAttackable
         new Dictionary<Behavior, IBehavior>() 
         {
             {Behavior.Aggressive, new AggressiveBehavior() },
+            {Behavior.Defensive, new DefensiveBehavior() },
         };
-
-    protected enum State
-    {
-        Wandering,
-        Attacking,
-    }
 
     private void Start()
     {

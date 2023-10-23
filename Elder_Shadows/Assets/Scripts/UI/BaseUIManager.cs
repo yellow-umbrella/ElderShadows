@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class BaseUIManager : MonoBehaviour
 {
-    [SerializeField]private SceneReference nextScene;
+    [SerializeField]protected SceneReference nextScene;
 
     public void LoadNextScene()
     {

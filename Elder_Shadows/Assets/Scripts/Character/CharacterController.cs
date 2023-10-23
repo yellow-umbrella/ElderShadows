@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
     public Joystick joystick;
     [SerializeField] private float movespeed;
+    public CharacterData characterData;
 
     void Update()
     {

@@ -10,17 +10,25 @@ public class BaseEntity : MonoBehaviour, IAttackable
 {
     public event EventHandler OnDeath;
 
+    public enum Behavior
+    {
+        Aggressive = 0,
+        Defensive = 1,
+    }
+
     [SerializeField] private int health = 10;
 
     [SerializeField] private float walkingSpeed = 1;
     [SerializeField] private float runningSpeed = 2;
+    [SerializeField] private Behavior standardBehavior;
+    protected IBehavior behavior;
 
     [Header("Attack parameters")]
     [SerializeField] private int damage = 2;
     [SerializeField] private float attackCooldown = 3;
     [SerializeField] private Collider2D attackRange;
     [SerializeField] private Collider2D aggroRange;
-    [SerializeField] private LayerMask attackMask;
+    [SerializeField] private LayerMask intrudersMask;
 
     [Header("Wandering parameters")]
     [SerializeField] private float wanderingRadius = 4;
@@ -37,14 +45,17 @@ public class BaseEntity : MonoBehaviour, IAttackable
     private float timeToNextTurn;
 
     private List<Collider2D> intruders = new List<Collider2D>();
-    private GameObject attackTarget;
 
     private bool canAttack = true;
 
     private float timeBetweenAggroChecks = 1;
     private float timeToNextAggroCheck;
 
-    protected State state;
+    private Dictionary<Behavior, IBehavior> matchedBehavior = 
+        new Dictionary<Behavior, IBehavior>() 
+        {
+            {Behavior.Aggressive, new AggressiveBehavior() },
+        };
 
     protected enum State
     {
@@ -54,45 +65,23 @@ public class BaseEntity : MonoBehaviour, IAttackable
 
     private void Start()
     {
+        behavior = matchedBehavior[standardBehavior];
+        behavior.InitBehavior(this);
+
         spawnPosition = transform.position;
-        InitWandering(spawnPosition);
     }
 
     private void Update()
     {
-        switch (state)
-        {
-            case State.Wandering:
-                WanderAround();
-                timeToNextAggroCheck -= Time.deltaTime;
-                if (timeToNextAggroCheck <= 0)
-                {
-                    timeToNextAggroCheck = timeBetweenAggroChecks;
-                    if (CheckForIntruders(attackMask))
-                    {
-                        state = State.Attacking;
-                    }
-                }
-                break;
-            case State.Attacking:
-                if (attackTarget != null)
-                {
-                    MoveTowards(attackTarget.transform.position, runningSpeed);
-                    TryAttack();
-                }
-                else
-                {
-                    InitWandering(transform.position);
-                }
-                break;
-        }
+        CheckForIntruders(intrudersMask);
+        behavior.Behave();
     }
 
-    protected void TryAttack()
+    public void TryAttack(GameObject attackTarget)
     {
         if (attackRange.OverlapPoint(attackTarget.transform.position) && canAttack)
         {
-            attackTarget.GetComponent<IAttackable>().TakeDamage(damage);
+            attackTarget.GetComponent<IAttackable>().TakeDamage(damage, this.gameObject);
             StartCoroutine(AttackCooldown());
         }
     }
@@ -104,8 +93,17 @@ public class BaseEntity : MonoBehaviour, IAttackable
         canAttack = true;
     }
 
-    protected bool CheckForIntruders(LayerMask intrudersMask)
+    protected void CheckForIntruders(LayerMask intrudersMask)
     {
+        timeToNextAggroCheck -= Time.deltaTime;
+        if (timeToNextAggroCheck <= 0)
+        {
+            timeToNextAggroCheck = timeBetweenAggroChecks;
+        } else
+        {
+            return;
+        }
+
         ContactFilter2D contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(intrudersMask);
         contactFilter.useTriggers = true;
@@ -117,23 +115,23 @@ public class BaseEntity : MonoBehaviour, IAttackable
             GameObject potentialTarget = collider.gameObject;
             if (!potentialTarget.Equals(gameObject))
             {
-                if (aggroRange.OverlapPoint(potentialTarget.transform.position)
-                    && potentialTarget.HasComponent<IAttackable>())
+                if (aggroRange.OverlapPoint(potentialTarget.transform.position))
                 {
-                    attackTarget = potentialTarget;
-                    return true;
+                    behavior.OnSee(potentialTarget);
                 }
             }
         }
-        return false;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, GameObject attacker)
     {
         health -= damage;
         if (health <= 0)
         {
             Die();
+        } else
+        {
+            behavior.OnHit(attacker);
         }
     }
 
@@ -144,7 +142,17 @@ public class BaseEntity : MonoBehaviour, IAttackable
         Destroy(gameObject);
     }
 
-    protected bool MoveTowards(Vector3 target, float speed)
+    public void RunTowards(Vector3 target)
+    {
+        MoveTowards(target, runningSpeed);
+    }
+
+    public void WalkTowards(Vector3 target)
+    {
+        MoveTowards(target, walkingSpeed);
+    }
+
+    private bool MoveTowards(Vector3 target, float speed)
     {
         Vector3 direction = target - transform.position;
         currentMovementDirection = direction.normalized;
@@ -157,7 +165,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
     }
 
     // Simulate random movement inside circle
-    protected void WanderAround()
+    public void WanderAround()
     {
         timeToNextTurn -= Time.deltaTime;
         if (timeToNextTurn <= 0)
@@ -202,9 +210,8 @@ public class BaseEntity : MonoBehaviour, IAttackable
         transform.position = newPosition;
     }
 
-    protected void InitWandering(Vector3 center)
+    public void InitWandering(Vector3 center)
     {
-        state = State.Wandering;
         timeToNextTurn = timeBetweenTurns;
         wanderingCenter = center;
         currentMovementDirection = Random.insideUnitCircle.normalized;

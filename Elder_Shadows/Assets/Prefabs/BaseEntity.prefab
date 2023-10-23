@@ -132,18 +132,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
-  demage: 2
   walkingSpeed: 1
   runningSpeed: 2
+  standardBehavior: 0
+  damage: 2
+  attackCooldown: 3
+  attackRange: {fileID: 1995415335157025527}
+  aggroRange: {fileID: 1631742108304453275}
+  intrudersMask:
+    serializedVersion: 2
+    m_Bits: 192
   wanderingRadius: 4
   timeBetweenTurns: 0.2
   turnSpeed: 5
   turnAngleRange: 135
-  aggroRange: {fileID: 1631742108304453275}
-  attackRange: {fileID: 1995415335157025527}
-  attackMask:
-    serializedVersion: 2
-    m_Bits: 192
 --- !u!58 &1631742108304453275
 CircleCollider2D:
   m_ObjectHideFlags: 0

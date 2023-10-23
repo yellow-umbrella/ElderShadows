@@ -15,6 +15,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
         Aggressive = 0,
         Defensive = 1,
         Relaxed = 2,
+        Scared = 3,
     }
 
     [SerializeField] private int health = 10;
@@ -58,6 +59,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
             {Behavior.Aggressive, new AggressiveBehavior() },
             {Behavior.Defensive, new DefensiveBehavior() },
             {Behavior.Relaxed, new RelaxedBehavior() },
+            {Behavior.Scared, new ScaredBehavior() },
         };
 
     private void Start()

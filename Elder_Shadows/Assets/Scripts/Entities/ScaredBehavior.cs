@@ -2,8 +2,9 @@ using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
-public class RelaxedBehavior : IBehavior
+public class ScaredBehavior : IBehavior
 {
     private enum State
     {
@@ -12,7 +13,7 @@ public class RelaxedBehavior : IBehavior
     }
     private State state = State.Wandering;
     private BaseEntity entity;
-    private GameObject attacker;
+    private GameObject intruder;
     private const float MAX_DISTANCE = 100;
 
     public void Behave()
@@ -23,9 +24,9 @@ public class RelaxedBehavior : IBehavior
                 entity.WanderAround();
                 break;
             case State.RunningAway:
-                if (attacker != null && entity.CanSee(attacker))
+                if (intruder != null && entity.CanSee(intruder))
                 {
-                    Vector3 runningDirection = entity.transform.position - attacker.transform.position;
+                    Vector3 runningDirection = entity.transform.position - intruder.transform.position;
                     if (runningDirection.ToVector2() == Vector2.zero)
                     {
                         runningDirection = new Vector3(Random.Range(0, 1), Random.Range(0, 1), 0);
@@ -51,12 +52,22 @@ public class RelaxedBehavior : IBehavior
 
     public void OnHit(GameObject other)
     {
-        attacker = other;
-        state = State.RunningAway;
+        OnSee(other);
     }
 
     public void OnSee(GameObject other)
     {
-        //ignore
+        float distIntruder = float.PositiveInfinity;
+        float distOther = Vector3.Distance(other.transform.position, entity.transform.position);
+        if (intruder != null)
+        {
+            distIntruder = Vector3.Distance(intruder.transform.position, entity.transform.position);
+        }
+
+        if (distOther <= distIntruder)
+        {
+            intruder = other;
+            state = State.RunningAway;
+        }
     }
 }

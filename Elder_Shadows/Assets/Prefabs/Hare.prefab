@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2769823255442001731}
   - component: {fileID: 7633626884690207112}
   m_Layer: 6
-  m_Name: KhukhaVisuals
+  m_Name: HareVisuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.88482296, b: 0, a: 1}
+  m_Color: {r: 0.5835519, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 7759731727456068158}
   - component: {fileID: 1474643808472791322}
   m_Layer: 6
-  m_Name: Khukha
+  m_Name: Hare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -131,10 +131,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4a612ee90b09f4792e1058e27800b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
-  walkingSpeed: 1
+  health: 6
+  walkingSpeed: 2
   runningSpeed: 4
-  standardBehavior: 2
+  standardBehavior: 3
   damage: 1
   attackCooldown: 3
   attackRange: {fileID: 1474643808472791322}
@@ -142,7 +142,7 @@ MonoBehaviour:
   intrudersMask:
     serializedVersion: 2
     m_Bits: 192
-  wanderingRadius: 5
+  wanderingRadius: 4
   timeBetweenTurns: 0.2
   turnSpeed: 5
   turnAngleRange: 135

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2769823255442001731}
   - component: {fileID: 7633626884690207112}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: HareVisuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,8 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2800430324373740860}
   - component: {fileID: 4380414845481937082}
-  - component: {fileID: 7759731727456068158}
-  - component: {fileID: 1474643808472791322}
+  - component: {fileID: 7003251188265073427}
   m_Layer: 6
   m_Name: Hare
   m_TagString: Untagged
@@ -116,6 +115,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2769823255442001731}
+  - {fileID: 6706096995957244125}
+  - {fileID: 4170151371533135469}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -137,8 +138,8 @@ MonoBehaviour:
   standardBehavior: 3
   damage: 1
   attackCooldown: 3
-  attackRange: {fileID: 1474643808472791322}
-  seeingRange: {fileID: 7759731727456068158}
+  attackRange: {fileID: 5112880757809269999}
+  seeingRange: {fileID: 5596017496038558039}
   intrudersMask:
     serializedVersion: 2
     m_Bits: 192
@@ -146,7 +147,7 @@ MonoBehaviour:
   timeBetweenTurns: 0.2
   turnSpeed: 5
   turnAngleRange: 135
---- !u!58 &7759731727456068158
+--- !u!58 &7003251188265073427
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -156,19 +157,51 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 3
---- !u!58 &1474643808472791322
+  m_Radius: 0.25
+--- !u!1 &5621260781650034789
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4170151371533135469}
+  - component: {fileID: 5112880757809269999}
+  m_Layer: 0
+  m_Name: AttackRange
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4170151371533135469
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5621260781650034789}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2800430324373740860}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &5112880757809269999
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4875288569728316549}
+  m_GameObject: {fileID: 5621260781650034789}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -178,3 +211,51 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
+--- !u!1 &8372598745003559558
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6706096995957244125}
+  - component: {fileID: 5596017496038558039}
+  m_Layer: 0
+  m_Name: SeeingRange
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6706096995957244125
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8372598745003559558}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2800430324373740860}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &5596017496038558039
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8372598745003559558}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 3

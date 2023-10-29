@@ -21,17 +21,19 @@ public class CharacterController : MonoBehaviour, IAttackable
         transform.position += new Vector3(joystick.Horizontal, joystick.Vertical, transform.position.z) * movespeed * Time.deltaTime;
     }
 
-    public void TakeDamage(int damage, GameObject attacker)
+    public IAttackable.State TakeDamage(int damage, GameObject attacker)
     {
         characterData.health -= damage;
         if (characterData.health <= 0)
         {
             Die();
+            return IAttackable.State.Dead;
         }
         else
         {
             OnHit(attacker);
         }
+        return IAttackable.State.Alive;
     }
 
     private void Die()

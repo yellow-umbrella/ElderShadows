@@ -4,5 +4,11 @@ using UnityEngine;
 
 public interface IAttackable
 {
-    public void TakeDamage(int damage, GameObject attacker);
+    public enum State
+    {
+        Alive = 0, 
+        Dead = 1,
+    }
+
+    public State TakeDamage(int damage, GameObject attacker);
 }

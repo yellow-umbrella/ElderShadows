@@ -127,16 +127,18 @@ public class BaseEntity : MonoBehaviour, IAttackable
         return seeingRange.OverlapPoint(target.transform.position);
     }
 
-    public void TakeDamage(int damage, GameObject attacker)
+    public IAttackable.State TakeDamage(int damage, GameObject attacker)
     {
         health -= damage;
         if (health <= 0)
         {
             Die();
+            return IAttackable.State.Dead;
         } else
         {
             behavior.OnHit(attacker);
         }
+        return IAttackable.State.Alive;
     }
 
     [ContextMenu("Die")]

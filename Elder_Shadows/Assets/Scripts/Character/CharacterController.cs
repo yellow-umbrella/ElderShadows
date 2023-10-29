@@ -9,7 +9,11 @@ public class CharacterController : MonoBehaviour, IAttackable
 
     private void Awake()
     {
+#if UNITY_EDITOR
+        characterData = new CharacterData("TEST");
+#else
         characterData = DataBridge.instance.Character_data;
+#endif
     }
 
     void Update()

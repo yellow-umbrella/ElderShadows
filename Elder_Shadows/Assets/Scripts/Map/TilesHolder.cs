@@ -5,19 +5,19 @@ using UnityEngine.Tilemaps;
 
 public class TilesHolder : MonoBehaviour
 {
-    private RuleTile _baseTile;
+    private RuleTile lightGrassTile;
     private Tile homeTile;
     private Tile treeTile;
 
     private void Awake()
     {
-        _baseTile = (RuleTile)Resources.Load("GrassRuleTile", typeof(RuleTile));
-        homeTile = (Tile)Resources.Load("tileset-sliced_107", typeof(Tile));
+        lightGrassTile = (RuleTile)Resources.Load("LightGrassRuleTile", typeof(RuleTile));
+        homeTile = (Tile)Resources.Load("rock-monument", typeof(Tile));
         treeTile = (Tile)Resources.Load("tree-orange", typeof(Tile));
     }
     public RuleTile GetBaseTile()
     {
-        return _baseTile;
+        return lightGrassTile;
     }
 
     public Tile GetHomeTile() 

@@ -9,9 +9,9 @@ public class HomeMap : MonoBehaviour
     private Tilemap _homeTilemap;
     private TilesHolder _tilesHolder;
     private Random rnd = new Random();
-    int width = 15;
-    int height = 15;
-    int treeNum = 5;
+    int width = 150;
+    int height = 100;
+    int treeNum = 200;
 
     private void Awake()
     {
@@ -40,18 +40,22 @@ public class HomeMap : MonoBehaviour
                 {
                     _homeTilemap.SetTile(currentCellPosition, _tilesHolder.GetHomeTile());
                 }
+                else if (rnd.Next(0, 60) == 10 && w != 0 && w != width-1 && h != height-1 && h != 0) 
+                {
+                    _homeTilemap.SetTile(currentCellPosition, _tilesHolder.GetTreeTile());
+                }
                 else 
                 {
                     _homeTilemap.SetTile(currentCellPosition, _tilesHolder.GetBaseTile());
                 }
 
-                for (int x = 0; x < treeNum; x++)
+                /*for (int x = 0; x < treeNum; x++)
                 {
                     if ((int)treeX[x] == w && (int)treeY[x] == h)
                     {
                         _homeTilemap.SetTile(currentCellPosition, _tilesHolder.GetTreeTile());
                     }
-                }
+                }*/
 
                 currentCellPosition = new Vector3Int(
                     (int)(cellSize.x + currentCellPosition.x),
@@ -69,7 +73,7 @@ public class HomeMap : MonoBehaviour
 
         for(int i=0; i<num; i++) 
         {
-            tx.Add(rnd.Next(1, len));
+            tx.Add(rnd.Next(3, len-3));
         }
 
         return tx;

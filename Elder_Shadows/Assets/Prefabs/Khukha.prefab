@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1354793992835737387
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8897267268225750619}
+  - component: {fileID: 1614982976204992309}
+  m_Layer: 0
+  m_Name: AttackRange
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8897267268225750619
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354793992835737387}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2800430324373740860}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &1614982976204992309
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354793992835737387}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1
 --- !u!1 &2943493365220117380
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,7 +58,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2769823255442001731}
   - component: {fileID: 7633626884690207112}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: KhukhaVisuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,9 +142,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2800430324373740860}
   - component: {fileID: 4380414845481937082}
-  - component: {fileID: 7759731727456068158}
-  - component: {fileID: 1474643808472791322}
-  m_Layer: 6
+  - component: {fileID: 9068365841892706569}
+  m_Layer: 11
   m_Name: Khukha
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,6 +163,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2769823255442001731}
+  - {fileID: 5857559764970929835}
+  - {fileID: 8897267268225750619}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -134,25 +183,81 @@ MonoBehaviour:
   health: 10
   walkingSpeed: 1
   runningSpeed: 4
-  standardBehavior: 2
   damage: 1
   attackCooldown: 3
-  attackRange: {fileID: 1474643808472791322}
-  seeingRange: {fileID: 7759731727456068158}
-  intrudersMask:
-    serializedVersion: 2
-    m_Bits: 192
+  attackRange: {fileID: 1614982976204992309}
+  seeingRange: {fileID: 2636888911391340099}
+  reactionMask:
+  - intrudersMask:
+      serializedVersion: 2
+      m_Bits: 2304
+    behavior: 2
+  - intrudersMask:
+      serializedVersion: 2
+      m_Bits: 5632
+    behavior: 3
+  reactionToPlayer: 3
+  reactionToTrustedPlayer: 2
+  trustRequired: 0
   wanderingRadius: 5
   timeBetweenTurns: 0.2
   turnSpeed: 5
   turnAngleRange: 135
---- !u!58 &7759731727456068158
+--- !u!58 &9068365841892706569
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4875288569728316549}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.25
+--- !u!1 &7293046805604953831
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5857559764970929835}
+  - component: {fileID: 2636888911391340099}
+  m_Layer: 0
+  m_Name: SeeingRange
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5857559764970929835
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7293046805604953831}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2800430324373740860}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &2636888911391340099
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7293046805604953831}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -162,19 +267,3 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 3
---- !u!58 &1474643808472791322
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4875288569728316549}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3409200741388100853}
   - component: {fileID: 6975968780678056510}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: ChuhaysterVisuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,6 +84,54 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &3529142474212243500
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 856710882256374074}
+  - component: {fileID: 3819700340238084851}
+  m_Layer: 0
+  m_Name: AttackRange
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &856710882256374074
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3529142474212243500}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3450506199153538698}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &3819700340238084851
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3529142474212243500}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1
 --- !u!1 &5374774086696083251
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,9 +142,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3450506199153538698}
   - component: {fileID: 3888248626293457676}
-  - component: {fileID: 7102057268208454024}
-  - component: {fileID: 2110346726860444332}
-  m_Layer: 6
+  - component: {fileID: 8788716741159817956}
+  m_Layer: 11
   m_Name: Chuhayster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,6 +163,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3409200741388100853}
+  - {fileID: 3325860561406667440}
+  - {fileID: 856710882256374074}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -134,25 +183,85 @@ MonoBehaviour:
   health: 40
   walkingSpeed: 1
   runningSpeed: 2
-  standardBehavior: 1
   damage: 5
   attackCooldown: 3
-  attackRange: {fileID: 2110346726860444332}
-  seeingRange: {fileID: 7102057268208454024}
-  intrudersMask:
-    serializedVersion: 2
-    m_Bits: 192
+  attackRange: {fileID: 3819700340238084851}
+  seeingRange: {fileID: 470396576643529238}
+  reactionMask:
+  - intrudersMask:
+      serializedVersion: 2
+      m_Bits: 4096
+    behavior: 1
+  - intrudersMask:
+      serializedVersion: 2
+      m_Bits: 2816
+    behavior: 2
+  - intrudersMask:
+      serializedVersion: 2
+      m_Bits: 1024
+    behavior: 0
+  reactionToPlayer: 1
+  reactionToTrustedPlayer: 1
+  trustRequired: 0
   wanderingRadius: 3
   timeBetweenTurns: 0.2
   turnSpeed: 5
   turnAngleRange: 135
---- !u!58 &7102057268208454024
+--- !u!58 &8788716741159817956
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5374774086696083251}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
+--- !u!1 &7139340533471835111
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3325860561406667440}
+  - component: {fileID: 470396576643529238}
+  m_Layer: 0
+  m_Name: SeeingRange
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3325860561406667440
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7139340533471835111}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3450506199153538698}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &470396576643529238
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7139340533471835111}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -162,19 +271,3 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 3
---- !u!58 &2110346726860444332
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5374774086696083251}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1

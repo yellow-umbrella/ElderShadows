@@ -3,45 +3,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DefensiveBehavior : IBehavior
+public class DefensiveBehavior : IAttackBehavior
 {
     private enum State
     {
-        Wandering = 0,
+        Idle = 0,
         Attacking = 1,
     }
-    private State state = State.Wandering;
+    private State state;
 
     private GameObject target;
     private BaseEntity entity;
 
-    public void Behave()
+    public DefensiveBehavior(BaseEntity entity)
     {
-        switch (state)
-        {
-            case State.Wandering:
-                entity.WanderAround();
-                break;
-            case State.Attacking:
-                if (target != null)
-                {
-                    entity.RunTowards(target.transform.position);
-                    entity.TryAttack(target);
-                }
-                else
-                {
-                    entity.InitWandering(entity.transform.position);
-                    state = State.Wandering;
-                }
-                break;
-        }
+        this.entity = entity;
+        state = State.Idle;
     }
 
-    public void InitBehavior(BaseEntity entity)
+    public bool Behave()
     {
-        state = State.Wandering;
-        this.entity = entity;
-        entity.InitWandering(entity.transform.position);
+        if (state == State.Attacking)
+        {
+            if (target != null)
+            {
+                if (!entity.TryAttack(target))
+                {
+                    entity.RunTowards(target.transform.position);
+                }
+                return true;
+            }
+            else
+            {
+                state = State.Idle;
+            }
+        }
+        return false;
     }
 
     public void OnHit(GameObject other)

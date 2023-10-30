@@ -3,50 +3,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RelaxedBehavior : IBehavior
+public class RelaxedBehavior : IAttackBehavior
 {
     private enum State
     {
-        Wandering = 0,
+        Idle = 0,
         RunningAway = 1,
     }
-    private State state = State.Wandering;
+    private State state;
     private BaseEntity entity;
     private GameObject attacker;
     private const float MAX_DISTANCE = 100;
 
-    public void Behave()
+    public RelaxedBehavior(BaseEntity entity)
     {
-        switch (state)
-        {
-            case State.Wandering:
-                entity.WanderAround();
-                break;
-            case State.RunningAway:
-                if (attacker != null && entity.CanSee(attacker))
-                {
-                    Vector3 runningDirection = entity.transform.position - attacker.transform.position;
-                    if (runningDirection.ToVector2() == Vector2.zero)
-                    {
-                        runningDirection = new Vector3(Random.Range(0, 1), Random.Range(0, 1), 0);
-                    }
-                    runningDirection = runningDirection.normalized * MAX_DISTANCE;
-                    entity.RunTowards(entity.transform.position + runningDirection);
-                }
-                else
-                {
-                    entity.InitWandering(entity.transform.position);
-                    state = State.Wandering;
-                }
-                break;
-        }
+        this.entity = entity;
+        state = State.Idle;
     }
 
-    public void InitBehavior(BaseEntity entity)
+    public bool Behave()
     {
-        state = State.Wandering;
-        this.entity = entity;
-        entity.InitWandering(entity.transform.position);
+        if (state == State.RunningAway)
+        {
+            if (attacker != null && entity.CanSee(attacker))
+            {
+                Vector3 runningDirection = entity.transform.position - attacker.transform.position;
+                if (runningDirection.ToVector2() == Vector2.zero)
+                {
+                    runningDirection = new Vector3(Random.Range(0, 1), Random.Range(0, 1), 0);
+                }
+                runningDirection = runningDirection.normalized * MAX_DISTANCE;
+                entity.RunTowards(entity.transform.position + runningDirection);
+                return true;
+            }
+            else
+            {
+                state = State.Idle;
+            }
+        }
+        return false;
     }
 
     public void OnHit(GameObject other)

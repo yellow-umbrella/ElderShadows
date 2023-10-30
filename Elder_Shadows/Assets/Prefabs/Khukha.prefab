@@ -143,7 +143,7 @@ GameObject:
   - component: {fileID: 2800430324373740860}
   - component: {fileID: 4380414845481937082}
   - component: {fileID: 9068365841892706569}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Khukha
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,14 +183,22 @@ MonoBehaviour:
   health: 10
   walkingSpeed: 1
   runningSpeed: 4
-  standardBehavior: 2
   damage: 1
   attackCooldown: 3
   attackRange: {fileID: 1614982976204992309}
   seeingRange: {fileID: 2636888911391340099}
-  intrudersMask:
-    serializedVersion: 2
-    m_Bits: 192
+  reactionMask:
+  - intrudersMask:
+      serializedVersion: 2
+      m_Bits: 2304
+    behavior: 2
+  - intrudersMask:
+      serializedVersion: 2
+      m_Bits: 5632
+    behavior: 3
+  reactionToPlayer: 3
+  reactionToTrustedPlayer: 2
+  trustRequired: 0
   wanderingRadius: 5
   timeBetweenTurns: 0.2
   turnSpeed: 5

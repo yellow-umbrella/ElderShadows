@@ -3,38 +3,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AggressiveBehavior : IBehavior
+public class AggressiveBehavior : IAttackBehavior
 {
     private enum State
     {
-        Wandering = 0,
+        Idle = 0,
         Attacking = 1,
     }
-    private State state = State.Wandering;
+    private State state;
 
     private GameObject target;
     private BaseEntity entity;
 
-    public void Behave()
+    public AggressiveBehavior(BaseEntity entity)
     {
-        switch (state)
+        this.entity = entity;
+        state = State.Idle;
+    }
+
+    public bool Behave()
+    {
+        if (state == State.Attacking)
         {
-            case State.Wandering:
-                entity.WanderAround();
-                break;
-            case State.Attacking:
-                if (target != null)
+            if (target != null)
+            {
+                if (!entity.TryAttack(target))
                 {
                     entity.RunTowards(target.transform.position);
-                    entity.TryAttack(target);
                 }
-                else
-                {
-                    entity.InitWandering(entity.transform.position);
-                    state = State.Wandering;
-                }
-                break;
+                return true;
+            }
+            else
+            {
+                state = State.Idle;
+            }
         }
+        return false;
     }
 
     public void OnHit(GameObject other)
@@ -56,12 +60,5 @@ public class AggressiveBehavior : IBehavior
             target = other;
             state = State.Attacking;
         }
-    }
-
-    public void InitBehavior(BaseEntity entity)
-    {
-        state = State.Wandering;
-        this.entity = entity;
-        entity.InitWandering(entity.transform.position);
     }
 }

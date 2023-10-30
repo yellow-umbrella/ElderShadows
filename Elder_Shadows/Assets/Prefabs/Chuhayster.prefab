@@ -143,7 +143,7 @@ GameObject:
   - component: {fileID: 3450506199153538698}
   - component: {fileID: 3888248626293457676}
   - component: {fileID: 8788716741159817956}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Chuhayster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,14 +183,26 @@ MonoBehaviour:
   health: 40
   walkingSpeed: 1
   runningSpeed: 2
-  standardBehavior: 1
   damage: 5
   attackCooldown: 3
   attackRange: {fileID: 3819700340238084851}
   seeingRange: {fileID: 470396576643529238}
-  intrudersMask:
-    serializedVersion: 2
-    m_Bits: 192
+  reactionMask:
+  - intrudersMask:
+      serializedVersion: 2
+      m_Bits: 4096
+    behavior: 1
+  - intrudersMask:
+      serializedVersion: 2
+      m_Bits: 2816
+    behavior: 2
+  - intrudersMask:
+      serializedVersion: 2
+      m_Bits: 1024
+    behavior: 0
+  reactionToPlayer: 1
+  reactionToTrustedPlayer: 1
+  trustRequired: 0
   wanderingRadius: 3
   timeBetweenTurns: 0.2
   turnSpeed: 5

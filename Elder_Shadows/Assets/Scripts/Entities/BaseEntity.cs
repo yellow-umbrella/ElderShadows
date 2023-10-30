@@ -2,7 +2,6 @@ using MyBox;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -18,19 +17,35 @@ public class BaseEntity : MonoBehaviour, IAttackable
         Scared = 3,
     }
 
+    [System.Serializable]
+    private struct LayerMaskToBehaviorType
+    {
+        public LayerMask intrudersMask;
+        public Behavior behavior;
+    }
+
+    private struct LayerMaskToIBehavior
+    {
+        public LayerMask intrudersMask;
+        public IAttackBehavior behavior;
+    }
+
     [SerializeField] private int health = 10;
 
     [SerializeField] private float walkingSpeed = 1;
     [SerializeField] private float runningSpeed = 2;
-    [SerializeField] private Behavior standardBehavior;
-    protected IBehavior behavior;
 
     [Header("Attack parameters")]
     [SerializeField] private int damage = 2;
     [SerializeField] private float attackCooldown = 3;
     [SerializeField] private Collider2D attackRange;
     [SerializeField] private Collider2D seeingRange;
-    [SerializeField] private LayerMask intrudersMask;
+
+    [SerializeField] private List<LayerMaskToBehaviorType> reactionMask;
+    private List<LayerMaskToIBehavior> attackBehavior;
+    [SerializeField] private Behavior reactionToPlayer;
+    [SerializeField] private Behavior reactionToTrustedPlayer;
+    [SerializeField] private int trustRequired;
 
     [Header("Wandering parameters")]
     [SerializeField] private float wanderingRadius = 4;
@@ -49,40 +64,83 @@ public class BaseEntity : MonoBehaviour, IAttackable
     private List<Collider2D> intruders = new List<Collider2D>();
 
     private bool canAttack = true;
+    private bool isWandering = false;
 
     private float timeBetweenAggroChecks = 1;
     private float timeToNextAggroCheck;
 
-    private Dictionary<Behavior, IBehavior> matchedBehavior = 
-        new Dictionary<Behavior, IBehavior>() 
-        {
-            {Behavior.Aggressive, new AggressiveBehavior() },
-            {Behavior.Defensive, new DefensiveBehavior() },
-            {Behavior.Relaxed, new RelaxedBehavior() },
-            {Behavior.Scared, new ScaredBehavior() },
-        };
+    private Dictionary<Behavior, IAttackBehavior> matchedBehavior;
+
+    private const int characterLayer = 7;
 
     private void Start()
     {
-        behavior = matchedBehavior[standardBehavior];
-        behavior.InitBehavior(this);
+        matchedBehavior =
+            new Dictionary<Behavior, IAttackBehavior>()
+            {
+                {Behavior.Aggressive, new AggressiveBehavior(this) },
+                {Behavior.Defensive, new DefensiveBehavior(this) },
+                {Behavior.Relaxed, new RelaxedBehavior(this) },
+                {Behavior.Scared, new ScaredBehavior(this) },
+            };
+
+        attackBehavior = new List<LayerMaskToIBehavior>
+        {
+            new LayerMaskToIBehavior()
+            {
+                intrudersMask = (1 << characterLayer),
+                behavior = matchedBehavior[reactionToPlayer]
+            }
+        };
+        foreach (var reaction in reactionMask)
+        {
+            attackBehavior.Add(new LayerMaskToIBehavior()
+            {
+                intrudersMask = reaction.intrudersMask,
+                behavior = matchedBehavior[reaction.behavior]
+            });
+        }
 
         spawnPosition = transform.position;
     }
 
     private void Update()
     {
-        CheckForIntruders(intrudersMask);
-        behavior.Behave();
+        if (!AttackBehavior())
+        {
+            WanderAround();
+        } else
+        {
+            isWandering = false;
+        }
     }
 
-    public void TryAttack(GameObject attackTarget)
+    private void FixedUpdate()
+    {
+        CheckForIntruders();
+    }
+
+    private bool AttackBehavior()
+    {
+        foreach (var behavior in attackBehavior)
+        {
+            if (behavior.behavior.Behave())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool TryAttack(GameObject attackTarget)
     {
         if (attackRange.OverlapPoint(attackTarget.transform.position) && canAttack)
         {
             attackTarget.GetComponent<IAttackable>().TakeDamage(damage, this.gameObject);
             StartCoroutine(AttackCooldown());
+            return true;
         }
+        return false;
     }
 
     private IEnumerator AttackCooldown()
@@ -92,8 +150,9 @@ public class BaseEntity : MonoBehaviour, IAttackable
         canAttack = true;
     }
 
-    protected void CheckForIntruders(LayerMask intrudersMask)
+    protected void CheckForIntruders()
     {
+        // tick timer
         timeToNextAggroCheck -= Time.deltaTime;
         if (timeToNextAggroCheck <= 0)
         {
@@ -103,21 +162,21 @@ public class BaseEntity : MonoBehaviour, IAttackable
             return;
         }
 
-        ContactFilter2D contactFilter = new ContactFilter2D();
-        contactFilter.SetLayerMask(intrudersMask);
-        contactFilter.useTriggers = true;
-
-        seeingRange.OverlapCollider(contactFilter, intruders);
-
-        foreach (Collider2D collider in intruders)
+        // check every group of intruders and react to them
+        foreach (var behavior in attackBehavior)
         {
-            GameObject potentialTarget = collider.gameObject;
-            if (!potentialTarget.Equals(gameObject))
+            ContactFilter2D contactFilter = new ContactFilter2D();
+            contactFilter.SetLayerMask(behavior.intrudersMask);
+            contactFilter.useTriggers = true;
+
+            seeingRange.OverlapCollider(contactFilter, intruders);
+
+            foreach (Collider2D collider in intruders)
             {
-                if (seeingRange.OverlapPoint(potentialTarget.transform.position))
-                {
-                    behavior.OnSee(potentialTarget);
-                }
+                GameObject potentialTarget = collider.gameObject;
+                // TODO? check that it is not the same creature
+                behavior.behavior.OnSee(potentialTarget);
+
             }
         }
     }
@@ -136,7 +195,15 @@ public class BaseEntity : MonoBehaviour, IAttackable
             return IAttackable.State.Dead;
         } else
         {
-            behavior.OnHit(attacker);
+            foreach (var behavior in attackBehavior)
+            {
+                if (behavior.intrudersMask.LayerInMask(attacker.layer))
+                {
+                    behavior.behavior.OnHit(attacker);
+                    break;
+                }
+
+            } 
         }
         return IAttackable.State.Alive;
     }
@@ -173,6 +240,11 @@ public class BaseEntity : MonoBehaviour, IAttackable
     // Simulate random movement inside circle
     public void WanderAround()
     {
+        if (!isWandering)
+        {
+            InitWandering(transform.position);
+        }
+
         timeToNextTurn -= Time.deltaTime;
         if (timeToNextTurn <= 0)
         {
@@ -216,11 +288,12 @@ public class BaseEntity : MonoBehaviour, IAttackable
         transform.position = newPosition;
     }
 
-    public void InitWandering(Vector3 center)
+    private void InitWandering(Vector3 center)
     {
         timeToNextTurn = timeBetweenTurns;
         wanderingCenter = center;
         currentMovementDirection = Random.insideUnitCircle.normalized;
         nextMovementDirection = currentMovementDirection;
+        isWandering = true;
     }
 }

@@ -231,14 +231,14 @@ MonoBehaviour:
   health: 10
   walkingSpeed: 1
   runningSpeed: 2
-  standardBehavior: 0
   damage: 2
   attackCooldown: 3
-  attackRange: {fileID: 0}
-  seeingRange: {fileID: 0}
-  intrudersMask:
-    serializedVersion: 2
-    m_Bits: 192
+  attackRange: {fileID: 1788062538696241501}
+  seeingRange: {fileID: 6314055669951699545}
+  reactionMask: []
+  reactionToPlayer: 0
+  reactionToTrustedPlayer: 0
+  trustRequired: 0
   wanderingRadius: 4
   timeBetweenTurns: 0.2
   turnSpeed: 5

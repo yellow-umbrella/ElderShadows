@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Experimental;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -18,7 +19,9 @@ public class BaseEntity : MonoBehaviour, IAttackable
         Scared = 3,
     }
 
-    [SerializeField] private int health = 10;
+    [Header("Stats")]
+    [SerializeField] private float health = 10;
+    [SerializeField] private int experienceForKill = 0;
 
     [SerializeField] private float walkingSpeed = 1;
     [SerializeField] private float runningSpeed = 2;
@@ -26,7 +29,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
     protected IBehavior behavior;
 
     [Header("Attack parameters")]
-    [SerializeField] private int damage = 2;
+    [SerializeField] private float damage = 2;
     [SerializeField] private float attackCooldown = 3;
     [SerializeField] private Collider2D attackRange;
     [SerializeField] private Collider2D seeingRange;
@@ -50,7 +53,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
 
     private bool canAttack = true;
 
-    private float timeBetweenAggroChecks = 1;
+    [SerializeField]private float timeBetweenAggroChecks = 1;
     private float timeToNextAggroCheck;
 
     private Dictionary<Behavior, IBehavior> matchedBehavior = 
@@ -127,7 +130,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
         return seeingRange.OverlapPoint(target.transform.position);
     }
 
-    public void TakeDamage(int damage, GameObject attacker)
+    public void TakeDamage(float damage, GameObject attacker)
     {
         health -= damage;
         if (health <= 0)

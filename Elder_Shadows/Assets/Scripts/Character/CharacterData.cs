@@ -44,8 +44,8 @@ public class CharacterData
         set { hregen = value; }
     }
 
-    private float phys_dmg = 5f;
-    public float PhysDmg
+    private int phys_dmg = 50;
+    public int PhysDmg
     {
         get { return phys_dmg; }
         set { phys_dmg = value; }

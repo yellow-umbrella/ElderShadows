@@ -31,6 +31,7 @@ public class CharacterController : MonoBehaviour, IAttackable
 #endif
         dataManager = new CharacterDataManager(characterData);
         combat.characterData = characterData;
+        combat.dataManager = dataManager;
     }
 
     void Update()

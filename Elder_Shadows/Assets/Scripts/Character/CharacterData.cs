@@ -169,6 +169,7 @@ public class CharacterDataManager
         data.Experience += xp;
         if (data.Experience >= (prevExpNeeded + expDifference))
         {
+            Debug.Log("Reached level " + data.Level);
             data.Level++;
             GetNewExpDifference();
             return true;

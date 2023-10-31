@@ -7,6 +7,7 @@ using UnityEngine;
 public class CombatController : MonoBehaviour
 {
     public CharacterData characterData;
+    public CharacterDataManager dataManager;
     private bool canAttack = true;
 
     public void TryAttack()
@@ -17,12 +18,21 @@ public class CombatController : MonoBehaviour
         LayerMask layer3 = LayerMask.GetMask("EvilCreature");
         LayerMask layer4 = LayerMask.GetMask("GoodCreature");
         LayerMask finalMask = layer1 | layer2 | layer3 | layer4;
-        Collider2D target = Physics2D.OverlapCircle(transform.position, characterData.AttackRange, finalMask);
-        if (canAttack)
+        BaseEntity target = Physics2D.OverlapCircle(transform.position, characterData.AttackRange, finalMask)?.gameObject.GetComponent<BaseEntity>();
+        int expForKill = 0;
+        if (target != null)
         {
-            target?.gameObject.GetComponent<IAttackable>().TakeDamage(characterData.PhysDmg, this.gameObject);
-            Debug.Log("Attacking " + target?.gameObject.name);
-            StartCoroutine(AttackCooldown());
+            expForKill = target.ExpForKill;
+            if (canAttack)
+            {
+                if (target?.TakeDamage(characterData.PhysDmg, this.gameObject) == IAttackable.State.Dead)
+                {
+                    dataManager.AddExperience(expForKill);
+                }
+
+                Debug.Log("Attacking " + target);
+                StartCoroutine(AttackCooldown());
+            }
         }
     }
 

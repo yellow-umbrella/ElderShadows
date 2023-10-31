@@ -31,6 +31,12 @@ public class BaseEntity : MonoBehaviour, IAttackable
     }
 
     [SerializeField] private int health = 10;
+    [SerializeField] private int expForKill = 5;
+
+    public int ExpForKill
+    {
+        get { return expForKill; }
+    }
 
     [SerializeField] private float walkingSpeed = 1;
     [SerializeField] private float runningSpeed = 2;

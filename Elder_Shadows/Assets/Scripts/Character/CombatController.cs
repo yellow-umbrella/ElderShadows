@@ -20,8 +20,8 @@ public class CombatController : MonoBehaviour
         Collider2D target = Physics2D.OverlapCircle(transform.position, characterData.AttackRange, finalMask);
         if (canAttack)
         {
-            Debug.Log("Attacking " + target.gameObject.name);
             target?.gameObject.GetComponent<IAttackable>().TakeDamage(characterData.PhysDmg, this.gameObject);
+            Debug.Log("Attacking " + target?.gameObject.name);
             StartCoroutine(AttackCooldown());
         }
     }

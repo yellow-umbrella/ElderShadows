@@ -95,7 +95,7 @@ public class CharacterData
         set { atk_spd = value; }
     }
     
-    private float movespeed = 1f;
+    private float movespeed = 5f;
     public float Movespeed
     {
         get { return movespeed; }

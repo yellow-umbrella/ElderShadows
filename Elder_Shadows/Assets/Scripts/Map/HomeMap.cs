@@ -9,9 +9,9 @@ public class HomeMap : MonoBehaviour
     private Tilemap _homeTilemap;
     private TilesHolder _tilesHolder;
     private Random rnd = new Random();
-    int width = 150;
-    int height = 100;
-    int treeNum = 200;
+    [SerializeField] private int width = 150;
+    [SerializeField] private int height = 100;
+    [SerializeField] private int treeNum = 200;
 
     private void Awake()
     {
@@ -29,8 +29,8 @@ public class HomeMap : MonoBehaviour
         var h_x = rnd.Next(1, width);
         var h_y = rnd.Next(1, height);
 
-        List<int> treeX = generateTreePositions(treeNum, width);
-        List<int> treeY = generateTreePositions(treeNum, height);
+        List<int> treeX = GenerateTreePositions(treeNum, width);
+        List<int> treeY = GenerateTreePositions(treeNum, height);
 
         for (var h = 0; h < height; h++)
         {
@@ -67,7 +67,7 @@ public class HomeMap : MonoBehaviour
         _homeTilemap.CompressBounds();
     }
 
-    private List<int> generateTreePositions(int num, int len) 
+    private List<int> GenerateTreePositions(int num, int len) 
     {
         List<int> tx = new List<int>();
 

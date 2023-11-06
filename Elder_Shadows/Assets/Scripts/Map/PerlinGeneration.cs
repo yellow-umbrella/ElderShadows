@@ -8,9 +8,10 @@ public class PerlinGeneration : MonoBehaviour
 {
 
     public Tilemap tileMap;
+    public Tilemap wallsTileMap; 
     public TileBase[] forestTiles;
     public TileBase[] desertTiles;
-    public TileBase[] forestVegetation;
+    public GameObject[] forestVegetation;
     //public GameObject[] desertVegetation;
 
     public float perlin;
@@ -59,7 +60,7 @@ public class PerlinGeneration : MonoBehaviour
     void generateTile(int x, int y, float temperature, float rainFall)
     {
 
-        Debug.Log("Generating Tile");
+        //Debug.Log("Generating Tile");
 
         perlin = Mathf.PerlinNoise(x + Random.value, y + Random.value);
 
@@ -76,11 +77,13 @@ public class PerlinGeneration : MonoBehaviour
                 perlin *= forestVegetation.Length - 1;
                 int tileNum = Mathf.RoundToInt(perlin);
 
-                tileMap.SetTile(new Vector3Int(x, y, 0), forestVegetation[tileNum]);
-                /*GameObject plant = Instantiate(forestVegetation[Random.Range(0, forestVegetation.Length)], new Vector3(x + 0.5f, y + 5.15f, 0), Quaternion.identity);
-                plant.transform.parent = gameObject.transform.GetChild(0);
-                plant.layer = 1;*/
-
+                //wallsTileMap.SetTile(new Vector3Int(x, y, 0), forestVegetation[tileNum]);
+                //tileMap.SetTile(new Vector3Int(x, y, 0), forestVegetation[tileNum]); 
+                tileMap.SetTile(new Vector3Int(x, y, 0), forestTiles[tileNum]);
+                GameObject plant = Instantiate(forestVegetation[0], new Vector3(x + 0.5f, y + 0.5f, 0), Quaternion.identity);
+                //GameObject plant = Instantiate(forestVegetation[Random.Range(0, forestVegetation.Length)], new Vector3(x + 0.5f, y + 5.15f, 0), Quaternion.identity);
+                //plant.transform.parent = gameObject.transform.GetChild(0);
+                plant.layer = 3;
             }
             else
             {
@@ -104,10 +107,8 @@ public class PerlinGeneration : MonoBehaviour
                 perlin *= desertTiles.Length - 1;
                 int tileNum = Mathf.RoundToInt(perlin);
 
-                tileMap.SetTile(new Vector3Int(x, y, 0), desertTiles[tileNum]);
-                /*GameObject plant = Instantiate(desertVegetation[Random.Range(0, desertVegetation.Length)], new Vector3(x + 0.5f, y + 0.5f, 0), Quaternion.identity);
-                plant.transform.parent = gameObject.transform.GetChild(0);*/
-
+                //tileMap.SetTile(new Vector3Int(x, y, 0), desertTiles[tileNum]);
+                wallsTileMap.SetTile(new Vector3Int(x, y, 0), desertTiles[tileNum]);
             }
             else
             {
@@ -115,7 +116,8 @@ public class PerlinGeneration : MonoBehaviour
                 perlin *= desertTiles.Length - 1;
                 int tileNum = Mathf.RoundToInt(perlin);
 
-                tileMap.SetTile(new Vector3Int(x, y, 0), desertTiles[tileNum]);
+                wallsTileMap.SetTile(new Vector3Int(x, y, 0), desertTiles[tileNum]);
+                //tileMap.SetTile(new Vector3Int(x, y, 0), desertTiles[tileNum]);
 
             }
 

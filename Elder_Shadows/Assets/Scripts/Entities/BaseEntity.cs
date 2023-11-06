@@ -30,8 +30,16 @@ public class BaseEntity : MonoBehaviour, IAttackable
         public IAttackBehavior behavior;
     }
 
+    [System.Serializable]
+    private struct Item
+    {
+        public GameObject prefab;
+        public float chance;
+    }
+
     [SerializeField] private int health = 10;
     [SerializeField] private int expForKill = 5;
+    [SerializeField] private List<Item> dropItems = new List<Item>();
 
     public int ExpForKill
     {
@@ -218,7 +226,22 @@ public class BaseEntity : MonoBehaviour, IAttackable
     protected void Die()
     {
         OnDeath?.Invoke(this, EventArgs.Empty);
+        DropItems();
         Destroy(gameObject);
+    }
+
+    private void DropItems()
+    {
+        foreach(var item in dropItems)
+        {
+            if (Random.value <= item.chance)
+            {
+                float offset = 1f;
+                Vector2 pos = new Vector2(transform.position.x + Random.Range(-offset, offset), 
+                    transform.position.y + Random.Range(-offset, offset));
+                Instantiate(item.prefab, pos, Quaternion.identity);
+            }
+        }
     }
 
     public void RunTowards(Vector3 target)

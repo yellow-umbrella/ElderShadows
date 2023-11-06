@@ -2,9 +2,8 @@ using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
-public class ScaredBehavior : IAttackBehavior
+public class RelaxedBehavior : IAttackBehavior
 {
     private enum State
     {
@@ -13,10 +12,10 @@ public class ScaredBehavior : IAttackBehavior
     }
     private State state;
     private BaseEntity entity;
-    private GameObject intruder;
+    private GameObject attacker;
     private const float MAX_DISTANCE = 10;
 
-    public ScaredBehavior(BaseEntity entity)
+    public RelaxedBehavior(BaseEntity entity)
     {
         this.entity = entity;
         state = State.Idle;
@@ -26,15 +25,15 @@ public class ScaredBehavior : IAttackBehavior
     {
         if (state == State.RunningAway)
         {
-            if (intruder != null && entity.CanSee(intruder))
+            if (attacker != null && entity.CanSee(attacker))
             {
-                Vector3 runningDirection = entity.transform.position - intruder.transform.position;
+                Vector3 runningDirection = entity.transform.position - attacker.transform.position;
                 if (runningDirection.ToVector2() == Vector2.zero)
                 {
                     runningDirection = new Vector3(Random.Range(0, 1), Random.Range(0, 1), 0);
                 }
                 runningDirection = runningDirection.normalized * MAX_DISTANCE;
-                entity.RunTowards(entity.transform.position + runningDirection);
+                entity.MoveTowards(entity.transform.position + runningDirection);
                 return true;
             }
             else
@@ -47,22 +46,12 @@ public class ScaredBehavior : IAttackBehavior
 
     public void OnHit(GameObject other)
     {
-        OnSee(other);
+        attacker = other;
+        state = State.RunningAway;
     }
 
     public void OnSee(GameObject other)
     {
-        float distIntruder = float.PositiveInfinity;
-        float distOther = Vector3.Distance(other.transform.position, entity.transform.position);
-        if (intruder != null)
-        {
-            distIntruder = Vector3.Distance(intruder.transform.position, entity.transform.position);
-        }
-
-        if (distOther <= distIntruder)
-        {
-            intruder = other;
-            state = State.RunningAway;
-        }
+        //ignore
     }
 }

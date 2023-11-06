@@ -29,7 +29,7 @@ public class DefensiveBehavior : IAttackBehavior
             {
                 if (!entity.TryAttack(target))
                 {
-                    entity.RunTowards(target.transform.position);
+                    entity.MoveTowards(target.transform.position);
                 }
                 return true;
             }

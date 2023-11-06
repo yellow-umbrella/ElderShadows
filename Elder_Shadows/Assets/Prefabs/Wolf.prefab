@@ -98,11 +98,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 20
+  moveSpeed: 2
   expForKill: 5
   dropItems: []
-  walkingSpeed: 1
-  runningSpeed: 3
-  moveSpeed: 1
   damage: 3
   attackCooldown: 1
   attackRange: {fileID: 880465719648579546}
@@ -120,9 +118,6 @@ MonoBehaviour:
   reactionToTrustedPlayer: 1
   trustRequired: 0
   wanderingRadius: 5
-  timeBetweenTurns: 0.2
-  turnSpeed: 5
-  turnAngleRange: 135
 --- !u!58 &3690292537189368024
 CircleCollider2D:
   m_ObjectHideFlags: 0

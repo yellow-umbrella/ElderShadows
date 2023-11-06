@@ -23,10 +23,37 @@ public class CharacterData
         set { level = value; }
     }
     
+    private int statpoints = 0; //Determines the amount of unspent STATS upgrade points
+    public int StatPoints
+    {
+        get { return statpoints; }
+        set { statpoints = value; }
+    }
+    
     [Header("Upgradeable Stats")]
     private int strength; //Responcible for Health, Regeneration, Physical Damage and Physical Resistance, or Armor
+    public int Strength
+    {
+        get { return strength; }
+        set { strength = value; }
+
+    }
+    
     private int inteligence; //Responcible for Mana, Regeneration, Magic Damage and Magic Resistance
+    public int Intelligence
+    {
+        get { return inteligence; }
+        set { inteligence = value; }
+
+    }
+    
     private int agility; //Responcible for Attack Speed, Movement speed, Evasion
+    public int Agility
+    {
+        get { return agility; }
+        set { agility = value; }
+
+    }
 
     [Header("Dependent Parameters")]
     [Header("=====Strength=====")]
@@ -169,9 +196,10 @@ public class CharacterDataManager
         data.Experience += xp;
         if (data.Experience >= (prevExpNeeded + expDifference))
         {
-            Debug.Log("Reached level " + data.Level);
             data.Level++;
-            GetNewExpDifference();
+            Debug.Log("Reached level " + data.Level);
+            expDifference = GetNewExpDifference();
+            data.StatPoints = 1 + (data.Level / 5); //Equasion to increase stat points gained over time, the bigger the constant divider the less points will be gained
             return true;
         }
         return false;
@@ -180,5 +208,25 @@ public class CharacterDataManager
     public int GetLevel()
     {
         return data.Level;
+    }
+
+    public void UpgradeStat(string stat)
+    {
+        switch (stat)
+        {
+            case "Strength":
+                data.Strength++;
+                data.StatPoints--;
+                break;
+            case "Agility":
+                data.Agility++;
+                data.StatPoints--;
+                break;
+            case "Inteligence":
+                data.Intelligence++;
+                data.StatPoints--;
+                break;
+        }
+        Debug.Log(data.StatPoints);
     }
 }

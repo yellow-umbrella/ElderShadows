@@ -181,6 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 40
+  expForKill: 50
   walkingSpeed: 1
   runningSpeed: 2
   damage: 5

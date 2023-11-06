@@ -12,7 +12,6 @@ public class CombatController : MonoBehaviour
 
     public void TryAttack()
     {
-        Debug.Log("Trying To Attack");
         LayerMask layer1 = LayerMask.GetMask("Predator");
         LayerMask layer2 = LayerMask.GetMask("Herbivore");
         LayerMask layer3 = LayerMask.GetMask("EvilCreature");
@@ -29,8 +28,7 @@ public class CombatController : MonoBehaviour
                 {
                     dataManager.AddExperience(expForKill);
                 }
-
-                Debug.Log("Attacking " + target);
+                
                 StartCoroutine(AttackCooldown());
             }
         }

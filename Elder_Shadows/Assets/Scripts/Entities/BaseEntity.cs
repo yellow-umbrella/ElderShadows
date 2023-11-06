@@ -31,7 +31,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
     }
 
     [SerializeField] private int health = 10;
-    [SerializeField] private int expForKill = 5;
+    [SerializeField] private int expForKill = 50;
 
     public int ExpForKill
     {

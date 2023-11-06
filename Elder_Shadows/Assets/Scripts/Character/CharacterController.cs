@@ -104,4 +104,10 @@ public class CharacterController : MonoBehaviour, IAttackable
     {
         //TODO: add UI to show targetted entity HP or name
     }
+
+    public void UpgradeStat(string stat)
+    {
+        Debug.Log("Upgraded " + stat);
+        dataManager.UpgradeStat(stat);
+    }
 }

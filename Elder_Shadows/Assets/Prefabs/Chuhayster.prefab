@@ -143,6 +143,7 @@ GameObject:
   - component: {fileID: 3450506199153538698}
   - component: {fileID: 3888248626293457676}
   - component: {fileID: 8788716741159817956}
+  - component: {fileID: 4866817341920729826}
   m_Layer: 11
   m_Name: Chuhayster
   m_TagString: Untagged
@@ -181,8 +182,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 40
+  expForKill: 5
+  dropItems: []
   walkingSpeed: 1
   runningSpeed: 2
+  moveSpeed: 1
   damage: 5
   attackCooldown: 3
   attackRange: {fileID: 3819700340238084851}
@@ -223,6 +227,34 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &4866817341920729826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5374774086696083251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  drawGizmos: 1
+  detailedGizmos: 0
+  startEndModifier:
+    addPoints: 0
+    exactStartPoint: 3
+    exactEndPoint: 3
+    useRaycasting: 0
+    mask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    useGraphRaycasting: 0
+  traversableTags: -1
+  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  graphMask:
+    value: -1
 --- !u!1 &7139340533471835111
 GameObject:
   m_ObjectHideFlags: 0

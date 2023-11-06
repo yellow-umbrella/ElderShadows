@@ -13,7 +13,7 @@ public class RelaxedBehavior : IAttackBehavior
     private State state;
     private BaseEntity entity;
     private GameObject attacker;
-    private const float MAX_DISTANCE = 100;
+    private const float MAX_DISTANCE = 10;
 
     public RelaxedBehavior(BaseEntity entity)
     {

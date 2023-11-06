@@ -1,10 +1,12 @@
 using MyBox;
+using Pathfinding;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[RequireComponent(typeof(Seeker))]
 public class BaseEntity : MonoBehaviour, IAttackable
 {
     public event EventHandler OnDeath;
@@ -48,6 +50,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
 
     [SerializeField] private float walkingSpeed = 1;
     [SerializeField] private float runningSpeed = 2;
+    [SerializeField] private float moveSpeed;
 
     [Header("Attack parameters")]
     [SerializeField] private int damage = 2;
@@ -86,6 +89,20 @@ public class BaseEntity : MonoBehaviour, IAttackable
     private Dictionary<Behavior, IAttackBehavior> matchedBehavior;
 
     private const int characterLayer = 7;
+
+    private Seeker seeker;
+    private int currentWaypoint = 0;
+    private bool reachedEndOfPath = true;
+    private Path path;
+    private float nextWaypointDist = .5f;
+
+    private float timeBetweenPathGen = 1f;
+    private float nextPathGen;
+
+    private void Awake()
+    {
+        seeker = GetComponent<Seeker>();
+    }
 
     private void Start()
     {
@@ -127,6 +144,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
         {
             isWandering = false;
         }
+        MoveOnPath();
     }
 
     private void FixedUpdate()
@@ -256,6 +274,9 @@ public class BaseEntity : MonoBehaviour, IAttackable
 
     private bool MoveTowards(Vector3 target, float speed)
     {
+        SetPath(target);
+        return false;
+
         Vector3 direction = target - transform.position;
         currentMovementDirection = direction.normalized;
         Vector3 movementVector =
@@ -266,13 +287,65 @@ public class BaseEntity : MonoBehaviour, IAttackable
         return Vector3.Distance(transform.position, target) <= Vector3.kEpsilon;
     }
 
+    public void SetPath(Vector2 target)
+    {
+        if (seeker.IsDone() && (Time.time > nextPathGen || reachedEndOfPath))
+        {
+            seeker.StartPath(transform.position, target, OnPathGenComplete);
+            nextPathGen = Time.time + timeBetweenPathGen;
+        }
+    }
+
+    private void MoveOnPath()
+    {
+        if (path == null)
+        {
+            return;
+        }
+
+        if (currentWaypoint >= path.vectorPath.Count)
+        {
+            reachedEndOfPath = true;
+            return;
+        } else
+        {
+            reachedEndOfPath = false;
+        }
+
+        Vector2 direction = (path.vectorPath[currentWaypoint] - transform.position).normalized;
+        transform.Translate(direction * moveSpeed * Time.deltaTime);
+
+        float dist = Vector2.Distance(transform.position, path.vectorPath[currentWaypoint]);
+
+        if (dist < nextWaypointDist)
+        {
+            currentWaypoint++;
+        }
+    }
+
+    public void OnPathGenComplete(Path p)
+    {
+        if (!p.error)
+        {
+            path = p;
+            currentWaypoint = 0;
+        }
+    }
+
     // Simulate random movement inside circle
     public void WanderAround()
     {
         if (!isWandering)
         {
             InitWandering(transform.position);
+            Vector2 newPos = (Vector2)wanderingCenter + Random.insideUnitCircle * wanderingRadius;
+            SetPath(newPos);
+        } else if (reachedEndOfPath)
+        {
+            Vector2 newPos = (Vector2)wanderingCenter + Random.insideUnitCircle * wanderingRadius;
+            SetPath(newPos);
         }
+        return;
 
         timeToNextTurn -= Time.deltaTime;
         if (timeToNextTurn <= 0)

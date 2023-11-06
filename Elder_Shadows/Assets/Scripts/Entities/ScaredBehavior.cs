@@ -14,7 +14,7 @@ public class ScaredBehavior : IAttackBehavior
     private State state;
     private BaseEntity entity;
     private GameObject intruder;
-    private const float MAX_DISTANCE = 100;
+    private const float MAX_DISTANCE = 10;
 
     public ScaredBehavior(BaseEntity entity)
     {

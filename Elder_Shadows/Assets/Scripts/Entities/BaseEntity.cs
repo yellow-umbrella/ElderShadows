@@ -1,10 +1,13 @@
 using MyBox;
+using Pathfinding;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[RequireComponent(typeof(Seeker))]
 public class BaseEntity : MonoBehaviour, IAttackable
 {
     public event EventHandler OnDeath;
@@ -17,6 +20,13 @@ public class BaseEntity : MonoBehaviour, IAttackable
         Scared = 3,
     }
 
+    [System.Serializable]
+    private struct Item
+    {
+        public GameObject prefab;
+        public float chance;
+    }
+    
     [System.Serializable]
     private struct LayerMaskToBehaviorType
     {
@@ -31,56 +41,61 @@ public class BaseEntity : MonoBehaviour, IAttackable
     }
 
     [SerializeField] private int health = 10;
-    [SerializeField] private int expForKill = 50;
+    [SerializeField] private float moveSpeed;
+
+    [Foldout("Drop parameters", true)]
+    [SerializeField] private int expForKill = 5;
+    [SerializeField] private List<Item> dropItems = new List<Item>();
 
     public int ExpForKill
     {
         get { return expForKill; }
     }
 
-    [SerializeField] private float walkingSpeed = 1;
-    [SerializeField] private float runningSpeed = 2;
-
-    [Header("Attack parameters")]
+    [Foldout("Attack parameters", true)]
     [SerializeField] private int damage = 2;
     [SerializeField] private float attackCooldown = 3;
     [SerializeField] private Collider2D attackRange;
     [SerializeField] private Collider2D seeingRange;
 
+    [Foldout("Behavior parameters", true)]
     [SerializeField] private List<LayerMaskToBehaviorType> reactionMask;
-    private List<LayerMaskToIBehavior> attackBehavior;
     [SerializeField] private Behavior reactionToPlayer;
     [SerializeField] private Behavior reactionToTrustedPlayer;
     [SerializeField] private int trustRequired;
 
-    [Header("Wandering parameters")]
+    [Foldout("Wandering parameters", true)]
     [SerializeField] private float wanderingRadius = 4;
-    [SerializeField] private float timeBetweenTurns = .2f;
-    [SerializeField] private float turnSpeed = 5;
-    [SerializeField] private float turnAngleRange = 135;
 
-    private Vector3 spawnPosition;
-
-    private Vector3 wanderingCenter;
-    private Vector3 currentMovementDirection;
-    private Vector3 nextMovementDirection;
-
-    private float timeToNextTurn;
-
-    private List<Collider2D> intruders = new List<Collider2D>();
-
+    // attack parameters
     private bool canAttack = true;
-    private bool isWandering = false;
-
     private float timeBetweenAggroChecks = 1;
     private float timeToNextAggroCheck;
+    private List<Collider2D> intruders = new List<Collider2D>();
 
+    // behavior parameters
     private Dictionary<Behavior, IAttackBehavior> matchedBehavior;
-
+    private List<LayerMaskToIBehavior> attackBehavior;
+    private IIdleBehavior idleBehavior;
     private const int characterLayer = 7;
 
-    private void Start()
+    // pathfinding parameters
+    private Seeker seeker;
+    private Path path;
+    private int currentWaypoint = 0;
+    private float nextWaypointDist = .5f;
+    private bool reachedEndOfPath = true;
+    public bool ReachedEndOfPath 
+    { 
+        get {  return reachedEndOfPath; } 
+    }
+    private float timeBetweenPathGen = 1f;
+    private float nextPathGen;
+
+    private void Awake()
     {
+        seeker = GetComponent<Seeker>();
+
         matchedBehavior =
             new Dictionary<Behavior, IAttackBehavior>()
             {
@@ -98,6 +113,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
                 behavior = matchedBehavior[reactionToPlayer]
             }
         };
+
         foreach (var reaction in reactionMask)
         {
             attackBehavior.Add(new LayerMaskToIBehavior()
@@ -107,24 +123,24 @@ public class BaseEntity : MonoBehaviour, IAttackable
             });
         }
 
-        spawnPosition = transform.position;
+        idleBehavior = new WanderingBehavior(this, wanderingRadius);
     }
 
     private void Update()
     {
         if (!AttackBehavior())
         {
-            WanderAround();
-        } else
-        {
-            isWandering = false;
+            idleBehavior.Behave();
         }
+        MoveOnPath();
     }
 
     private void FixedUpdate()
     {
         CheckForIntruders();
     }
+
+    // handling attack
 
     private bool AttackBehavior()
     {
@@ -156,10 +172,12 @@ public class BaseEntity : MonoBehaviour, IAttackable
         canAttack = true;
     }
 
+    // finding enemies around
+
     protected void CheckForIntruders()
     {
         // tick timer
-        timeToNextAggroCheck -= Time.deltaTime;
+        timeToNextAggroCheck -= Time.fixedDeltaTime;
         if (timeToNextAggroCheck <= 0)
         {
             timeToNextAggroCheck = timeBetweenAggroChecks;
@@ -180,9 +198,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
             foreach (Collider2D collider in intruders)
             {
                 GameObject potentialTarget = collider.gameObject;
-                // TODO? check that it is not the same creature
                 behavior.behavior.OnSee(potentialTarget);
-
             }
         }
     }
@@ -191,6 +207,8 @@ public class BaseEntity : MonoBehaviour, IAttackable
     {
         return seeingRange.OverlapPoint(target.transform.position);
     }
+
+    // handling taking damage and death
 
     public IAttackable.State TakeDamage(int damage, GameObject attacker)
     {
@@ -218,88 +236,73 @@ public class BaseEntity : MonoBehaviour, IAttackable
     protected void Die()
     {
         OnDeath?.Invoke(this, EventArgs.Empty);
+        DropItems();
         Destroy(gameObject);
     }
 
-    public void RunTowards(Vector3 target)
+    private void DropItems()
     {
-        MoveTowards(target, runningSpeed);
-    }
-
-    public void WalkTowards(Vector3 target)
-    {
-        MoveTowards(target, walkingSpeed);
-    }
-
-    private bool MoveTowards(Vector3 target, float speed)
-    {
-        Vector3 direction = target - transform.position;
-        currentMovementDirection = direction.normalized;
-        Vector3 movementVector =
-            currentMovementDirection * Mathf.Min(speed * Time.deltaTime, direction.magnitude);
-
-        transform.position += movementVector;
-
-        return Vector3.Distance(transform.position, target) <= Vector3.kEpsilon;
-    }
-
-    // Simulate random movement inside circle
-    public void WanderAround()
-    {
-        if (!isWandering)
+        foreach(var item in dropItems)
         {
-            InitWandering(transform.position);
+            if (Random.value <= item.chance)
+            {
+                float offset = 1f;
+                Vector2 pos = new Vector2(transform.position.x + Random.Range(-offset, offset), 
+                    transform.position.y + Random.Range(-offset, offset));
+                Instantiate(item.prefab, pos, Quaternion.identity);
+            }
+        }
+    }
+
+    // movement using A* Pathfinding project
+
+    public void MoveTowards(Vector3 target)
+    {
+        SetPath(target);
+    }
+
+    private void SetPath(Vector2 target)
+    {
+        if (seeker.IsDone() && (Time.time > nextPathGen || reachedEndOfPath))
+        {
+            seeker.StartPath(transform.position, target, OnPathGenComplete);
+            nextPathGen = Time.time + timeBetweenPathGen;
+        }
+    }
+
+    private void MoveOnPath()
+    {
+        if (path == null)
+        {
+            return;
         }
 
-        timeToNextTurn -= Time.deltaTime;
-        if (timeToNextTurn <= 0)
+        if (currentWaypoint >= path.vectorPath.Count)
         {
-            timeToNextTurn = timeBetweenTurns;
-            Quaternion randomRotation = Quaternion.AngleAxis(
-                Random.Range(-turnAngleRange, turnAngleRange), Vector3.forward);
-            nextMovementDirection = randomRotation * currentMovementDirection;
+            reachedEndOfPath = true;
+            return;
+        } else
+        {
+            reachedEndOfPath = false;
         }
 
-        currentMovementDirection = Vector2.Lerp(currentMovementDirection, nextMovementDirection,
-                                    Time.deltaTime * turnSpeed).normalized;
+        Vector2 direction = (path.vectorPath[currentWaypoint] - transform.position).normalized;
+        transform.Translate(direction * moveSpeed * Time.deltaTime);
 
-        Vector3 movementVector = currentMovementDirection * walkingSpeed * Time.deltaTime;
-        Vector3 newPosition = transform.position + movementVector;
+        float dist = Vector2.Distance(transform.position, path.vectorPath[currentWaypoint]);
 
-        if (Vector3.Distance(newPosition, wanderingCenter) > wanderingRadius)
-        // new position is outside the circle
+        if (dist < nextWaypointDist)
         {
-            // rotation of new coordinate system
-            float angle = Mathf.Atan2(movementVector.y, movementVector.x);
-            Quaternion rotation = Quaternion.AngleAxis(Mathf.Rad2Deg * angle - 90f, Vector3.back);
-
-            // calculate circle center coordinates relatively to current position
-            Vector3 newCenter = wanderingCenter - transform.position;
-            newCenter = rotation * newCenter;
-
-            // find coordinates of intersection of circle and movement vector
-            float y = newCenter.y + Mathf.Sqrt(wanderingRadius * wanderingRadius - newCenter.x * newCenter.x);
-            newPosition = new Vector3(0, y, 0);
-
-            // convert newPosition coordinates back to global
-            newPosition = Quaternion.Inverse(rotation) * newPosition;
-            newPosition += transform.position;
-
-            // reflect movement direction
-            currentMovementDirection = Vector3.Reflect(currentMovementDirection,
-                                        (wanderingCenter - newPosition).normalized).normalized;
-            nextMovementDirection = currentMovementDirection;
+            currentWaypoint++;
         }
-
-        transform.position = newPosition;
     }
 
-    private void InitWandering(Vector3 center)
+    private void OnPathGenComplete(Path p)
     {
-        timeToNextTurn = timeBetweenTurns;
-        wanderingCenter = center;
-        currentMovementDirection = Random.insideUnitCircle.normalized;
-        nextMovementDirection = currentMovementDirection;
-        isWandering = true;
+        if (!p.error)
+        {
+            path = p;
+            currentWaypoint = 0;
+        }
     }
 }

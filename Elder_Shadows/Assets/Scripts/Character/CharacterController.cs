@@ -23,13 +23,12 @@ public class CharacterController : MonoBehaviour, IAttackable
         if (instance == null)
             instance = this;
         else Destroy(this.gameObject);
-        /*       
+               
 #if UNITY_EDITOR
         characterData = new CharacterData("TEST");
 #else
         characterData = DataBridge.instance.Character_data;
-#endif*/
-        characterData = DataBridge.instance.Character_data;
+#endif
         dataManager = new CharacterDataManager(characterData);
         combat.characterData = characterData;
         combat.dataManager = dataManager;

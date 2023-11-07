@@ -23,12 +23,13 @@ public class CharacterController : MonoBehaviour, IAttackable
         if (instance == null)
             instance = this;
         else Destroy(this.gameObject);
-        
+        /*       
 #if UNITY_EDITOR
         characterData = new CharacterData("TEST");
 #else
         characterData = DataBridge.instance.Character_data;
-#endif
+#endif*/
+        characterData = DataBridge.instance.Character_data;
         dataManager = new CharacterDataManager(characterData);
         combat.characterData = characterData;
         combat.dataManager = dataManager;
@@ -36,13 +37,13 @@ public class CharacterController : MonoBehaviour, IAttackable
 
     void Update()
     {
-        transform.position += new Vector3(joystick.Horizontal, joystick.Vertical, transform.position.z) * characterData.Movespeed * Time.deltaTime;
+        transform.position += new Vector3(joystick.Horizontal, joystick.Vertical, transform.position.z) * characterData.movespeed * Time.deltaTime;
     }
 
     public IAttackable.State TakeDamage(int damage, GameObject attacker)
     {
         dataManager.DealDamage(damage);
-        if (characterData.CurrentHealth <= 0)
+        if (characterData.current_health <= 0)
         {
             Die();
             return IAttackable.State.Dead;

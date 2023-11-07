@@ -3620,8 +3620,8 @@ MonoBehaviour:
   - {fileID: 967936004}
   - {fileID: 808374755}
   - {fileID: 1551105399}
-  base_speed: 0.15
-  speed_increment: 0.025
+  base_speed: 0.06
+  speed_increment: 0.01
 --- !u!1 &1092013918
 GameObject:
   m_ObjectHideFlags: 0

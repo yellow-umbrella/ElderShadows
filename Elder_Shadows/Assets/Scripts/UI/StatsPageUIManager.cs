@@ -19,16 +19,13 @@ public class StatsPageUIManager : MonoBehaviour
 
     public void UpdateStatsPage(CharacterData data)
     {
-        int statpoints_ = data.StatPoints;
-        if (statpoints_ > 0)
-        {
-            statpoints.gameObject.SetActive(Convert.ToBoolean(statpoints_));
-            statpoints.text = "Available points: " + statpoints_;
-        }
-        
-        strengthManager.UpdateData(data.Strength);
-        agilityManager.UpdateData(data.Agility);
-        inteligenceManager.UpdateData(data.Intelligence);
+        int statpoints_ = data.statpoints;
+        statpoints.gameObject.SetActive(Convert.ToBoolean(statpoints_));
+        statpoints.text = "Available points: " + statpoints_;
+
+        strengthManager.UpdateData(data.strength);
+        agilityManager.UpdateData(data.agility);
+        inteligenceManager.UpdateData(data.inteligence);
         
         SetUpgrade(Convert.ToBoolean(statpoints_));
     }

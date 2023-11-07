@@ -5,159 +5,61 @@ public class CharacterData
     public CharacterData(string name_)
     {
         name = name_;
+        experience = 0;
+        level = 1;
+        statpoints = 0;
+        strength = 1;
+        inteligence = 1;
+        agility = 1;
+        max_health = strength * statMultiplier;
+        hregen = 0.1f;
+        phys_dmg = strength * statMultiplier;
+        max_mana = inteligence * statMultiplier;
+        mregen = 0.1f;
+        magic_dmg = inteligence * statMultiplier;
+        atk_spd = 1;
+        movespeed = 5f;
+        atk_range = 1f;
+        current_health = max_health;
+        current_mana = max_mana;
     }
+    
     [Header("General Properties")]
     public string name;
-
-    private int experience = 0;
-    public int Experience
-    {
-        get { return experience; }
-        set { experience = value; }
-    }
-
-    private int level = 1;
-    public int Level
-    {
-        get { return level; }
-        set { level = value; }
-    }
-    
-    private int statpoints = 0; //Determines the amount of unspent STATS upgrade points
-    public int StatPoints
-    {
-        get { return statpoints; }
-        set { statpoints = value; }
-    }
+    public int experience = 0;
+    public int level = 1;
+    public int statpoints = 0; //Determines the amount of unspent STATS upgrade points
+    private int statMultiplier = 20;
     
     [Header("Upgradeable Stats")]
-    private int strength; //Responcible for Health, Regeneration, Physical Damage and Physical Resistance, or Armor
-    public int Strength
-    {
-        get { return strength; }
-        set { strength = value; }
-
-    }
-    
-    private int inteligence; //Responcible for Mana, Regeneration, Magic Damage and Magic Resistance
-    public int Intelligence
-    {
-        get { return inteligence; }
-        set { inteligence = value; }
-
-    }
-    
-    private int agility; //Responcible for Attack Speed, Movement speed, Evasion
-    public int Agility
-    {
-        get { return agility; }
-        set { agility = value; }
-
-    }
+    public int strength; //Responcible for Health, Regeneration, Physical Damage and Physical Resistance, or Armor
+    public int inteligence; //Responcible for Mana, Regeneration, Magic Damage and Magic Resistance
+    public int agility; //Responcible for Attack Speed, Movement speed, Evasion
 
     [Header("Dependent Parameters")]
     [Header("=====Strength=====")]
-    private float max_health = 100;
-    public float MaxHealth
-    {
-        get { return max_health; }
-        set { max_health = value; }
-    }
+    public float max_health;
+    public float hregen;
+    public int phys_dmg = 50;
+    public float phys_res = 0f;
 
-    private float hregen = 0.1f;
-    public float HRegen
-    {
-        get { return hregen; }
-        set { hregen = value; }
-    }
-
-    private int phys_dmg = 50;
-    public int PhysDmg
-    {
-        get { return phys_dmg; }
-        set { phys_dmg = value; }
-    }
-
-    private float phys_res = 0f;
-    public float PhysRes
-    {
-        get { return phys_res; }
-        set { phys_res = value; }
-    }
-    
     [Header("=====Inteligence=====")]
-    private float max_mana = 50f;
-    public float MaxMana
-    {
-        get { return max_mana; }
-        set { max_mana = value; }
-    }
-    
-    private float mregen = 0.1f;
-    public float MRegen 
-    {
-        get { return mregen; }
-        set { mregen = value; }
-    }
-    
-    private float magic_dmg = 5f;
-    public float MagicDmg
-    {
-        get { return magic_dmg; }
-        set { magic_dmg = value; }
-    }
-    
-    private float magic_res = 0f;
-    public float MagicRes
-    {
-        get { return magic_res; }
-        set { magic_res = value; }
-    }
+    public float max_mana = 50f;
+    public float mregen = 0.1f;
+    public float magic_dmg = 5f;
+    public float magic_res = 0f;
     
     [Header("=====Agility=====")]
-    private float atk_spd = 1f;
-    public float AtkSpd
-    {
-        get { return atk_spd; }
-        set { atk_spd = value; }
-    }
+    public float atk_spd = 1f;
+    public float movespeed = 5f;
+    public float evasion = 0f;
     
-    private float movespeed = 5f;
-    public float Movespeed
-    {
-        get { return movespeed; }
-        set { movespeed = value; }
-    }
-    
-    private float evasion = 0f;
-    public float Evasion
-    {
-        get { return evasion; }
-        set { evasion = value; }
-    }
-
     [Header("Other Parameters")] 
-    private float atk_range = 1f;
-    public float AttackRange
-    {
-        get { return atk_range; }
-        set { atk_range = value; }
-    }
+    public float atk_range = 1f;
     
     [Header("Current value Parameters")]
-    private float current_health = 100f;
-    public float CurrentHealth
-    {
-        get { return current_health; }
-        set { current_health = value; }
-    }
-    
-    private float current_mana = 50f;
-    public float CurrentMana
-    {
-        get { return current_mana; }
-        set { current_mana = value; }
-    }
+    public float current_health = 100f;
+    public float current_mana = 50f;
 }
 
 public class CharacterDataManager
@@ -171,7 +73,7 @@ public class CharacterDataManager
     public CharacterDataManager(CharacterData data_)
     {
         data = data_;
-        for (int i = 1; i < data.Level; i++)
+        for (int i = 1; i < data.level; i++)
         {
             prevExpNeeded += expDifference;
             expDifference = (int)(expDifference * expDiffMultiplier); 
@@ -188,18 +90,18 @@ public class CharacterDataManager
 
     public void DealDamage(float damage)
     {
-        data.CurrentHealth -= damage;
+        data.current_health -= damage;
     }
     
     public bool AddExperience(int xp)
     {
-        data.Experience += xp;
-        if (data.Experience >= (prevExpNeeded + expDifference))
+        data.experience += xp;
+        if (data.experience >= (prevExpNeeded + expDifference))
         {
-            data.Level++;
-            Debug.Log("Reached level " + data.Level);
+            data.level++;
+            Debug.Log("Reached level " + data.level);
             expDifference = GetNewExpDifference();
-            data.StatPoints = 1 + (data.Level / 5); //Equasion to increase stat points gained over time, the bigger the constant divider the less points will be gained
+            data.statpoints = 1 + (data.level / 5); //Equasion to increase stat points gained over time, the bigger the constant divider the less points will be gained
             return true;
         }
         return false;
@@ -207,7 +109,7 @@ public class CharacterDataManager
 
     public int GetLevel()
     {
-        return data.Level;
+        return data.level;
     }
 
     public void UpgradeStat(string stat)
@@ -215,18 +117,17 @@ public class CharacterDataManager
         switch (stat)
         {
             case "Strength":
-                data.Strength++;
-                data.StatPoints--;
+                data.strength++;
+                data.statpoints--;
                 break;
             case "Agility":
-                data.Agility++;
-                data.StatPoints--;
+                data.agility++;
+                data.statpoints--;
                 break;
             case "Inteligence":
-                data.Intelligence++;
-                data.StatPoints--;
+                data.inteligence++;
+                data.statpoints--;
                 break;
         }
-        Debug.Log(data.StatPoints);
     }
 }

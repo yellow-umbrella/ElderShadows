@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CharacterDataLoader
@@ -10,6 +11,7 @@ public class CharacterDataLoader
         if(File.Exists(Application.persistentDataPath + path + "CharacterData.json"))
         {
             string jsondata = File.ReadAllText(Application.persistentDataPath + path + "CharacterData.json");
+            Debug.Log(jsondata);
             CharacterData character_data = JsonUtility.FromJson<CharacterData>(jsondata);
             return character_data;
         }
@@ -19,6 +21,7 @@ public class CharacterDataLoader
     public static void SaveCharacter(CharacterData character_data)
     {
         string jsondata = JsonUtility.ToJson(character_data);
+        Debug.Log(character_data);
         File.WriteAllText(Application.persistentDataPath + path + "CharacterData.json", jsondata);
     }
 }

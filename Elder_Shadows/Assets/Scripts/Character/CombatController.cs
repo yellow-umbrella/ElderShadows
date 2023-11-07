@@ -17,14 +17,14 @@ public class CombatController : MonoBehaviour
         LayerMask layer3 = LayerMask.GetMask("EvilCreature");
         LayerMask layer4 = LayerMask.GetMask("GoodCreature");
         LayerMask finalMask = layer1 | layer2 | layer3 | layer4;
-        BaseEntity target = Physics2D.OverlapCircle(transform.position, characterData.AttackRange, finalMask)?.gameObject.GetComponent<BaseEntity>();
+        BaseEntity target = Physics2D.OverlapCircle(transform.position, characterData.atk_range, finalMask)?.gameObject.GetComponent<BaseEntity>();
         int expForKill = 0;
         if (target != null)
         {
             expForKill = target.ExpForKill;
             if (canAttack)
             {
-                if (target?.TakeDamage(characterData.PhysDmg, this.gameObject) == IAttackable.State.Dead)
+                if (target?.TakeDamage(characterData.phys_dmg, this.gameObject) == IAttackable.State.Dead)
                 {
                     dataManager.AddExperience(expForKill);
                 }
@@ -37,7 +37,7 @@ public class CombatController : MonoBehaviour
     private IEnumerator AttackCooldown()
     {
         canAttack = false;
-        yield return new WaitForSeconds(characterData.AtkSpd);
+        yield return new WaitForSeconds(characterData.atk_spd);
         canAttack = true;
     }
 }

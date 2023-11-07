@@ -1,5 +1,6 @@
 using UnityEngine;
 using MyBox;
+using Unity.VisualScripting;
 
 public class DataBridge : MonoBehaviour
 {
@@ -31,5 +32,10 @@ public class DataBridge : MonoBehaviour
             return false;
         //TODO: Add check for saved terrain data
         return true;
+    }
+
+    void OnApplicationQuit()
+    {
+        CharacterDataLoader.SaveCharacter(character_data);
     }
 }

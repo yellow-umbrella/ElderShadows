@@ -11,6 +11,7 @@ using Random = UnityEngine.Random;
 public class BaseEntity : MonoBehaviour, IAttackable
 {
     public event EventHandler OnDeath;
+    public event Action OnReachedEndOfPath;
 
     public enum Behavior
     {
@@ -88,6 +89,14 @@ public class BaseEntity : MonoBehaviour, IAttackable
     public bool ReachedEndOfPath 
     { 
         get {  return reachedEndOfPath; } 
+        private set 
+        {
+            if (reachedEndOfPath != value && value)
+            {
+                OnReachedEndOfPath?.Invoke();
+            }
+            reachedEndOfPath = value;
+        }
     }
     private float timeBetweenPathGen = 1f;
     private float nextPathGen;
@@ -263,7 +272,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
 
     private void SetPath(Vector2 target)
     {
-        if (seeker.IsDone() && (Time.time > nextPathGen || reachedEndOfPath))
+        if (seeker.IsDone() && (Time.time > nextPathGen || ReachedEndOfPath))
         {
             seeker.StartPath(transform.position, target, OnPathGenComplete);
             nextPathGen = Time.time + timeBetweenPathGen;
@@ -279,11 +288,11 @@ public class BaseEntity : MonoBehaviour, IAttackable
 
         if (currentWaypoint >= path.vectorPath.Count)
         {
-            reachedEndOfPath = true;
+            ReachedEndOfPath = true;
             return;
         } else
         {
-            reachedEndOfPath = false;
+            ReachedEndOfPath = false;
         }
 
         Vector2 direction = (path.vectorPath[currentWaypoint] - transform.position).normalized;

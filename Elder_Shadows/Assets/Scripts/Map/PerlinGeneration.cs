@@ -12,6 +12,7 @@ public class PerlinGeneration : MonoBehaviour
     public TileBase[] forestTiles;
     public TileBase[] desertTiles;
     public GameObject[] forestVegetation;
+    public GameObject[] forestRocks;
     //public GameObject[] desertVegetation;
 
     public float perlin;
@@ -25,6 +26,7 @@ public class PerlinGeneration : MonoBehaviour
     public float height;
 
     public float vegetationChance;
+    public float rocksChance;
 
     private void Start()
     {
@@ -69,18 +71,33 @@ public class PerlinGeneration : MonoBehaviour
         if (temperature <= 0.75f && rainFall >= 0.25f || temperature > 0.75f && rainFall >= 0.25f)
         {
 
-            vegetationChance = 0.0175f;
+            vegetationChance = 0.05f;
+            rocksChance = 0.01f;
 
             if (random <= vegetationChance)
             {
-
-                perlin *= forestVegetation.Length - 1;
+                //perlin *= forestVegetation.Length - 1;
+                perlin *= forestTiles.Length - 1;
                 int tileNum = Mathf.RoundToInt(perlin);
 
                 //wallsTileMap.SetTile(new Vector3Int(x, y, 0), forestVegetation[tileNum]);
                 //tileMap.SetTile(new Vector3Int(x, y, 0), forestVegetation[tileNum]); 
                 tileMap.SetTile(new Vector3Int(x, y, 0), forestTiles[tileNum]);
-                GameObject plant = Instantiate(forestVegetation[0], new Vector3(x + 0.5f, y + 0.5f, 0), Quaternion.identity);
+                GameObject plant = Instantiate(forestVegetation[Random.Range(0, forestVegetation.Length)], new Vector3(x + 0.5f, y + 1.75f, 0), Quaternion.identity);
+                //GameObject plant = Instantiate(forestVegetation[Random.Range(0, forestVegetation.Length)], new Vector3(x + 0.5f, y + 5.15f, 0), Quaternion.identity);
+                //plant.transform.parent = gameObject.transform.GetChild(0);
+                plant.layer = 3;
+            }
+            if (random <= 0.042f && random > 0.04f )
+            {
+                //perlin *= forestVegetation.Length - 1;
+                perlin *= forestTiles.Length - 1;
+                int tileNum = Mathf.RoundToInt(perlin);
+
+                //wallsTileMap.SetTile(new Vector3Int(x, y, 0), forestVegetation[tileNum]);
+                //tileMap.SetTile(new Vector3Int(x, y, 0), forestVegetation[tileNum]); 
+                tileMap.SetTile(new Vector3Int(x, y, 0), forestTiles[tileNum]);
+                GameObject plant = Instantiate(forestRocks[Random.Range(0, forestRocks.Length)], new Vector3(x + 0.5f, y + 1.75f, 0), Quaternion.identity);
                 //GameObject plant = Instantiate(forestVegetation[Random.Range(0, forestVegetation.Length)], new Vector3(x + 0.5f, y + 5.15f, 0), Quaternion.identity);
                 //plant.transform.parent = gameObject.transform.GetChild(0);
                 plant.layer = 3;

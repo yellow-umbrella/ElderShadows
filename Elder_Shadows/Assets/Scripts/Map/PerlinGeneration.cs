@@ -88,7 +88,7 @@ public class PerlinGeneration : MonoBehaviour
                 //plant.transform.parent = gameObject.transform.GetChild(0);
                 plant.layer = 3;
             }
-            if (random <= 0.042f && random > 0.04f )
+            if (random <= 0.062f && random > 0.06f)
             {
                 //perlin *= forestVegetation.Length - 1;
                 perlin *= forestTiles.Length - 1;

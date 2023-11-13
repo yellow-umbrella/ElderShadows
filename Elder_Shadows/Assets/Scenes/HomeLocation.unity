@@ -2748,7 +2748,7 @@ MonoBehaviour:
   unwalkableNodeDebugSize: 0.3
   logPathResults: 0
   maxNearestNodeDistance: 100
-  scanOnStartup: 1
+  scanOnStartup: 0
   fullGetNearestSearch: 0
   prioritizeGraphs: 0
   prioritizeGraphsLimit: 1
@@ -3529,7 +3529,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1694630209
 Transform:
   m_ObjectHideFlags: 0
@@ -3564,6 +3564,7 @@ MonoBehaviour:
   spawnLimits: {x: 25, y: 25}
   spawnDelay: 0.1
   maxSpawnCount: 50
+  aStarManager: {fileID: 1059987833}
 --- !u!1 &1779398259
 GameObject:
   m_ObjectHideFlags: 0

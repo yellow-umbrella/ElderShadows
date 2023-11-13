@@ -8,19 +8,40 @@ public class EntitySpawner : MonoBehaviour
     [SerializeField] private Vector2 spawnLimits;
     [SerializeField] private float spawnDelay;
     [SerializeField] private int maxSpawnCount;
+    [SerializeField] private AStarManager aStarManager;
 
     private int spawnCount;
     private float currentSpawnDelay;
+    private bool canSpawn = false;
+
+    private void OnEnable()
+    {
+        aStarManager.OnFinishedScanning += AStarManager_OnFinishedScanning;
+    }
+
+    private void OnDisable()
+    {
+        aStarManager.OnFinishedScanning -= AStarManager_OnFinishedScanning;
+    }
+
+    private void AStarManager_OnFinishedScanning()
+    {
+        canSpawn = true;
+        // TODO get positions for spawning entities
+    }
 
     private void Update()
     {
-        currentSpawnDelay -= Time.deltaTime;
-        if (currentSpawnDelay <= 0)
+        if (canSpawn)
         {
-            currentSpawnDelay = spawnDelay;
-            if (spawnCount < maxSpawnCount)
+            currentSpawnDelay -= Time.deltaTime;
+            if (currentSpawnDelay <= 0)
             {
-                SpawnRandomEntity();
+                currentSpawnDelay = spawnDelay;
+                if (spawnCount < maxSpawnCount)
+                {
+                    SpawnRandomEntity();
+                }
             }
         }
     }

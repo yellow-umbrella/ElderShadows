@@ -15,6 +15,7 @@ public class MapManager : MonoBehaviour
 {
     public static MapManager instance;
 
+
     private void Awake()
     {
         //set up the instance
@@ -26,6 +27,7 @@ public class MapManager : MonoBehaviour
     public Tilemap tilemap;
     public Tilemap collisions;
 
+
     private void Update()
     {
         //save level when pressing Ctrl + A
@@ -34,7 +36,7 @@ public class MapManager : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.L)) LoadLevel();
     }
 
-    void Savelevel()
+    public void Savelevel()
     {
         //get the bounds of the tilemap
         BoundsInt bounds = tilemap.cellBounds;
@@ -49,20 +51,16 @@ public class MapManager : MonoBehaviour
         {
             for (int y = bounds.min.y; y < bounds.max.y; y++)
             {
-                //get the tile on the position
+                
                 TileBase temp = tilemap.GetTile(new Vector3Int(x, y, 0));
-                //TileBase c_temp = collisions.GetTile(new Vector3Int(x, y, 0));
-                //find the temp tile in the custom tiles list
-                //CustomTile temptile = tiles.Find(t => t.tile == temp);
+                
 
-                //if there's a customtile associated with the tile
+                
                 if (temp != null)
                 {
                     //add the values to the leveldata
                     mapData.tiles.Add(temp);
                     mapData.poses.Add(new Vector3Int(x, y, 0));
-                    //collisionsData.tiles.Add(c_temp);
-                    //collisionsData.poses.Add(new Vector3Int(x, y, 0));
                 }
             }
         }
@@ -71,18 +69,12 @@ public class MapManager : MonoBehaviour
         {
             for (int y = c_bounds.min.y; y < c_bounds.max.y; y++)
             {
-                //get the tile on the position
-                //TileBase temp = tilemap.GetTile(new Vector3Int(x, y, 0));
+                
                 TileBase c_temp = collisions.GetTile(new Vector3Int(x, y, 0));
-                //find the temp tile in the custom tiles list
-                //CustomTile temptile = tiles.Find(t => t.tile == temp);
-
-                //if there's a customtile associated with the tile
+                
                 if (c_temp != null)
                 {
-                    //add the values to the leveldata
-                    //mapData.tiles.Add(temp);
-                    //mapData.poses.Add(new Vector3Int(x, y, 0));
+                    
                     collisionsData.tiles.Add(c_temp);
                     collisionsData.poses.Add(new Vector3Int(x, y, 0));
                 }
@@ -99,14 +91,16 @@ public class MapManager : MonoBehaviour
         Debug.Log("Level was saved");
     }
 
-    void LoadLevel()
+    public void LoadLevel()
     {
         //load the json file to a leveldata
         string json = File.ReadAllText(Application.dataPath + "/homeLevel.json");
         string c_json = File.ReadAllText(Application.dataPath + "/homeCollisionsLevel.json");
+        string o_json = File.ReadAllText(Application.dataPath + "/homeObjects.json");
 
         LevelData data = JsonUtility.FromJson<LevelData>(json);
         LevelData c_data = JsonUtility.FromJson<LevelData>(c_json);
+        MapObjects o_data = JsonUtility.FromJson<MapObjects>(o_json);
 
         //clear the tilemap
         tilemap.ClearAllTiles();
@@ -119,11 +113,17 @@ public class MapManager : MonoBehaviour
         }
         for (int i = 0; i < c_data.tiles.Count; i++)
         {
-            tilemap.SetTile(c_data.poses[i], c_data.tiles[i]);
+            collisions.SetTile(c_data.poses[i], c_data.tiles[i]);
+        }
+        for (int i = 0; i < o_data.gameObject.Count; i++) 
+        {
+            GameObject plant = Instantiate(o_data.gameObject[i], o_data.position[i], Quaternion.identity);
+
+            plant.layer = 3;
         }
 
-        //debug
-        Debug.Log("Level was loaded");
+            //debug
+            Debug.Log("Level was loaded");
     }
 }
 

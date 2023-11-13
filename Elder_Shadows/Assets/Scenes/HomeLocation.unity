@@ -672,7 +672,7 @@ MonoBehaviour:
   wallsTileMap: {fileID: 1013516756}
   forestTiles:
   - {fileID: 11400000, guid: 52ba8470981b7a846808ab5043530e16, type: 2}
-  desertTiles:
+  waterTiles:
   - {fileID: 11400000, guid: 89a7c39041fcf534eb16e3a89a9d0b59, type: 2}
   forestVegetation:
   - {fileID: 339704381559359000, guid: 9114f1c5408d602409c80f5ee0722876, type: 3}
@@ -685,7 +685,7 @@ MonoBehaviour:
   - {fileID: 8668454307101324312, guid: ffd4b1463bea55d42b04296de4433b37, type: 3}
   - {fileID: 3091122331055360104, guid: a1ece6872f685904186284bc5208bbd8, type: 3}
   perlin: 0.4573344
-  scale: 3
+  scale: 1.1
   seed: 234
   xOffset: -150
   yOffset: -100
@@ -1113,6 +1113,14 @@ PrefabInstance:
     - target: {fileID: 89118702975311950, guid: 5db5a292c6ca046a79cc92cb23c8bf02, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 89118702975311951, guid: 5db5a292c6ca046a79cc92cb23c8bf02, type: 3}
+      propertyPath: m_Size.y
+      value: 0.44719294
+      objectReference: {fileID: 0}
+    - target: {fileID: 89118702975311951, guid: 5db5a292c6ca046a79cc92cb23c8bf02, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.47348475
       objectReference: {fileID: 0}
     - target: {fileID: 89118702975312304, guid: 5db5a292c6ca046a79cc92cb23c8bf02, type: 3}
       propertyPath: joystick

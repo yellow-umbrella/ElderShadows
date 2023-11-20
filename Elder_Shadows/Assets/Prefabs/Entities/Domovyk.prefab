@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7119133975609816053}
   - component: {fileID: 7119133975609816052}
+  - component: {fileID: 2909485090199012690}
   m_Layer: 0
   m_Name: DomovykVisuals
   m_TagString: Untagged
@@ -84,6 +85,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2909485090199012690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7119133975609816050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75ac61ecf6484b041abaafc692e1ee7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questGiver: {fileID: 7119133976344636819}
 --- !u!1 &7119133976344636817
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,3 +172,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quests:
   - {fileID: 11400000, guid: 2f410e22fc5ab28448b34935e8aa1db8, type: 2}
+  questUI: {fileID: 0}

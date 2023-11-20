@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(fileName = "QuestInfoSO", menuName = "Quest System/QuestInfoSO")]
 public class QuestInfoSO : ScriptableObject
 {
+    [field: SerializeField] public string id {  get; private set; }
+
     [Foldout("General", true)]
     [TextArea(1, 5)]
     public string displayName;
@@ -18,9 +20,20 @@ public class QuestInfoSO : ScriptableObject
     public int levelRequirement;
     public int trustRequirement;
 
+    [Foldout("Steps", true)]
+    public GameObject[] questStepPrefabs;
+
     [Foldout("Rewards", true)]
     public int expirients;
     public int trust;
     public int money;
     public GameObject[] items;
+
+    private void OnValidate()
+    {
+#if UNITY_EDITOR
+        id = this.name;
+        UnityEditor.EditorUtility.SetDirty(this);
+#endif
+    }
 }

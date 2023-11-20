@@ -81,14 +81,14 @@ public class MapManager : MonoBehaviour
             }
         }
 
-        //save the data as a json
+        
         string json = JsonUtility.ToJson(mapData, true);
         string c_json = JsonUtility.ToJson(collisionsData, true);
         File.WriteAllText(Application.dataPath + "/homeLevel.json", json);
         File.WriteAllText(Application.dataPath + "/homeCollisionsLevel.json", c_json);
 
-        //debug
-        Debug.Log("Level was saved");
+        
+        //Debug.Log("Level was saved");
     }
 
     public void LoadLevel()
@@ -117,7 +117,8 @@ public class MapManager : MonoBehaviour
         }
         for (int i = 0; i < o_data.gameObject.Count; i++) 
         {
-            GameObject plant = Instantiate(o_data.gameObject[i], o_data.position[i], Quaternion.identity);
+            GameObject plant = (GameObject)Instantiate(o_data.gameObject[i], o_data.position[i], Quaternion.identity);
+            plant.transform.parent = transform;
 
             plant.layer = 3;
         }

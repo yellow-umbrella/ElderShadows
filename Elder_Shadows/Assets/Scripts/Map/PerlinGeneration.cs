@@ -34,15 +34,26 @@ public class PerlinGeneration : MonoBehaviour
 
     private List<GameObject> objectList = new List<GameObject>();
     private List<Vector3> posList = new List<Vector3>();
-    //private MapManager mManager;
+    private MapManager mapManager;
+
+    private void Awake() 
+    {
+        
+        mapManager = GetComponent<MapManager>();
+
+    }
 
     private void Start()
     {
 
+        var mapManager = GetComponent<MapManager>();
+
         seed = Random.Range(0f, 100000f);
         generateWorld();
 
+        mapManager.Savelevel();
         saveObjects();
+
 
     }
     private void Update() 
@@ -54,29 +65,31 @@ public class PerlinGeneration : MonoBehaviour
     {
         if (File.Exists(Application.dataPath + "/homeObjects.json") && File.Exists(Application.dataPath + "/homeLevel.json") && File.Exists(Application.dataPath + "/homeCollisionsLevel.json"))
         {
+
+            //Object.Destroy(this.gameObject);
+
+            mapManager.LoadLevel();
             Debug.Log("Home map already exists");
 
-            /*GameObject mapManager = new GameObject("MapManager");
-            mManager = mapManager.AddComponent<MapManager>();
-
-            mManager.LoadLevel();*/
-
         }
-        
-        for (int y = yOffset; y < height / 2; y++)
+        else 
         {
-
-            for (int x = xOffset; x < width / 2; x++)
+            for (int y = yOffset; y < height / 2; y++)
             {
 
-                float xCoord = xOffset + x / width * scale + seed;
-                float yCoord = yOffset + y / height * scale + seed;
+                for (int x = xOffset; x < width / 2; x++)
+                {
 
-                float rainFall = Mathf.PerlinNoise(xCoord, yCoord);
-                float temperature = Mathf.PerlinNoise(xCoord, yCoord);
+                    float xCoord = xOffset + x / width * scale + seed;
+                    float yCoord = yOffset + y / height * scale + seed;
 
-                generateTile(x, y, temperature, rainFall);
+                    float rainFall = Mathf.PerlinNoise(xCoord, yCoord);
+                    float temperature = Mathf.PerlinNoise(xCoord, yCoord);
 
+                    generateTile(x, y, temperature, rainFall);
+
+
+                }
 
             }
 
@@ -109,8 +122,8 @@ public class PerlinGeneration : MonoBehaviour
 
 
                 tileMap.SetTile(new Vector3Int(x, y, 0), forestTiles[tileNum]);
-                GameObject plant = Instantiate(forestVegetation[rand_val], new Vector3(x + 0.5f, y + 1.75f, 0), Quaternion.identity);
-                
+                GameObject plant = (GameObject)Instantiate(forestVegetation[rand_val], new Vector3(x + 0.5f, y + 1.75f, 0), Quaternion.identity);
+                plant.transform.parent = transform;
                 plant.layer = 3;
 
                 objectList.Add(forestVegetation[rand_val]);
@@ -127,8 +140,9 @@ public class PerlinGeneration : MonoBehaviour
 
 
                 tileMap.SetTile(new Vector3Int(x, y, 0), forestTiles[tileNum]);
-                GameObject plant = Instantiate(forestRocks[rand_val], new Vector3(x + 0.5f, y + 1.75f, 0), Quaternion.identity);
-                
+                GameObject plant = (GameObject)Instantiate(forestRocks[rand_val], new Vector3(x + 0.5f, y + 1.75f, 0), Quaternion.identity);
+                plant.transform.parent = transform;
+
                 plant.layer = 3;
                 objectList.Add(forestRocks[rand_val]);
                 posList.Add(new Vector3(x + 0.5f, y + 1.75f, 0));

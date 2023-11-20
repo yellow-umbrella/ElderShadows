@@ -49,13 +49,11 @@ public class PerlinGeneration : MonoBehaviour
     private void Start()
     {
 
-        var mapManager = GetComponent<MapManager>();
+        //var mapManager = GetComponent<MapManager>();
 
         seed = Random.Range(0f, 100000f);
         generateWorld();
 
-        mapManager.Savelevel();
-        saveObjects();
         pSpawn.MovePlayerOnGrass();
 
 
@@ -97,6 +95,8 @@ public class PerlinGeneration : MonoBehaviour
 
             }
 
+            mapManager.Savelevel();
+            saveObjects();
         }
 
     }

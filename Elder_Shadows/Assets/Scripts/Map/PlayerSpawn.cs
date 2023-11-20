@@ -25,14 +25,15 @@ public class PlayerSpawn : MonoBehaviour
 
     public void MovePlayerOnGrass()
     {
-        Vector3Int new_position = new Vector3Int(); 
+        Vector3Int new_position = new Vector3Int();
         string json = File.ReadAllText(Application.dataPath + "/homeLevel.json");
+        string c_json = File.ReadAllText(Application.dataPath + "/homeCollisionsLevel.json");
         SpawnData data = JsonUtility.FromJson<SpawnData>(json);
+        SpawnData c_data = JsonUtility.FromJson<SpawnData>(c_json);
 
-        AssertPosition = (int)(data.poses.Count / 1.75);
-
-        if (data.tiles[AssertPosition] != null)
+        if(data.poses.Count > 0)
         {
+            AssertPosition = (int)(data.poses.Count / 2);
             new_position = data.poses[AssertPosition];
         }
 

@@ -634,6 +634,7 @@ GameObject:
   - component: {fileID: 331398645}
   - component: {fileID: 331398646}
   - component: {fileID: 331398647}
+  - component: {fileID: 331398648}
   m_Layer: 0
   m_Name: _Map
   m_TagString: Untagged
@@ -707,6 +708,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemap: {fileID: 862576976}
   collisions: {fileID: 1013516756}
+--- !u!114 &331398648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331398644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f25bb9b718b1d6f43975d487b4a9ad71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1774624591}
 --- !u!1 &545580965
 GameObject:
   m_ObjectHideFlags: 0
@@ -10148,6 +10162,11 @@ MonoBehaviour:
   spawnLimits: {x: 25, y: 25}
   spawnDelay: 0.1
   maxSpawnCount: 50
+--- !u!1 &1774624591 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 89118702975312307, guid: 5db5a292c6ca046a79cc92cb23c8bf02, type: 3}
+  m_PrefabInstance: {fileID: 684502527}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1779398259
 GameObject:
   m_ObjectHideFlags: 0

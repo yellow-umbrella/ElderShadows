@@ -35,11 +35,14 @@ public class PerlinGeneration : MonoBehaviour
     private List<GameObject> objectList = new List<GameObject>();
     private List<Vector3> posList = new List<Vector3>();
     private MapManager mapManager;
+    private PlayerSpawn pSpawn;
+    private bool firstCheck = false;
 
     private void Awake() 
     {
         
         mapManager = GetComponent<MapManager>();
+        pSpawn = GetComponent<PlayerSpawn>();
 
     }
 
@@ -53,6 +56,7 @@ public class PerlinGeneration : MonoBehaviour
 
         mapManager.Savelevel();
         saveObjects();
+        pSpawn.MovePlayerOnGrass();
 
 
     }

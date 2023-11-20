@@ -18,7 +18,6 @@ public class MapManager : MonoBehaviour
 
     private void Awake()
     {
-        //set up the instance
         if (instance == null) instance = this;
         else Destroy(this);
     }
@@ -31,9 +30,9 @@ public class MapManager : MonoBehaviour
     private void Update()
     {
         //save level when pressing Ctrl + A
-        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A)) Savelevel();
+        //if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A)) Savelevel();
         //load level when pressing Ctrl + L
-        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.L)) LoadLevel();
+        //if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.L)) LoadLevel();
     }
 
     public void Savelevel()
@@ -123,8 +122,8 @@ public class MapManager : MonoBehaviour
             plant.layer = 3;
         }
 
-            //debug
-            Debug.Log("Level was loaded");
+            
+            //Debug.Log("Level was loaded");
     }
 }
 

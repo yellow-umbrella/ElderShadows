@@ -11761,7 +11761,8 @@ MonoBehaviour:
   - {fileID: 5792414836176843517, guid: 2e51f0a001b9cf746b5f799350b2a303, type: 3}
   - {fileID: 4380414845481937082, guid: 3ea68e1da9c6cf648b0894a4641b6957, type: 3}
   - {fileID: 4380414845481937082, guid: c072789f2304d214a992a8c359742c6a, type: 3}
-  spawnLimits: {x: 25, y: 25}
+  spawnLimits: {x: 50, y: 50}
+  spawnInternalLimits: {x: 0, y: 0}
   spawnDelay: 0.1
   maxSpawnCount: 50
   aStarManager: {fileID: 1059987833}

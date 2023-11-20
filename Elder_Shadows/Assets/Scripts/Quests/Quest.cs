@@ -25,6 +25,13 @@ public class Quest
         this.currentStep = 0;
     }
 
+    public Quest(QuestInfoSO info, QuestState state, int currentStep)
+    {
+        this.info = info;
+        this.state = state;
+        this.currentStep = currentStep;
+    }
+
     public bool IsMetRequirements()
     {
         // TODO check player level and trust
@@ -60,5 +67,10 @@ public class Quest
             stepPrefab = info.questStepPrefabs[currentStep];
         }
         return stepPrefab;
+    }
+
+    public QuestData GetQuestData()
+    {
+        return new QuestData(state, currentStep);
     }
 }

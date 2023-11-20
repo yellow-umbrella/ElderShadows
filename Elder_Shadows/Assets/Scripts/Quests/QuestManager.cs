@@ -1,7 +1,10 @@
 using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
+using MyBox;
 
 public class QuestManager : MonoBehaviour
 {
@@ -10,6 +13,8 @@ public class QuestManager : MonoBehaviour
     [SerializeField] private List<QuestInfoSO> allQuestInfos;
 
     private Dictionary<string, Quest> quests;
+
+    private const string PATH = "/quests/";
 
     private void Awake()
     {
@@ -23,6 +28,18 @@ public class QuestManager : MonoBehaviour
             Destroy(this.gameObject);
         }
         quests = CreateQuestsDictionary();
+    }
+
+    private void Start()
+    {
+        foreach (Quest quest in quests.Values)
+        {
+            if (quest.state == Quest.QuestState.IN_PROGRESS)
+            {
+                quest.CreateCurrentQuestStep(this.transform);
+            }
+            onQuestStateChange?.Invoke(quest);
+        }
     }
 
     private void Update()
@@ -41,7 +58,7 @@ public class QuestManager : MonoBehaviour
         Dictionary<string, Quest> idToQuestMap = new Dictionary<string, Quest>();
         foreach (QuestInfoSO questInfo in allQuestInfos)
         {
-            idToQuestMap.Add(questInfo.id, new Quest(questInfo));
+            idToQuestMap.Add(questInfo.id, LoadQuest(questInfo));
         }
         return idToQuestMap;
     }
@@ -104,5 +121,64 @@ public class QuestManager : MonoBehaviour
     {
         quests[id] = new Quest(GetQuestById(id).info);
         onQuestDecline?.Invoke(id);
+    }
+
+    private void OnApplicationQuit()
+    {
+        foreach (Quest quest in quests.Values)
+        {
+            SaveQuest(quest);
+        }
+    }
+
+    private void SaveQuest(Quest quest)
+    {
+        try
+        {
+            QuestData questData = quest.GetQuestData();
+            string serializedData = JsonUtility.ToJson(questData);
+            string path = Application.persistentDataPath + PATH;
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            File.WriteAllText(path + quest.info.id + ".json", serializedData);
+            Debug.Log("Saved quest with id: " + quest.info.id + ": " + serializedData);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed to save quest with id " + quest.info.id + ": " + e);
+        }
+    }
+
+    private Quest LoadQuest(QuestInfoSO questInfo)
+    {
+        Quest quest = null;
+        try
+        {
+            string path = Application.persistentDataPath + PATH + questInfo.id + ".json";
+            if (File.Exists(path))
+            {
+                string serializedData = File.ReadAllText(path);
+                Debug.Log("Loading quest with id: " + questInfo.id + ": " + serializedData);
+                QuestData questData = JsonUtility.FromJson<QuestData>(serializedData);
+                quest = new Quest(questInfo, questData.state, questData.questStepIndex);
+            } else
+            {
+                quest = new Quest(questInfo);
+            }
+        } catch (Exception e)
+        {
+            Debug.LogError("Failed to load quest with id " + quest.info.id + ": " + e);
+        }
+
+        return quest;
+    }
+
+    [ButtonMethod]
+    public void ClearSavedQuests()
+    {
+        DirectoryInfo dataDir = new DirectoryInfo(Application.persistentDataPath + PATH);
+        dataDir.Delete(true);
     }
 }

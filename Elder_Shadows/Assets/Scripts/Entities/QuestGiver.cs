@@ -41,6 +41,7 @@ public class QuestGiver : MonoBehaviour
                 || quest.state == Quest.QuestState.CAN_FINISH))
             {
                 activeQuest = quest;
+                onActiveQuestStateChange(activeQuest.state);
                 break;
             }
         }

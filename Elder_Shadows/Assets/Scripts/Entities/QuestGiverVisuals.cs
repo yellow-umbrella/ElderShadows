@@ -15,11 +15,11 @@ public class QuestGiverVisuals : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
     }
 
-    private void OnEnable()
+    private void Start()
     {
         questGiver.onActiveQuestStateChange += ChangeAppearance;
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
         questGiver.onActiveQuestStateChange -= ChangeAppearance;
     }

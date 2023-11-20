@@ -15,12 +15,12 @@ public class EntitySpawner : MonoBehaviour
     private float currentSpawnDelay;
     private bool canSpawn = false;
 
-    private void OnEnable()
+    private void Start()
     {
         aStarManager.OnFinishedScanning += AStarManager_OnFinishedScanning;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         aStarManager.OnFinishedScanning -= AStarManager_OnFinishedScanning;
     }

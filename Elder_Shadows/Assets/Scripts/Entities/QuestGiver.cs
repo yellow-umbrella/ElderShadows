@@ -13,27 +13,11 @@ public class QuestGiver : MonoBehaviour
 
     private Quest activeQuest = null;
 
-    private void OnEnable()
-    {
-        QuestManager.instance.onQuestStateChange += QuestManager_onQuestStateChange; ;       
-    }
-
-    private void OnDisable()
-    {
-        QuestManager.instance.onQuestStateChange -= QuestManager_onQuestStateChange; ;
-    }
-
     public event Action<Quest.QuestState> onActiveQuestStateChange;
-    private void QuestManager_onQuestStateChange(Quest quest)
-    {
-        if (activeQuest == quest)
-        {
-            onActiveQuestStateChange?.Invoke(quest.state);
-        }
-    }
 
     private void Start()
     {
+        QuestManager.instance.onQuestStateChange += QuestManager_onQuestStateChange; ;       
         foreach(QuestInfoSO questInfo in quests)
         {
             Quest quest = QuestManager.instance.GetQuestById(questInfo.id);
@@ -44,6 +28,18 @@ public class QuestGiver : MonoBehaviour
                 onActiveQuestStateChange(activeQuest.state);
                 break;
             }
+        }
+    }
+    private void OnDestroy()
+    {
+        QuestManager.instance.onQuestStateChange -= QuestManager_onQuestStateChange; ;
+    }
+
+    private void QuestManager_onQuestStateChange(Quest quest)
+    {
+        if (activeQuest == quest)
+        {
+            onActiveQuestStateChange?.Invoke(quest.state);
         }
     }
 

@@ -10,7 +10,8 @@ public class CharacterController : MonoBehaviour, IAttackable
     public Joystick joystick;
     public CharacterData characterData;
     private CharacterDataManager dataManager;
-    [SerializeField] private CombatController combat; 
+    [SerializeField] private CombatController combat;
+    //public InventoryObject inventory;
 
     [Header("Vision")]
     private float timeBetweenAggroChecks = 1;

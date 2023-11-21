@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+
+    public MouseItem mouseItem = new MouseItem();
+
     public InventoryObject inventory;
+    // Start is called before the first frame update
 
     public void OnTriggerEnter(Collider other)
     {
@@ -30,6 +34,6 @@ public class Player : MonoBehaviour
     }
     private void OnApplicationQuit()
     {
-        inventory.Container.Items = new InventorySlot[20];
+        inventory.Container.Items = new InventorySlot[28];
     }
 }

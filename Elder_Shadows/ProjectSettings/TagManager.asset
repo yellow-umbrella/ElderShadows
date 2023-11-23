@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Item
+  - Interactable
+  - Shadow
   layers:
   - Default
   - TransparentFX
@@ -19,9 +21,9 @@ TagManager:
   - EvilCreature
   - GoodCreature
   - Human
-  - 
-  - 
-  - 
+  - LightingSystem
+  - 2DWater
+  - Shadows
   - 
   - 
   - 

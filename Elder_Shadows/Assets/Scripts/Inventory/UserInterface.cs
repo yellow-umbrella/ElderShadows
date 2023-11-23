@@ -88,6 +88,7 @@ public abstract class UserInterface : MonoBehaviour
             var img = mouseObject.AddComponent<Image>();
             img.sprite = inventory.database.GetItem[itemsDisplayed[obj].ID].uiDisplay;
             img.raycastTarget = false;
+            img.maskable = false;
         }
         player.mouseItem.obj = mouseObject;
         player.mouseItem.item = itemsDisplayed[obj];

@@ -11,6 +11,7 @@ public class CharacterController : MonoBehaviour, IAttackable
     public CharacterData characterData;
     private CharacterDataManager dataManager;
     [SerializeField] private CombatController combat;
+    [SerializeField] private CharacterVisionManager vision;
     
     public InventoryObject inventory;
     public MouseItem mouseItem = new MouseItem();

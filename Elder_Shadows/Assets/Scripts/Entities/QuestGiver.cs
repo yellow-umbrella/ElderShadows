@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class QuestGiver : MonoBehaviour
+public class QuestGiver : MonoBehaviour, IInteractable
 {
     [SerializeField] private QuestInfoSO[] quests;
 
@@ -111,5 +111,10 @@ public class QuestGiver : MonoBehaviour
         Debug.Log("Player declined quest: " + activeQuest.info.displayName);
         activeQuest = null;
         onActiveQuestStateChange(Quest.QuestState.REQUIREMENTS_NOT_MET);
+    }
+
+    public void Interact()
+    {
+        Speak();
     }
 }

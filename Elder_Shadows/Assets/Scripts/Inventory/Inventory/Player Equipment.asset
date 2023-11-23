@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Player Equipment
   m_EditorClassIdentifier: 
   savePath: 
-  database: {fileID: 11400000, guid: 12cdf3138109dd946b96d9d82a9ddda2, type: 2}
+  database: {fileID: 11400000, guid: c87e98ab52e4c4ba4a3bcbc28c8e25f5, type: 2}
   Container:
     Items:
-    - AllowedItems: 01000000
+    - AllowedItems: 
       parent: {fileID: 0}
       ID: -1
       item:
@@ -24,19 +24,7 @@ MonoBehaviour:
         Id: -1
         buffs: []
       amount: 0
-    - AllowedItems: 02000000
-      parent: {fileID: 0}
-      ID: 2
-      item:
-        Name: Sword
-        Id: 2
-        buffs:
-        - attribute: 0
-          value: 18
-          min: 10
-          max: 20
-      amount: 1
-    - AllowedItems: 0200000003000000
+    - AllowedItems: 
       parent: {fileID: 0}
       ID: -1
       item:
@@ -44,7 +32,7 @@ MonoBehaviour:
         Id: -1
         buffs: []
       amount: 0
-    - AllowedItems: 05000000
+    - AllowedItems: 
       parent: {fileID: 0}
       ID: -1
       item:
@@ -52,15 +40,19 @@ MonoBehaviour:
         Id: -1
         buffs: []
       amount: 0
-    - AllowedItems: 04000000
+    - AllowedItems: 
       parent: {fileID: 0}
-      ID: 6
+      ID: -1
       item:
-        Name: Boots
-        Id: 6
-        buffs:
-        - attribute: 2
-          value: 6
-          min: 1
-          max: 100
-      amount: 1
+        Name: 
+        Id: -1
+        buffs: []
+      amount: 0
+    - AllowedItems: 
+      parent: {fileID: 0}
+      ID: -1
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+      amount: 0

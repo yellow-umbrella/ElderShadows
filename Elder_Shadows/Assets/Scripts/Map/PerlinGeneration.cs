@@ -110,9 +110,8 @@ public class PerlinGeneration : MonoBehaviour
 
                 objectList.Add(forestVegetation[rand_val]);
                 posList.Add(new Vector3(x + 0.5f, y + 1.75f, 0));
-                return;
             }
-            if (random <= rocksChance)
+            else if (random >= 1f - rocksChance)
             {
                 perlin *= forestTiles.Length - 1;
                 int tileNum = Mathf.RoundToInt(perlin);

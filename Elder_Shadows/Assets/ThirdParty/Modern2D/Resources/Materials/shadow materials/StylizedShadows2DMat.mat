@@ -103,18 +103,18 @@ Material:
     - _SceneLighten: 1
     - _TexturePixelSize: 64
     - _afrigesTex: 0
-    - _blurArea: 0
-    - _blurStrength: 0
+    - _blurArea: 20
+    - _blurStrength: 1
     - _colorMlp: 1
     - _directional: 1
-    - _enableBlur: 0
+    - _enableBlur: 1
     - _fakeRefraction: 0
     - _falloff: 1
     - _falloffByEdges: 1
     - _fastAntyaliasing: 0
     - _onlyRenderIn2DLight: 0
     - _sceneLighten: 0
-    - _shadowBaseAlpha: 0.483
+    - _shadowBaseAlpha: 0.4
     - _shadowFalloff: 15
     - _shadowLeftNarrowing: 0.033
     - _shadowNarrowing: 0.843
@@ -129,7 +129,7 @@ Material:
     m_Colors:
     - _ShadowColor: {r: 0.011480957, g: 0.039897826, b: 0.05660379, a: 0}
     - _ambientColor: {r: 0.011480957, g: 0.039897826, b: 0.05660379, a: 0}
-    - _blurDir: {r: 0, g: 0, b: 0, a: 0}
+    - _blurDir: {r: 1, g: 1, b: 0, a: 0}
     - _colorMlpRGB: {r: 1, g: 1, b: 1, a: 0}
     - _colorMlpScales: {r: 1, g: 1, b: 1, a: 0}
     - _distMinMax: {r: 0.3, g: 4, b: 0, a: 0}

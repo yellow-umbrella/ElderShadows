@@ -181,6 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4a612ee90b09f4792e1058e27800b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  info: {fileID: 11400000, guid: 341be4d243c58214ab310feb8e118dd3, type: 2}
   health: 10
   moveSpeed: 2
   expForKill: 5

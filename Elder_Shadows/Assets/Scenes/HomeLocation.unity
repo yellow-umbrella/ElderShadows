@@ -11336,6 +11336,9 @@ MonoBehaviour:
   - {fileID: 5792414836176843517, guid: 2e51f0a001b9cf746b5f799350b2a303, type: 3}
   - {fileID: 4380414845481937082, guid: 3ea68e1da9c6cf648b0894a4641b6957, type: 3}
   - {fileID: 4380414845481937082, guid: c072789f2304d214a992a8c359742c6a, type: 3}
+  - {fileID: 5792414836176843517, guid: b40265800627c2b48bbab64510469d6e, type: 3}
+  - {fileID: 5792414836176843517, guid: 90e2b6a480a2af44f9cffdb49447c472, type: 3}
+  - {fileID: 5792414836176843517, guid: 4e4bc7eec9ff45449bf195add3517f7a, type: 3}
   spawnLimits: {x: 75, y: 75}
   spawnInternalLimits: {x: 0, y: 0}
   spawnDelay: 0.1

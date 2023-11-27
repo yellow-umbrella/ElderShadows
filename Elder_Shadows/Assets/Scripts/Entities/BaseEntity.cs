@@ -41,8 +41,11 @@ public class BaseEntity : MonoBehaviour, IAttackable
         public IAttackBehavior behavior;
     }
 
+    [SerializeField] private EntityInfoSO info;
     [SerializeField] private int health = 10;
     [SerializeField] private float moveSpeed;
+
+    public string ID { get { return info.id; } }
 
     [Foldout("Drop parameters", true)]
     [SerializeField] private int expForKill = 5;

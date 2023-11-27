@@ -13,5 +13,9 @@ MonoBehaviour:
   m_Name: Potercha
   m_EditorClassIdentifier: 
   <id>k__BackingField: Potercha
-  displayName: 
-  description: 
+  displayName: Potercha
+  description: Poterchas are children, that died shortly after birth. Such children
+    turn into evil spirits only if they aren`t given a name before their death. Poterchas
+    intentionally harm people and can lure them into swamps or deep water at night.
+    They look like children in white robes with empty, dead eyes and hold flames
+    in their hands. Also, poterchas can turn themselves into lights.

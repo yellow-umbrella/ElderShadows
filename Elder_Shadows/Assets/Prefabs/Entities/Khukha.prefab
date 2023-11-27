@@ -122,7 +122,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.88482296, b: 0, a: 1}
+  m_Color: {r: 0.4902042, g: 0.8018868, b: 0.010590916, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -182,8 +182,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info: {fileID: 11400000, guid: 341be4d243c58214ab310feb8e118dd3, type: 2}
-  health: 10
-  moveSpeed: 2
+  health: 20
+  moveSpeed: 3
+  possibleModifiers:
+  - type: 0
+    chance: 0.3
+    modifier: 1.5
   expForKill: 5
   dropItems: []
   damage: 1

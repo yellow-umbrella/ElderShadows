@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: Wolf
   m_EditorClassIdentifier: 
   <id>k__BackingField: Wolf
-  displayName: 
-  description: 
+  displayName: Wolf
+  description: Wolf is a dangerous predator and can attack careless villagers, who
+    venture into the woods. It is an aggressive animal, that will strike you if you
+    come to close to it. Usually, wolves spend their time hunting hares and patrolling
+    their territory.

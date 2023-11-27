@@ -10,25 +10,15 @@ public class PlayerSpawn : MonoBehaviour
 {
     public GameObject player;
     private int AssertPosition;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void MovePlayerOnGrass()
     {
         Vector3Int new_position = new Vector3Int();
         string json = File.ReadAllText(Application.dataPath + "/homeLevel.json");
         string c_json = File.ReadAllText(Application.dataPath + "/homeCollisionsLevel.json");
+        //file with grass tiles
         SpawnData data = JsonUtility.FromJson<SpawnData>(json);
+        //file with lakes and trees
         SpawnData c_data = JsonUtility.FromJson<SpawnData>(c_json);
 
         if(data.poses.Count > 0)

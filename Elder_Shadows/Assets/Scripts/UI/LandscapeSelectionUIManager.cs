@@ -13,23 +13,26 @@ public class LandscapeSelectionUIManager : BaseUIManager
         LoadScene(previousScene);
     }
 
-    public void ChooseLandscapeA()
+    public void ChooseLandscapeA(string input)
     {
         //apply landscape A
+        MapTypeController.landscapeType = input;
         Debug.Log("Landscape A");
         LoadNextScene();
     }
 
-    public void ChooseLandscapeB()
+    public void ChooseLandscapeB(string input)
     {
         //apply landscape B
+        MapTypeController.landscapeType = input;
         Debug.Log("Landscape B");
         LoadNextScene();
     }
 
-    public void ChooseLandscapeC()
+    public void ChooseLandscapeC(string input)
     {
         //apply landscape C
+        MapTypeController.landscapeType = input;
         Debug.Log("Landscape C");
         LoadNextScene();
     }

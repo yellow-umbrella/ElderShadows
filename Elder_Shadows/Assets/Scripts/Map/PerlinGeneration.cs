@@ -15,8 +15,6 @@ public class PerlinGeneration : MonoBehaviour
     public TileBase[] waterTiles;
     public GameObject[] forestVegetation;
     public GameObject[] forestRocks;
-    
-    //public GameObject[] desertVegetation;
 
     public float perlin;
     public float scale;
@@ -35,12 +33,14 @@ public class PerlinGeneration : MonoBehaviour
     private List<Vector3> posList = new List<Vector3>();
     private MapManager mapManager;
     private PlayerSpawn pSpawn;
-    private bool firstCheck = false;
+    private HomeSpawn homeSpawn;
+    //private bool firstCheck = false;
 
     private void Awake() 
     {
         mapManager = GetComponent<MapManager>();
         pSpawn = GetComponent<PlayerSpawn>();
+        homeSpawn = GetComponent<HomeSpawn>();
     }
 
     private void Start()
@@ -49,6 +49,7 @@ public class PerlinGeneration : MonoBehaviour
         GenerateWorld();
 
         pSpawn.MovePlayerOnGrass();
+        homeSpawn.spawnHome();
     }
 
     public void GenerateWorld()

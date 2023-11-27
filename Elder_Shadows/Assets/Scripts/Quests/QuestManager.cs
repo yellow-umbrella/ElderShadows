@@ -108,6 +108,15 @@ public class QuestManager : MonoBehaviour
         quest.state = state;
         onQuestStateChange?.Invoke(quest);
     }
+    
+    public event Action<string, int, QuestStepState> onQuestStepStateChange;
+    public void ChangeQuestStepState(string questId, int stepIndex, QuestStepState questStepState)
+    {
+        Quest quest = GetQuestById(questId);
+        quest.StoreQuestStepState(questStepState, stepIndex);
+        ChangeQuestState(questId, quest.state);
+        onQuestStepStateChange?.Invoke(questId, stepIndex, questStepState);
+    }
 
     public event Action<string> onFinishQuest;
     public void FinishQuest(string id)
@@ -162,7 +171,7 @@ public class QuestManager : MonoBehaviour
                 string serializedData = File.ReadAllText(path);
                 Debug.Log("Loading quest with id: " + questInfo.id + ": " + serializedData);
                 QuestData questData = JsonUtility.FromJson<QuestData>(serializedData);
-                quest = new Quest(questInfo, questData.state, questData.questStepIndex);
+                quest = new Quest(questInfo, questData.state, questData.questStepIndex, questData.questStepStates);
             } else
             {
                 quest = new Quest(questInfo);

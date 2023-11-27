@@ -19,9 +19,22 @@ public class CollectQuestStep : QuestStep
     {
         // TODO check what amount of this item has player
         // amountCollected = Player.instance.ItemCount(itemToCollect.id);
+        // UpdateState()
         if (amountCollected >= amountToCollect)
         {
             FinishQuestStep();
         }
+    }
+
+    private void UpdateState()
+    {
+        string state = amountCollected.ToString();
+        ChangeState(state);
+    }
+
+    protected override void SetQuestStepState(string state)
+    {
+        this.amountCollected = System.Int32.Parse(state);
+        UpdateState();
     }
 }

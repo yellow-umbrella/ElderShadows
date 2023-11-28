@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dec11e0c68e78474f9dcd8df8b0f9ffd, type: 3}
+  m_Name: Mavka
+  m_EditorClassIdentifier: 
+  <id>k__BackingField: Mavka
+  displayName: Mavka
+  description: 'Mavkas usually form from the souls of dead girls. They remember nothing
+    from their life but still have longing for love. It is the reason why adult mavkas
+    try to seduce men. But they usually end up luring them into a dense forest and
+    killing them.
+
+    
+
+    Mavkas like to play with each other, dance and sing
+    songs together. They look like beautiful young girls with hair of different colors.
+    Mavkas usually wear white dresses and wreaths from forest flowers. The most expressive
+    feature distinguishing them from humans is their torn back so that you can see
+    their ribs, guts and heart.'

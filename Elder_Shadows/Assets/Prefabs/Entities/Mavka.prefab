@@ -60,8 +60,8 @@ GameObject:
   - component: {fileID: 5792414836176843517}
   - component: {fileID: 3690292537189368024}
   - component: {fileID: 5930382753387479}
-  m_Layer: 9
-  m_Name: Wolf
+  m_Layer: 10
+  m_Name: Mavka
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,27 +97,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4a612ee90b09f4792e1058e27800b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  info: {fileID: 11400000, guid: 88139212435d68b45abb39bdc5e8736d, type: 2}
-  health: 80
-  moveSpeed: 2
+  info: {fileID: 11400000, guid: 51ffacb191c238f45b13d83287335b52, type: 2}
+  health: 120
+  moveSpeed: 1
   possibleModifiers:
   - type: 1
-    chance: 0.3
+    chance: 0.4
     modifier: 1.5
   expForKill: 5
   dropItems: []
-  damage: 15
-  attackCooldown: 1
+  damage: 20
+  attackCooldown: 2
   attackRange: {fileID: 880465719648579546}
   seeingRange: {fileID: 8728303751395186868}
   reactionMask:
   - intrudersMask:
       serializedVersion: 2
-      m_Bits: 3584
+      m_Bits: 3840
     behavior: 1
   - intrudersMask:
       serializedVersion: 2
-      m_Bits: 4352
+      m_Bits: 4096
     behavior: 0
   reactionToPlayer: 0
   reactionToTrustedPlayer: 1
@@ -178,7 +178,7 @@ GameObject:
   - component: {fileID: 5792414836558830139}
   - component: {fileID: 5792414836558830138}
   m_Layer: 0
-  m_Name: WolfVisuals
+  m_Name: MavkaVisuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -241,7 +241,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.6415094, g: 0.20323262, b: 0, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.045179844, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

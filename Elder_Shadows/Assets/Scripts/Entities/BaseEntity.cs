@@ -13,6 +13,37 @@ public class BaseEntity : MonoBehaviour, IAttackable
     public event EventHandler OnDeath;
     public event Action OnReachedEndOfPath;
 
+    public enum ModifierType
+    {
+        Health,
+        Damage,
+        Speed
+    }
+
+    [System.Serializable]
+    private struct Modifier
+    {
+        public ModifierType type;
+        public float chance;
+        public float modifier;
+
+        public void Apply(BaseEntity entity)
+        {
+            switch (type)
+            {
+                case ModifierType.Health:
+                    entity.health = (int)(entity.health * modifier);
+                    break;
+                case ModifierType.Damage:
+                    entity.damage = (int)(entity.damage * modifier);
+                    break;
+                case ModifierType.Speed:
+                    entity.moveSpeed = entity.moveSpeed * modifier;
+                    break;
+            }
+        }
+    }
+
     public enum Behavior
     {
         Aggressive = 0,
@@ -41,13 +72,18 @@ public class BaseEntity : MonoBehaviour, IAttackable
         public IAttackBehavior behavior;
     }
 
+    [SerializeField] private EntityInfoSO info;
     [SerializeField] private int health = 10;
     [SerializeField] private float moveSpeed;
+
+    [SerializeField] private List<Modifier> possibleModifiers;
+
+    public string ID { get { return info.id; } }
 
     [Foldout("Drop parameters", true)]
     [SerializeField] private int expForKill = 5;
     [SerializeField] private List<Item> dropItems = new List<Item>();
-
+    
     public int ExpForKill
     {
         get { return expForKill; }
@@ -104,6 +140,15 @@ public class BaseEntity : MonoBehaviour, IAttackable
     private void Awake()
     {
         seeker = GetComponent<Seeker>();
+
+        foreach (Modifier modifier in possibleModifiers)
+        {
+            float r = Random.value;
+            if (r < modifier.chance)
+            {
+                modifier.Apply(this);
+            }
+        }
 
         matchedBehavior =
             new Dictionary<Behavior, IAttackBehavior>()

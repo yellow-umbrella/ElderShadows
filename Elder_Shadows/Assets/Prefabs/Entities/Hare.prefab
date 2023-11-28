@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.5835519, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -133,8 +133,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4a612ee90b09f4792e1058e27800b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 6
+  info: {fileID: 11400000, guid: e24c990444c58e145bd8527e596bf195, type: 2}
+  health: 30
   moveSpeed: 3
+  possibleModifiers:
+  - type: 2
+    chance: 0.5
+    modifier: 1.5
   expForKill: 5
   dropItems: []
   damage: 1
@@ -152,7 +157,7 @@ MonoBehaviour:
     behavior: 3
   reactionToPlayer: 3
   reactionToTrustedPlayer: 2
-  trustRequired: 0
+  trustRequired: 20
   wanderingRadius: 4
 --- !u!58 &7003251188265073427
 CircleCollider2D:

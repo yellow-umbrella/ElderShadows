@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Elder_Shadows/Assets/Prefabs/Quests/KillWolvesStep.prefab.meta
 guid: d1de4f4413a634c498db5ef35b0b8535
+========
+guid: 50696f3920b1ac746b1640db6774bed7
+>>>>>>>> develop/MapGeneration:Elder_Shadows/Assets/Prefabs/Map/pixel-art-house_1.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

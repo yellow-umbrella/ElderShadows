@@ -7,11 +7,12 @@ TagManager:
   - Item
   - Interactable
   - Shadow
+  - Tree
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - House
   - Water
   - UI
   - Entity
@@ -25,7 +26,7 @@ TagManager:
   - 2DWater
   - Shadows
   - Clouds
-  - 
+  - Trees
   - 
   - 
   - 

@@ -766,13 +766,13 @@ MonoBehaviour:
       - m_Target: {fileID: 769733794}
         m_TargetAssemblyTypeName: LandscapeSelectionUIManager, Assembly-CSharp
         m_MethodName: ChooseLandscapeB
-        m_Mode: 1
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: field
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &319033296
@@ -2048,13 +2048,13 @@ MonoBehaviour:
       - m_Target: {fileID: 769733794}
         m_TargetAssemblyTypeName: LandscapeSelectionUIManager, Assembly-CSharp
         m_MethodName: ChooseLandscapeA
-        m_Mode: 1
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: forest
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1263823904
@@ -3163,13 +3163,13 @@ MonoBehaviour:
       - m_Target: {fileID: 769733794}
         m_TargetAssemblyTypeName: LandscapeSelectionUIManager, Assembly-CSharp
         m_MethodName: ChooseLandscapeC
-        m_Mode: 1
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: mountain
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1928719086

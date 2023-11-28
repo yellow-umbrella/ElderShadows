@@ -89,8 +89,6 @@ public class PerlinGeneration : MonoBehaviour
 
             mapManager.Savelevel();
 
-            
-
             SaveObjects();
         }
 

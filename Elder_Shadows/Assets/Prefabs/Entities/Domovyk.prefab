@@ -172,4 +172,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quests:
   - {fileID: 11400000, guid: 2f410e22fc5ab28448b34935e8aa1db8, type: 2}
+  - {fileID: 11400000, guid: 43d487d31bfea7e49a69e3187e34ff55, type: 2}
   questUI: {fileID: 0}

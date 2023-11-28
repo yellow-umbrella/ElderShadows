@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using MyBox;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CombatController : MonoBehaviour
 {
     public CharacterData characterData;
     public CharacterDataManager dataManager;
     private bool canAttack = true;
+    public UnityEvent<string> onEnemyKilled;
 
     public void TryAttack()
     {
@@ -26,6 +28,7 @@ public class CombatController : MonoBehaviour
             {
                 if (target?.TakeDamage(characterData.phys_dmg, this.gameObject) == IAttackable.State.Dead)
                 {
+                    onEnemyKilled.Invoke(target.ID);
                     dataManager.AddExperience(expForKill);
                 }
                 

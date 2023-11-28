@@ -66,6 +66,33 @@ public class InventoryObject : ScriptableObject
         }
     }
 
+    public bool RemoveItem(Item _item, int amount)
+    {
+        bool result = false;
+        for (int i = 0; i < Container.Items.Length; i++)
+        {
+            if (Container.Items[i].item == _item)
+            {
+                result = Container.Items[i].RemoveAmount(amount);
+            }
+        }
+
+        return result;
+    }
+
+    public int GetAmountOfItem(Item _item)
+    {
+        int result = 0;
+        for (int i = 0; i < Container.Items.Length; i++)
+        {
+            if (Container.Items[i].item == _item)
+            {
+                result = Container.Items[i].amount;
+            }
+        }
+        return result;
+    }
+    
     [ContextMenu("Save")]
     public void Save()
     {
@@ -147,6 +174,24 @@ public class InventorySlot
     public void AddAmount(int value)
     {
         amount += value;
+    }
+
+    public bool RemoveAmount(int value)
+    {
+        if (amount < value)
+        {
+            return false;
+        }
+        else if (amount == value)
+        {
+            UpdateSlot(-1, new Item(), 0);
+            return true;
+        }
+        else
+        {
+            amount -= value;
+            return true;
+        }
     }
     public bool CanPlaceInSlot(ItemObject _item)
     {

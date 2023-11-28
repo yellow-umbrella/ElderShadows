@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 806588766510162148}
   - component: {fileID: 337379116775248798}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: 'tree2_2 : shadowPivot'
   m_TagString: Shadow
   m_Icon: {fileID: 0}
@@ -61,9 +61,9 @@ GameObject:
   - component: {fileID: 8431916158208404683}
   - component: {fileID: 6826958630306558024}
   - component: {fileID: 2081731211555292203}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: tree2_2
-  m_TagString: Untagged
+  m_TagString: Tree
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -224,7 +224,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8352600899707343171}
   - component: {fileID: 5282046967732127755}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: 'tree2_2 : shadow'
   m_TagString: Untagged
   m_Icon: {fileID: 0}

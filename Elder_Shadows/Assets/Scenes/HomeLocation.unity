@@ -940,8 +940,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d8b872e2697e0458ea28c518443741, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  home: {fileID: 1543659976004036670, guid: 1342e2140b867f4458f678294c2c58bc, type: 3}
+  home: {fileID: 1231450657522565720, guid: 50696f3920b1ac746b1640db6774bed7, type: 3}
   player: {fileID: 1774624591}
+  treesLayer:
+    serializedVersion: 2
+    m_Bits: 131072
 --- !u!1 &545580965
 GameObject:
   m_ObjectHideFlags: 0

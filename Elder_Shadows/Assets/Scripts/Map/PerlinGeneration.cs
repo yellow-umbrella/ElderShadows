@@ -50,6 +50,9 @@ public class PerlinGeneration : MonoBehaviour
 
         pSpawn.MovePlayerOnGrass();
         homeSpawn.spawnHome();
+        homeSpawn.removeTrees();
+
+
     }
 
     public void GenerateWorld()
@@ -85,6 +88,9 @@ public class PerlinGeneration : MonoBehaviour
             }
 
             mapManager.Savelevel();
+
+            
+
             SaveObjects();
         }
 
@@ -107,7 +113,7 @@ public class PerlinGeneration : MonoBehaviour
                 tileMap.SetTile(new Vector3Int(x, y, 0), forestTiles[tileNum]);
                 GameObject plant = (GameObject)Instantiate(forestVegetation[rand_val], new Vector3(x + 0.5f, y + 1.75f, 0), Quaternion.identity);
                 plant.transform.parent = transform;
-                plant.layer = 3;
+                plant.layer = 17;
 
                 objectList.Add(forestVegetation[rand_val]);
                 posList.Add(new Vector3(x + 0.5f, y + 1.75f, 0));
@@ -122,7 +128,7 @@ public class PerlinGeneration : MonoBehaviour
                 GameObject plant = (GameObject)Instantiate(forestRocks[rand_val], new Vector3(x + 0.5f, y + 1.75f, 0), Quaternion.identity);
                 plant.transform.parent = transform;
 
-                plant.layer = 3;
+                plant.layer = 17;
                 objectList.Add(forestRocks[rand_val]);
                 posList.Add(new Vector3(x + 0.5f, y + 1.75f, 0));
             }

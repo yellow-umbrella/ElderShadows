@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b0e29dfdc66a34d919414022de3e6c, type: 3}
   m_Name: Apple
   m_EditorClassIdentifier: 
-  Id: 0
   uiDisplay: {fileID: 21300000, guid: da7129ed6a246f048a49d8d97de2d2d4, type: 3}
+  stackable: 1
   type: 0
   description: Thanx, mother nature!
-  buffs: []
+  data:
+    Name: Apple
+    Id: 0
+    buffs: []

@@ -12,13 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10082f9562d96e8439e63d0a19f24ee8, type: 3}
   m_Name: Sword 1
   m_EditorClassIdentifier: 
-  Id: 3
-  uiDisplay: {fileID: 871815484178006130, guid: d07b803c54ae9fb4ebfc1e8a13b12f4c,
-    type: 3}
-  type: 1
+  uiDisplay: {fileID: 21300000, guid: 2ddf0348701148a4d8a7c6a0f7f146b3, type: 3}
+  stackable: 0
+  type: 2
   description: A sword for slashing and stabbing.
-  buffs:
-  - attribute: 2
-    value: 0
-    min: 1
-    max: 20
+  data:
+    Name: Wooden Sword
+    Id: 1
+    buffs:
+    - attribute: 2
+      value: 5
+      min: 3
+      max: 8
+    - attribute: 0
+      value: 10
+      min: 5
+      max: 15

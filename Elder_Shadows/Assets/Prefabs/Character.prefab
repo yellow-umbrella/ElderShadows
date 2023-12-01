@@ -44,6 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd9299f94bca94f87b7b9af898075ae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onEnemyKilled:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &89118702188190196
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,6 +122,7 @@ GameObject:
   - component: {fileID: 89118702975312304}
   - component: {fileID: 89118702975311951}
   - component: {fileID: 4522818091462498975}
+  - component: {fileID: 1910819510770149724}
   m_Layer: 7
   m_Name: Character
   m_TagString: Untagged
@@ -210,8 +214,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   joystick: {fileID: 0}
   combat: {fileID: 89118701004640922}
-  vision: {fileID: 0}
+  vision: {fileID: 6506103546693818095}
   inventory: {fileID: 11400000, guid: ba391aef18194db419840aa8245becc2, type: 2}
+  equipment: {fileID: 1910819510770149724}
   seeingRange: {fileID: 89118702188190194}
 --- !u!61 &89118702975311951
 BoxCollider2D:
@@ -260,6 +265,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &1910819510770149724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89118702975312307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be9e066774d74f9eb52722ad1266306, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equipment: {fileID: 11400000, guid: a7dc4202f638e4dc691b58a23f197fa7, type: 2}
 --- !u!1 &208599675919298715
 GameObject:
   m_ObjectHideFlags: 0

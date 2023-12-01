@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class QuestStep : MonoBehaviour
 {
     private bool isFinished = false;
-    private string questId;
+    protected string questId;
     private int stepIndex;
 
     public void InitQuestStep(string questId, int stepIndex, string questStepState)
@@ -27,7 +27,7 @@ public abstract class QuestStep : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         QuestManager.instance.onQuestDecline -= QuestManager_onQuestDecline;
     }

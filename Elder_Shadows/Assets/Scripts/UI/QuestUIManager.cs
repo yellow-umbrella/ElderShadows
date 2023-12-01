@@ -66,7 +66,7 @@ public class QuestUIManager : MonoBehaviour
 
     public void QuestDecision(bool decision)
     {
-        HideQuestUI();
+        //HideQuestUI();
         if (decision)
         {
             questPositiveCallback();
@@ -76,7 +76,7 @@ public class QuestUIManager : MonoBehaviour
         }
     }
 
-    private void HideQuestUI()
+    public void HideQuestUI()
     {
         questPanel.SetActive(false);
     }

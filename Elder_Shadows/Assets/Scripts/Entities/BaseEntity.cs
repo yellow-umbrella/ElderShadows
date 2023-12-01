@@ -55,7 +55,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
     [System.Serializable]
     private struct Item
     {
-        public GameObject prefab;
+        public ItemObject itemInfo;
         public float chance;
     }
     
@@ -303,7 +303,9 @@ public class BaseEntity : MonoBehaviour, IAttackable
                 float offset = 1f;
                 Vector2 pos = new Vector2(transform.position.x + Random.Range(-offset, offset), 
                     transform.position.y + Random.Range(-offset, offset));
-                Instantiate(item.prefab, pos, Quaternion.identity);
+                GroundItem groundItem = new GroundItem();
+                groundItem.item = item.itemInfo;
+                Instantiate(groundItem, pos, Quaternion.identity);
             }
         }
     }

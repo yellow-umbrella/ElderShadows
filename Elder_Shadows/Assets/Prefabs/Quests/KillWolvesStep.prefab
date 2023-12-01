@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityToKill: {fileID: 11400000, guid: 88139212435d68b45abb39bdc5e8736d, type: 2}
-  amountToKill: 4
+  amountToKill: 5

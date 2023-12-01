@@ -14,13 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <id>k__BackingField: KillWolvesQuest
   displayName: Protecting villagers from wolves
-  description: 
+  description: Too many wolves have been in the forest as of late, and they are hurting
+    our ships. Can you reduce their number?
   objectives: Kill 4 wolves
-  levelRequirement: 0
-  trustRequirement: 0
+  levelRequirement: 2
+  trustRequirement: -100
   questStepPrefabs:
-  - {fileID: 3363421193532780982, guid: d1de4f4413a634c498db5ef35b0b8535, type: 3}
-  expirients: 0
-  trust: 0
+  - {fileID: 3363421193532780982, guid: cf50f1a59c0a64ce1bda4344d5f924b6, type: 3}
+  experience: 50
+  trust: -5
   money: 0
   items: []

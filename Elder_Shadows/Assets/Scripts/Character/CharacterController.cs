@@ -9,8 +9,8 @@ public class CharacterController : MonoBehaviour, IAttackable
     public static CharacterController instance;
     public Joystick joystick;
     public CharacterData characterData;
-    private CharacterDataManager dataManager;
-    [SerializeField] private CombatController combat;
+    public CharacterDataManager dataManager;
+    [SerializeField] public CombatController combat;
     [SerializeField] private CharacterVisionManager vision;
     
     public InventoryObject inventory;

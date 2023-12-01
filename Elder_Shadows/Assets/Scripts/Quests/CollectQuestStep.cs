@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class CollectQuestStep : QuestStep
 {
@@ -9,20 +11,25 @@ public class CollectQuestStep : QuestStep
 
     int amountCollected = 0;
 
-    private void Update()
+    private void Start()
     {
-        // should be called when inventar changes
-        CheckCollectedItems();
+        QuestManager.instance.onTryFinishQuest += CheckCollectedItems;
     }
 
-    private void CheckCollectedItems()
+    protected override void OnDestroy()
     {
-        // TODO check what amount of this item has player
-        // amountCollected = Player.instance.ItemCount(itemToCollect.id);
-        // UpdateState()
-        if (amountCollected >= amountToCollect)
+        base.OnDestroy();
+        QuestManager.instance.onTryFinishQuest -= CheckCollectedItems;
+    }
+
+    private void CheckCollectedItems(string id)
+    {
+        if (id != questId) return;
+        Item item = new Item(itemToCollect);
+        Debug.Log("Checking collected items: " + CharacterController.instance.inventory.GetAmountOfItem(item));
+        if (CharacterController.instance.inventory.RemoveItem(item, amountToCollect))
         {
-            FinishQuestStep();
+            FinishQuestStep();        
         }
     }
 

@@ -9,8 +9,18 @@ public class KillQuestStep : QuestStep
     [SerializeField] int amountToKill;
 
     int amountKilled = 0;
-    
-    // should be called when entity is killed
+
+    private void Start()
+    {
+        CharacterController.instance.combat.onEnemyKilled.AddListener(CheckKilledEntity);
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        CharacterController.instance.combat.onEnemyKilled.RemoveListener(CheckKilledEntity);
+    }
+
     private void CheckKilledEntity(string id)
     {
         if (entityToKill.id == id)

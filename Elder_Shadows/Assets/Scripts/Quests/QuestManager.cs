@@ -118,11 +118,27 @@ public class QuestManager : MonoBehaviour
         onQuestStepStateChange?.Invoke(questId, stepIndex, questStepState);
     }
 
+    public event Action<string> onTryFinishQuest;
     public event Action<string> onFinishQuest;
-    public void FinishQuest(string id)
+    public bool FinishQuest(string id)
     {
+        Debug.Log("Trying to finish quest " + id);
+        onTryFinishQuest?.Invoke(id);
+        if (GetQuestById(id).state != Quest.QuestState.CAN_FINISH)
+        {
+            return false;
+        }
         ChangeQuestState(id, Quest.QuestState.FINISHED);
+        // give rewards to player
+        QuestInfoSO info = GetQuestById(id).info;
+        foreach (var item in info.items)
+        {
+            CharacterController.instance.inventory.AddItem(new Item(item), 1);
+        }
+        CharacterController.instance.dataManager.AddExperience(info.experience);
+        //CharacterController.instance.dataManager.AddTrust(info.trust);
         onFinishQuest?.Invoke(id);
+        return true;
     }
 
     public event Action<string> onQuestDecline;

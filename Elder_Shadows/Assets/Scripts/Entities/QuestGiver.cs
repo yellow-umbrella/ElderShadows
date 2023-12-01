@@ -57,7 +57,7 @@ public class QuestGiver : MonoBehaviour, IInteractable
         if (activeQuest != null)
         {
             bool canFinish = (activeQuest.state == Quest.QuestState.CAN_FINISH);
-            questUI.DisplayActiveQuest(activeQuest.info, canFinish, DeclineQuest, FinishQuest);
+            questUI.DisplayActiveQuest(activeQuest.info, true, DeclineQuest, FinishQuest);
         } else
         {
             activeQuest = ChooseQuest();
@@ -94,15 +94,18 @@ public class QuestGiver : MonoBehaviour, IInteractable
     public void AcceptQuest()
     {
         QuestManager.instance.StartQuest(activeQuest.info.id);
+        questUI.HideQuestUI();
         Debug.Log("Player accepted quest: " + activeQuest.info.displayName);
     }
     
     public void FinishQuest()
     {
-        // TODO give rewards to player
-        Debug.Log("Player finished quest: " + activeQuest.info.displayName);
-        QuestManager.instance.FinishQuest(activeQuest.info.id);
-        activeQuest = null;
+        if (QuestManager.instance.FinishQuest(activeQuest.info.id))
+        {
+            Debug.Log("Player finished quest: " + activeQuest.info.displayName);
+            activeQuest = null;
+            questUI.HideQuestUI();
+        }
     }
 
     public void DeclineQuest()
@@ -111,6 +114,7 @@ public class QuestGiver : MonoBehaviour, IInteractable
         Debug.Log("Player declined quest: " + activeQuest.info.displayName);
         activeQuest = null;
         onActiveQuestStateChange(Quest.QuestState.REQUIREMENTS_NOT_MET);
+        questUI.HideQuestUI();
     }
 
     public void Interact()

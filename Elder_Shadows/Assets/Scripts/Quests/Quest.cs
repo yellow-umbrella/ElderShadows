@@ -46,8 +46,9 @@ public class Quest
 
     public bool IsMetRequirements()
     {
-        // TODO check player level and trust
-        return true;
+        bool req = CharacterController.instance.dataManager.GetLevel() >= info.levelRequirement; 
+        //    && CharacterController.instance.dataManager.GetTrust() >= info.trustRequirement;
+        return req;
     }
 
     public void MoveToNextStep()

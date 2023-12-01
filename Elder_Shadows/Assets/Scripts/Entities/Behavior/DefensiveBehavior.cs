@@ -25,7 +25,7 @@ public class DefensiveBehavior : IAttackBehavior
     {
         if (state == State.Attacking)
         {
-            if (target != null)
+            if (target != null && entity.CanSee(target))
             {
                 if (!entity.TryAttack(target))
                 {

@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Chuhayster
+  m_text: Human
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 02777873cb0a34ebf84306d5b8c26b0e, type: 2}
   m_sharedMaterial: {fileID: 4512634479946160611, guid: 02777873cb0a34ebf84306d5b8c26b0e, type: 2}
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 6975968780678056510}
   - component: {fileID: 4948182763159934232}
   m_Layer: 0
-  m_Name: ChuhaysterVisuals
+  m_Name: HumanVisuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -344,10 +344,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3450506199153538698}
-  - component: {fileID: 8015215162052185891}
   - component: {fileID: 3725251023713965889}
+  - component: {fileID: 8015215162052185891}
   m_Layer: 0
-  m_Name: Chuhayster
+  m_Name: Human
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -369,23 +369,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8015215162052185891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5374774086696083251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a955b128b7f01bf41894fb2cf43fbdac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  quests:
-  - {fileID: 11400000, guid: 64848036269bd3a489716df73d89d6dd, type: 2}
-  - {fileID: 11400000, guid: d2f0f2ba68389c74d931d54905f5d1b2, type: 2}
-  - {fileID: 11400000, guid: af12d2e02960ba34a9e4b30945bba004, type: 2}
-  questUI: {fileID: 0}
 --- !u!61 &3725251023713965889
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -412,3 +395,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &8015215162052185891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5374774086696083251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a955b128b7f01bf41894fb2cf43fbdac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quests:
+  - {fileID: 11400000, guid: 43d487d31bfea7e49a69e3187e34ff55, type: 2}
+  - {fileID: 11400000, guid: 149ee117c05a46e46840338cbb704709, type: 2}
+  - {fileID: 11400000, guid: 6cc0debbda6da514386c7f8d76b71ea0, type: 2}
+  questUI: {fileID: 0}

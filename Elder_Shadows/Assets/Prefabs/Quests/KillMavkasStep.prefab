@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6611180184262680978}
   - component: {fileID: 2242575817505244082}
   m_Layer: 0
-  m_Name: KillWolvesStep
+  m_Name: KillMavkasStep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ab9438758773fb4cabe0ee3ad8328da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityToKill: {fileID: 11400000, guid: 88139212435d68b45abb39bdc5e8736d, type: 2}
-  amountToKill: 5
+  entityToKill: {fileID: 11400000, guid: 51ffacb191c238f45b13d83287335b52, type: 2}
+  amountToKill: 3

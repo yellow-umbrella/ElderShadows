@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2089608651d156d42bff265b228e3532, type: 3}
-  m_Name: CollectMintQuest
+  m_Name: CollectApplesQuest
   m_EditorClassIdentifier: 
-  <id>k__BackingField: CollectMintQuest
-  displayName: Herbal tea for Domovyk
-  description: I want to make some mint tea, but unfortunately, I have no leaves
-    left. Can you please find some and bring them to me?
-  objectives: Bring 5 bundles of mint leaves to Domovyk
+  <id>k__BackingField: CollectApplesQuest
+  displayName: Apples for Chuhayster
+  description: I want to taste those sweet fruits, that you, humans, grow. I think
+    they are called apples. Can you please find some and bring them to me?
+  objectives: Bring 5 apples to Chuhayster
   levelRequirement: 0
   trustRequirement: 0
   questStepPrefabs:
-  - {fileID: 3391708655479069009, guid: 0efa92d376b8bff4aa0da1e73143473e, type: 3}
+  - {fileID: 3391708655479069009, guid: d8cbd4c6797f7a845bf9d7d10abf4cbc, type: 3}
   experience: 10
   trust: 5
   money: 0

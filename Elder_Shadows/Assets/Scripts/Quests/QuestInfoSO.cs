@@ -24,10 +24,10 @@ public class QuestInfoSO : ScriptableObject
     public GameObject[] questStepPrefabs;
 
     [Foldout("Rewards", true)]
-    public int expirients;
+    public int experience;
     public int trust;
     public int money;
-    public GameObject[] items;
+    public ItemObject[] items;
 
     private void OnValidate()
     {

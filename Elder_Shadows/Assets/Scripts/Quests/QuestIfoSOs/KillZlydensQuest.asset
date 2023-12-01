@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2089608651d156d42bff265b228e3532, type: 3}
-  m_Name: CollectMintQuest
+  m_Name: KillZlydensQuest
   m_EditorClassIdentifier: 
-  <id>k__BackingField: CollectMintQuest
-  displayName: Herbal tea for Domovyk
-  description: I want to make some mint tea, but unfortunately, I have no leaves
-    left. Can you please find some and bring them to me?
-  objectives: Bring 5 bundles of mint leaves to Domovyk
-  levelRequirement: 0
+  <id>k__BackingField: KillZlydensQuest
+  displayName: Annoying zlydens
+  description: I am afraid some zlydens can settle down in our house, as you often
+    cross paths with them in the forest. Can you please prevent it?
+  objectives: Kill 10 zlydens
+  levelRequirement: 2
   trustRequirement: 0
   questStepPrefabs:
-  - {fileID: 3391708655479069009, guid: 0efa92d376b8bff4aa0da1e73143473e, type: 3}
-  experience: 10
-  trust: 5
+  - {fileID: 3363421193532780982, guid: f43e169e2bc328145adde0e241d6f457, type: 3}
+  experience: 60
+  trust: 0
   money: 0
   items: []

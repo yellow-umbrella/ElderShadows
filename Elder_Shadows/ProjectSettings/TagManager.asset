@@ -8,6 +8,7 @@ TagManager:
   - Interactable
   - Shadow
   - Tree
+  - Character
   layers:
   - Default
   - TransparentFX

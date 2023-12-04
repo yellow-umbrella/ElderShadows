@@ -20,7 +20,7 @@ MonoBehaviour:
     - AllowedItems: 
       item:
         Name: Sword 1
-        Id: 1
+        Id: 2
         buffs:
         - attribute: 2
           value: 4
@@ -39,10 +39,10 @@ MonoBehaviour:
       amount: 1
     - AllowedItems: 
       item:
-        Name: 
-        Id: -1
+        Name: Hare Meat
+        Id: 1
         buffs: []
-      amount: 0
+      amount: 7
     - AllowedItems: 
       item:
         Name: 

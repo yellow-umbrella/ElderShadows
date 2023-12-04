@@ -44,7 +44,7 @@ MonoBehaviour:
     - AllowedItems: 02000000
       item:
         Name: Sword 1
-        Id: 1
+        Id: 2
         buffs:
         - attribute: 2
           value: 4

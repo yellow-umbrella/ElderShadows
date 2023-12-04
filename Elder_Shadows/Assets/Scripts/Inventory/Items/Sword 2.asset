@@ -12,13 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10082f9562d96e8439e63d0a19f24ee8, type: 3}
   m_Name: Sword 2
   m_EditorClassIdentifier: 
-  Id: 4
-  uiDisplay: {fileID: -6763620941933801878, guid: d07b803c54ae9fb4ebfc1e8a13b12f4c,
-    type: 3}
-  type: 1
-  description: A sword for slashing and stabbing.
-  buffs:
-  - attribute: 3
-    value: 0
-    min: 5
-    max: 50
+  uiDisplay: {fileID: 21300000, guid: 8f28955d92038974a9b04aafaeea79b0, type: 3}
+  stackable: 0
+  type: 2
+  description: Its a slightly cooler sword.
+  data:
+    Name: Iron Sword
+    Id: 3
+    buffs:
+    - attribute: 0
+      value: 12
+      min: 8
+      max: 16
+    - attribute: 2
+      value: 7
+      min: 5
+      max: 10

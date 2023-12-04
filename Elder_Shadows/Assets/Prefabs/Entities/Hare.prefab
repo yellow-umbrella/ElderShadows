@@ -378,7 +378,9 @@ MonoBehaviour:
     chance: 0.5
     modifier: 1.5
   expForKill: 5
-  dropItems: []
+  dropItems:
+  - itemInfo: {fileID: 11400000, guid: c31b655fbf7ed47c88755c08dab402b9, type: 2}
+    chance: 1
   damage: 1
   attackCooldown: 3
   attackRange: {fileID: 5112880757809269999}

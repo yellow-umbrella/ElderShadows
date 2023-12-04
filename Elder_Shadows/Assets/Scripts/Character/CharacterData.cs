@@ -78,6 +78,10 @@ public class CharacterDataManager
             expDifference = (int)(expDifference * expDiffMultiplier); 
             expDiffMultiplier = Mathf.Pow(expDiffMultiplier, xpMultiplierBalancer);
             SetupAttributes();
+            
+            CharacterBarsUIManager.instance.UpdateExpBar(expDifference, data.experience);
+            CharacterBarsUIManager.instance.UpdateHealthBar(data.max_health, data.current_health);
+            CharacterBarsUIManager.instance.UpdateManaBar(data.max_mana, data.current_mana);
         }
     }
 
@@ -96,7 +100,7 @@ public class CharacterDataManager
 
         data.movespeed = 3f + data.agility * 0.025f;
         data.evasion = Mathf.Clamp(data.agility * 0.005f, 0, 0.8f);
-        data.atk_spd = Mathf.Clamp(25 / data.agility, 1.25f, 0.25f);
+        data.atk_spd = Mathf.Clamp(25 / data.agility, 0.25f, 1.25f);
     }
 
     //set value to negative to reduce attribute
@@ -150,11 +154,13 @@ public class CharacterDataManager
     public void DealDamage(float damage)
     {
         data.current_health -= damage;
+        CharacterBarsUIManager.instance.UpdateHealthBar(data.max_health, data.current_health);
     }
     
     public bool AddExperience(int xp)
     {
         data.experience += xp;
+        CharacterBarsUIManager.instance.UpdateExpBar(expDifference, data.experience);
         if (data.experience >= (prevExpNeeded + expDifference))
         {
             data.level++;
@@ -178,14 +184,28 @@ public class CharacterDataManager
             case "Strength":
                 data.strength++;
                 data.statpoints--;
+                
+                data.max_health += 10;
+                data.phys_dmg++;
+                data.hregen += 0.05f;
+                data.phys_res++;
                 break;
             case "Agility":
                 data.agility++;
                 data.statpoints--;
+                
+                data.movespeed += 0.025f;
+                data.evasion = Mathf.Clamp(data.evasion + 0.005f, 0, 0.8f);
+                data.atk_spd = Mathf.Clamp(data.atk_spd + 25 / 1, 0.25f, 1.25f);
                 break;
             case "Inteligence":
                 data.inteligence++;
                 data.statpoints--;
+                
+                data.max_mana += 10;
+                data.magic_dmg++;
+                data.mregen += 0.025f;
+                data.magic_res++;
                 break;
         }
     }

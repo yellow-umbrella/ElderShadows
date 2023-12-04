@@ -187,6 +187,10 @@ public class BaseEntity : MonoBehaviour, IAttackable
             idleBehavior.Behave();
         }
         MoveOnPath();
+        /*if (this.gameObject.tag != "Untagged")
+        {
+            Die();
+        }*/
     }
 
     private void FixedUpdate()
@@ -303,7 +307,8 @@ public class BaseEntity : MonoBehaviour, IAttackable
                 float offset = 1f;
                 Vector2 pos = new Vector2(transform.position.x + Random.Range(-offset, offset), 
                     transform.position.y + Random.Range(-offset, offset));
-                GroundItem groundItem = new GroundItem();
+                GroundItem groundItem = new GameObject().AddComponent<GroundItem>();
+                groundItem.gameObject.AddComponent<SpriteRenderer>();
                 groundItem.item = item.itemInfo;
                 Instantiate(groundItem, pos, Quaternion.identity);
             }

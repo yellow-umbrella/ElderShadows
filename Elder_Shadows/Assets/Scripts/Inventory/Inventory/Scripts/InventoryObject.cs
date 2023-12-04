@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Runtime.CompilerServices;
 using UnityEditor;
 using System.Runtime.Serialization;
 
@@ -84,6 +86,45 @@ public class InventoryObject : ScriptableObject
             item2.UpdateSlot(item1.item, item1.amount);
             item1.UpdateSlot(temp.item, temp.amount);
         }
+    }
+
+    public int GetAmountOfItem(Item item)
+    {
+        for (int i = 0; i < GetSlots.Length; i++)
+        {
+            if (item.Id == GetSlots[i].item.Id)
+            {
+                return GetSlots[i].amount;
+            }
+        }
+
+        return 0;
+    }
+
+    public bool RemoveItem(Item item, int value)
+    {
+        for (int i = 0; i < GetSlots.Length; i++)
+        {
+            if (item.Id == GetSlots[i].item.Id)
+            {
+                if (GetSlots[i].amount < value)
+                {
+                    return false;
+                }
+                else if (GetSlots[i].amount == value)
+                {
+                    GetSlots[i].RemoveItem();
+                    return true;
+                }
+                else
+                {
+                    GetSlots[i].amount -= value;
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
     
 

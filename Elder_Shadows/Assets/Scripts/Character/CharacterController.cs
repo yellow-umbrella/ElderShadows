@@ -42,6 +42,7 @@ public class CharacterController : MonoBehaviour, IAttackable
 
     void Update()
     {
+        characterData.current_health += characterData.hregen * Time.deltaTime;
         transform.position += new Vector3(joystick.Horizontal, joystick.Vertical, transform.position.z) * characterData.movespeed * Time.deltaTime;
     }
 
@@ -62,8 +63,16 @@ public class CharacterController : MonoBehaviour, IAttackable
 
     private void Die()
     {
-        Destroy(gameObject);
+        HideCharacter();
+        Time.timeScale = 0f;
+        //Destroy(gameObject);
+        
         Debug.Log("YOU DIED!!!");
+    }
+
+    private void HideCharacter()
+    {
+        
     }
 
     private void OnHit(GameObject attacker)

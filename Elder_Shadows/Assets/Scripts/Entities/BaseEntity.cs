@@ -78,6 +78,11 @@ public class BaseEntity : MonoBehaviour, IAttackable
 
     [SerializeField] private List<Modifier> possibleModifiers;
 
+    public int Health
+    {
+        get { return health; }
+    }
+
     public string ID { get { return info.id; } }
 
     [Foldout("Drop parameters", true)]

@@ -156,6 +156,14 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        foreach (Quest quest in quests.Values)
+        {
+            SaveQuest(quest);
+        }
+    }
+
     private void SaveQuest(Quest quest)
     {
         try
@@ -194,7 +202,7 @@ public class QuestManager : MonoBehaviour
             }
         } catch (Exception e)
         {
-            Debug.LogError("Failed to load quest with id " + quest.info.id + ": " + e);
+            Debug.LogError("Failed to load quest with id " + questInfo.id + ": " + e);
         }
 
         return quest;

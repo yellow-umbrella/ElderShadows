@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-
 using UnityEngine;
 
 public class CharacterController : MonoBehaviour, IAttackable
@@ -15,7 +14,6 @@ public class CharacterController : MonoBehaviour, IAttackable
     
     public InventoryObject inventory;
     public CharacterEquipmentManager equipment;
-    //public MouseItem mouseItem = new MouseItem();
 
     [Header("Vision")]
     private float timeBetweenAggroChecks = 1;
@@ -34,6 +32,10 @@ public class CharacterController : MonoBehaviour, IAttackable
 #else
         characterData = DataBridge.instance.Character_data;
 #endif
+    }
+
+    private void Start()
+    {
         dataManager = new CharacterDataManager(characterData);
         combat.characterData = characterData;
         combat.dataManager = dataManager;

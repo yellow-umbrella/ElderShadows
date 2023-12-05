@@ -11,10 +11,10 @@ public class CharacterData
         strength = 1;
         inteligence = 1;
         agility = 1;
-        max_health = 0;
+        max_health = 10;
         hregen = 0.1f;
         phys_dmg = 0;
-        max_mana = 0;
+        max_mana = 10;
         mregen = 0.1f;
         magic_dmg = 0;
         atk_spd = 1;
@@ -72,13 +72,19 @@ public class CharacterDataManager
     public CharacterDataManager(CharacterData data_)
     {
         data = data_;
-        for (int i = 1; i < data.level; i++)
+        InitializeData();
+    }
+
+    public void InitializeData()
+    {
+        for (int i = 1; i <= data.level; i++)
         {
             prevExpNeeded += expDifference;
             expDifference = (int)(expDifference * expDiffMultiplier); 
             expDiffMultiplier = Mathf.Pow(expDiffMultiplier, xpMultiplierBalancer);
             SetupAttributes();
             
+            Debug.Log("Character Health: " + data.current_health + "/" + data.max_health);
             CharacterBarsUIManager.instance.UpdateExpBar(expDifference, data.experience);
             CharacterBarsUIManager.instance.UpdateHealthBar(data.max_health, data.current_health);
             CharacterBarsUIManager.instance.UpdateManaBar(data.max_mana, data.current_mana);
@@ -110,6 +116,7 @@ public class CharacterDataManager
         {
             case Attributes.MaxHealth:
                 data.max_health += value;
+                data.current_health += value;
                 break;
             case Attributes.HRegen:
                 data.hregen += value;
@@ -122,6 +129,7 @@ public class CharacterDataManager
                 break;
             case Attributes.MaxMana:
                 data.max_mana += value;
+                data.current_mana += value;
                 break;
             case Attributes.Mregen:
                 data.mregen += value;
@@ -142,6 +150,9 @@ public class CharacterDataManager
                 data.atk_range += value;
                 break;
         }
+        
+        CharacterBarsUIManager.instance.UpdateHealthBar(data.max_health, data.current_health);
+        CharacterBarsUIManager.instance.UpdateManaBar(data.max_mana, data.current_mana);
     }
 
     private int GetNewExpDifference()
@@ -160,7 +171,6 @@ public class CharacterDataManager
     public bool AddExperience(int xp)
     {
         data.experience += xp;
-        CharacterBarsUIManager.instance.UpdateExpBar(expDifference, data.experience);
         if (data.experience >= (prevExpNeeded + expDifference))
         {
             data.level++;
@@ -169,6 +179,7 @@ public class CharacterDataManager
             data.statpoints = 1 + (data.level / 5); //Equasion to increase stat points gained over time, the bigger the constant divider the less points will be gained
             return true;
         }
+        CharacterBarsUIManager.instance.UpdateExpBar(expDifference, data.experience);
         return false;
     }
 

@@ -8,7 +8,6 @@ using System.IO;
 
 public class PerlinGeneration : MonoBehaviour
 {
-
     public Tilemap tileMap;
     public Tilemap wallsTileMap; 
     public TileBase[] forestTiles;
@@ -63,7 +62,7 @@ public class PerlinGeneration : MonoBehaviour
             //Object.Destroy(this.gameObject);
 
             mapManager.LoadLevel();
-            Debug.Log("Home map already exists");
+            //Debug.Log("Home map already exists");
 
         }
         else 

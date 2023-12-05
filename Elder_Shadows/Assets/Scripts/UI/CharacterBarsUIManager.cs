@@ -29,19 +29,22 @@ public class CharacterBarsUIManager : MonoBehaviour
 
     public void UpdateHealthBar(float max, float current)
     {
+        Debug.Log("Mana bar is updated: " + current + "/" + max);
         healthbar.value = current / max;
         if (current <= 0)
             current = 0;
-        health.text = current + "/" + max;
+        health.text = (int)current + "/" + (int)max;
     }
     
     public void UpdateManaBar(float max, float current)
     {
+        Debug.Log("Mana bar is updated: " + current + "/" + max);
         manabar.value = current / max;
     }
     
     public void UpdateExpBar(float max, float current)
     {
+        Debug.Log("Exp bar is updated: " + current + "/" + max);
         expbar.value = current / max;
     }
 }

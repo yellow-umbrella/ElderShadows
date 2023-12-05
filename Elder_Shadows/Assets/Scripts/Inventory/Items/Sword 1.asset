@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 21300000, guid: 2ddf0348701148a4d8a7c6a0f7f146b3, type: 3}
   stackable: 0
-  type: 5
+  type: 2
   description: Its a sword.
   data:
     Name: Wooden Sword

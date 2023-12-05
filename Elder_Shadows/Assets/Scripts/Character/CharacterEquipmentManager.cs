@@ -9,10 +9,20 @@ public class CharacterEquipmentManager : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(InitializeEquipment());
         for (int i = 0; i < equipment.GetSlots.Length; i++)
         {
             equipment.GetSlots[i].OnBeforeUpdate += OnBeforeSlotUpdate;
             equipment.GetSlots[i].OnAfterUpdate += OnAfterSlotUpdate;
+        }
+    }
+
+    private IEnumerator InitializeEquipment()
+    {
+        yield return new WaitForEndOfFrame();
+        for (int i = 0; i < equipment.GetSlots.Length; i++)
+        {
+            OnAfterSlotUpdate(equipment.GetSlots[i]);
         }
     }
 
@@ -39,6 +49,7 @@ public class CharacterEquipmentManager : MonoBehaviour
                 break;
         }
     }
+    
     public void OnAfterSlotUpdate(InventorySlot _slot)
     {
         if (_slot.ItemObject == null)

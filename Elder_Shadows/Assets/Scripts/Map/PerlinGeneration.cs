@@ -49,7 +49,6 @@ public class PerlinGeneration : MonoBehaviour
 
         pSpawn.MovePlayerOnGrass();
         homeSpawn.spawnHome();
-        homeSpawn.removeTrees();
 
 
     }
@@ -108,12 +107,12 @@ public class PerlinGeneration : MonoBehaviour
                 int rand_val = Random.Range(0, forestVegetation.Length);
                 
                 tileMap.SetTile(new Vector3Int(x, y, 0), forestTiles[tileNum]);
-                GameObject plant = (GameObject)Instantiate(forestVegetation[rand_val], new Vector3(x + 0.5f, y + 1.75f, 0), Quaternion.identity);
+                GameObject plant = (GameObject)Instantiate(forestVegetation[rand_val], new Vector3(x, y, 0), Quaternion.identity);
                 plant.transform.parent = transform;
                 plant.layer = 17;
 
                 objectList.Add(forestVegetation[rand_val]);
-                posList.Add(new Vector3(x + 0.5f, y + 1.75f, 0));
+                posList.Add(new Vector3(x, y, 0));
             }
             else if (random >= 1f - rocksChance)
             {
@@ -122,12 +121,12 @@ public class PerlinGeneration : MonoBehaviour
                 int rand_val = Random.Range(0, forestRocks.Length);
                 
                 tileMap.SetTile(new Vector3Int(x, y, 0), forestTiles[tileNum]);
-                GameObject plant = (GameObject)Instantiate(forestRocks[rand_val], new Vector3(x + 0.5f, y + 1.75f, 0), Quaternion.identity);
+                GameObject plant = (GameObject)Instantiate(forestRocks[rand_val], new Vector3(x, y, 0), Quaternion.identity);
                 plant.transform.parent = transform;
 
                 plant.layer = 17;
                 objectList.Add(forestRocks[rand_val]);
-                posList.Add(new Vector3(x + 0.5f, y + 1.75f, 0));
+                posList.Add(new Vector3(x, y, 0));
             }
             else
             {

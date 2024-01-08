@@ -19,6 +19,7 @@ public class HomeSpawn : MonoBehaviour
         homeObj.transform.parent = transform;
         homeObj.layer = 3;
 
+        removeTrees();
     }
 
     public void removeTrees()
@@ -29,7 +30,7 @@ public class HomeSpawn : MonoBehaviour
         foreach (Collider2D c in tree_colliders)
         {
             
-            //Debug.Log("Tree" + c.transform.position);
+            Debug.Log("Tree" + c.transform.position);
             Destroy(c.gameObject);
             
         }

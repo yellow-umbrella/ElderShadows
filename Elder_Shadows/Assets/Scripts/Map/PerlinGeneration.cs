@@ -33,11 +33,13 @@ public class PerlinGeneration : MonoBehaviour
     private MapManager mapManager;
     private PlayerSpawn pSpawn;
     private HomeSpawn homeSpawn;
+    private MapObject mapObject;
     //private bool firstCheck = false;
 
     private void Awake() 
     {
         mapManager = GetComponent<MapManager>();
+        mapObject = GetComponent<MapObject>();
         pSpawn = GetComponent<PlayerSpawn>();
         homeSpawn = GetComponent<HomeSpawn>();
     }
@@ -47,9 +49,9 @@ public class PerlinGeneration : MonoBehaviour
         seed = Random.Range(0f, 100000f);
         GenerateWorld();
 
+        // add code to save players last location
         pSpawn.MovePlayerOnGrass();
-        homeSpawn.spawnHome();
-
+        
 
     }
 
@@ -57,8 +59,6 @@ public class PerlinGeneration : MonoBehaviour
     {
         if (File.Exists(Application.dataPath + "/homeObjects.json") && File.Exists(Application.dataPath + "/homeLevel.json") && File.Exists(Application.dataPath + "/homeCollisionsLevel.json"))
         {
-
-            //Object.Destroy(this.gameObject);
 
             mapManager.LoadLevel();
             //Debug.Log("Home map already exists");
@@ -87,7 +87,13 @@ public class PerlinGeneration : MonoBehaviour
 
             mapManager.Savelevel();
 
-            SaveObjects();
+            pSpawn.MovePlayerOnGrass();
+
+            mapManager.SaveLevelObjects(objectList, posList);
+            
+            homeSpawn.spawnHome();
+
+            mapManager.UpdateLevelObjects();
         }
 
     }
@@ -157,23 +163,6 @@ public class PerlinGeneration : MonoBehaviour
 
         }
 
-    }
-
-    public void SaveObjects() 
-    {
-        
-        if (!File.Exists(Application.dataPath + "/homeObjects.json"))
-        {
-            MapObjects mapObjects = new MapObjects(objectList, posList);
-
-            string json = JsonUtility.ToJson(mapObjects, true);
-            File.WriteAllText(Application.dataPath + "/homeObjects.json", json);
-            //Debug.Log("Objects were saved");
-        }
-        else
-        {
-            //Debug.Log("Objects were not saved");
-        }
     }
 
 }

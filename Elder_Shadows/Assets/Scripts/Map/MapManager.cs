@@ -7,19 +7,24 @@ using System.IO;
 
 public class LevelData
 {
-    public List<TileBase> tiles = new List<TileBase>();
+    public List<string> tiles = new List<string>();
     public List<Vector3Int> poses = new List<Vector3Int>();
 }
 
 public class MapManager : MonoBehaviour
 {
     public static MapManager instance;
+    public List<CustomTile> tiles = new List<CustomTile> ();
+
+    private MapObject mapObject;
 
 
     private void Awake()
     {
         if (instance == null) instance = this;
         else Destroy(this);
+
+        mapObject = GetComponent<MapObject>();
     }
 
     
@@ -52,13 +57,13 @@ public class MapManager : MonoBehaviour
             {
                 
                 TileBase temp = tilemap.GetTile(new Vector3Int(x, y, 0));
-                
+                CustomTile tempTile = tiles.Find(t => t.tile == temp);
 
                 
-                if (temp != null)
+                if (tempTile != null)
                 {
                     //add the values to the leveldata
-                    mapData.tiles.Add(temp);
+                    mapData.tiles.Add(tempTile.id);
                     mapData.poses.Add(new Vector3Int(x, y, 0));
                 }
             }
@@ -70,11 +75,12 @@ public class MapManager : MonoBehaviour
             {
                 
                 TileBase c_temp = collisions.GetTile(new Vector3Int(x, y, 0));
-                
-                if (c_temp != null)
+                CustomTile tempTile = tiles.Find(t => t.tile == c_temp);
+
+                if (tempTile != null)
                 {
                     
-                    collisionsData.tiles.Add(c_temp);
+                    collisionsData.tiles.Add(tempTile.id);
                     collisionsData.poses.Add(new Vector3Int(x, y, 0));
                 }
             }
@@ -88,6 +94,43 @@ public class MapManager : MonoBehaviour
 
         
         //Debug.Log("Level was saved");
+    }
+
+    public void SaveLevelObjects(List<GameObject> gameObject, List<Vector3> position) 
+    {
+        if (!File.Exists(Application.dataPath + "/homeObjects.json"))
+        {
+            MapObjects mapObjects = new MapObjects(gameObject, position);
+
+            string json = JsonUtility.ToJson(mapObjects, true);
+            File.WriteAllText(Application.dataPath + "/homeObjects.json", json);
+            //Debug.Log("Objects were saved");
+        }
+        else
+        {
+            //Debug.Log("Objects were not saved");
+        }
+    }
+
+    public void UpdateLevelObjects() 
+    {
+        GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+        List<GameObject> gameObject = new List<GameObject>();
+        List<Vector3> position = new List<Vector3>();
+
+        foreach (GameObject go in allObjects)
+        {
+            if (go.tag == "Tree")
+            {
+                gameObject.Add(go);
+                position.Add(go.transform.position);
+
+                print(go + " is a tree");
+            }
+                
+        }
+
+        
     }
 
     public void LoadLevel()
@@ -108,18 +151,18 @@ public class MapManager : MonoBehaviour
         //place the tiles
         for (int i = 0; i < data.tiles.Count; i++)
         {
-            tilemap.SetTile(data.poses[i], data.tiles[i]);
+            tilemap.SetTile(data.poses[i], tiles.Find(t => t.id == data.tiles[i]).tile);
         }
         for (int i = 0; i < c_data.tiles.Count; i++)
         {
-            collisions.SetTile(c_data.poses[i], c_data.tiles[i]);
+            collisions.SetTile(c_data.poses[i], tiles.Find(t => t.id == c_data.tiles[i]).tile);
         }
         for (int i = 0; i < o_data.gameObject.Count; i++) 
         {
             GameObject plant = (GameObject)Instantiate(o_data.gameObject[i], o_data.position[i], Quaternion.identity);
             plant.transform.parent = transform;
 
-            plant.layer = 3;
+            plant.layer = 17;
         }
 
             

@@ -35,4 +35,9 @@ public class HomeSpawn : MonoBehaviour
             
         }
     }
+
+    public Vector3 getHomePosition()
+    {
+        return home.transform.position;
+    }
 }

@@ -51,8 +51,8 @@ public class PerlinGeneration : MonoBehaviour
 
         // add code to save players last location
         pSpawn.MovePlayerOnGrass();
-        
 
+        mapManager.SaveLevelObjects();
     }
 
     public void GenerateWorld()
@@ -88,13 +88,10 @@ public class PerlinGeneration : MonoBehaviour
             mapManager.Savelevel();
 
             pSpawn.MovePlayerOnGrass();
-
-            mapManager.SaveLevelObjects(objectList, posList);
-            mapManager.UpdateLevelObjects();
-
             homeSpawn.spawnHome();
 
-            mapManager.UpdateLevelObjects();
+            //mapManager.SaveLevelObjects(objectList, posList);
+            mapManager.SaveLevelObjects();
         }
 
     }

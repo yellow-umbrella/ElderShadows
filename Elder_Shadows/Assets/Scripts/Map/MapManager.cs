@@ -45,8 +45,8 @@ public class MapManager : MonoBehaviour
         //if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A)) Savelevel();
         //load level when pressing Ctrl + L
         //if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.L)) LoadLevel();
-        //save level when pressing Ctrl + U
-        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A)) UpdateLevelObjects();
+        //save level when pressing Ctrl + A
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A)) SaveLevelObjects();
     }
 
     public void Savelevel()
@@ -105,69 +105,9 @@ public class MapManager : MonoBehaviour
         //Debug.Log("Level was saved");
     }
 
-    //junk
-    /*
-    public void SaveObjects() 
+    // new save objects method
+    public void SaveLevelObjects() 
     {
-        //string json = JsonUtility.ToJson(mapData, true);
-        //File.WriteAllText(Application.dataPath + "/homeLevel.json", json);
-        /////
-
-        GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
-        List<GameObject> gameObject = new List<GameObject>();
-        List<Vector3> position = new List<Vector3>();
-
-        LevelObject levelObject = new LevelObject();
-
-        if(allObjects != null)
-        {
-            foreach (GameObject go in allObjects)
-            {
-                if (go.tag == "Tree")
-                {
-
-                    //gameObject.Add(go);
-                    //position.Add(go.transform.position);
-
-                    levelObject.objects.Add(go);
-                    levelObject.poses.Add(go.transform.position);
-
-                    Debug.Log(go + " is a tree");
-                }
-
-            }
-        }
-        
-    }
-    */
-
-    public void LoadObjects() 
-    {
-    
-    }
-
-    public void SaveLevelObjects(List<GameObject> gameObject, List<Vector3> position) 
-    {
-        if (!File.Exists(Application.dataPath + "/homeObjects.json"))
-        {
-            MapObjects mapObjects = new MapObjects(gameObject, position);
-
-            string json = JsonUtility.ToJson(mapObjects, true);
-            File.WriteAllText(Application.dataPath + "/homeObjects.json", json);
-            //Debug.Log("Objects were saved");
-        }
-        else
-        {
-            //Debug.Log("Objects were not saved");
-        }
-    }
-
-    public void UpdateLevelObjects() 
-    {
-        Debug.Log("LevelUpdateStrated");
-
-        ////////
-
         GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
         List<GameObject> gameObject = new List<GameObject>();
         List<Vector3> position = new List<Vector3>();
@@ -178,13 +118,9 @@ public class MapManager : MonoBehaviour
         {
             foreach (GameObject go in allObjects)
             {
-                if (go.tag == "Tree")
+                if (go.tag == "Tree" || go.tag == "House")
                 {
-                    Debug.Log(go.name + " " + objects[0].gobject.name);
-
                     CustomGameObject tempObject = objects.Find(o => o.gobject.name + "(Clone)" == go.name);
- 
-                    Debug.Log(tempObject );
 
                     levelObject.objects.Add(tempObject.id);
                     levelObject.poses.Add(Vector3Int.FloorToInt(go.transform.position));
@@ -194,8 +130,35 @@ public class MapManager : MonoBehaviour
         }
 
         string json = JsonUtility.ToJson(levelObject, true);
-        File.WriteAllText(Application.dataPath + "/homeObjects01.json", json);
+        File.WriteAllText(Application.dataPath + "/homeObjects.json", json);
         Debug.Log("LevelUpdateEnded");
+    }
+
+    public void ClearLevelObjects(string go_tag) 
+    {
+        GameObject[] gos;
+        gos = GameObject.FindGameObjectsWithTag(go_tag);
+
+        foreach (GameObject go in gos)
+        {
+            Destroy(go.gameObject);
+        }
+    }
+
+    public void LoadObjects()
+    {
+        string json = File.ReadAllText(Application.dataPath + "/homeObjects.json");
+        LevelObject o_data = JsonUtility.FromJson<LevelObject>(json);
+
+        ClearLevelObjects("Tree");
+
+        for (int i = 0; i < o_data.objects.Count; i++)
+        {
+            GameObject plant = (GameObject)Instantiate(objects.Find(o => o.id == o_data.objects[i]).gobject, o_data.poses[i], Quaternion.identity);
+            plant.transform.parent = transform;
+
+            plant.layer = 17;
+        }
     }
 
     public void LoadLevel()
@@ -203,11 +166,9 @@ public class MapManager : MonoBehaviour
         //load the json file to a leveldata
         string json = File.ReadAllText(Application.dataPath + "/homeLevel.json");
         string c_json = File.ReadAllText(Application.dataPath + "/homeCollisionsLevel.json");
-        string o_json = File.ReadAllText(Application.dataPath + "/homeObjects.json");
 
         LevelData data = JsonUtility.FromJson<LevelData>(json);
         LevelData c_data = JsonUtility.FromJson<LevelData>(c_json);
-        MapObjects o_data = JsonUtility.FromJson<MapObjects>(o_json);
 
         //clear the tilemap
         tilemap.ClearAllTiles();
@@ -222,16 +183,22 @@ public class MapManager : MonoBehaviour
         {
             collisions.SetTile(c_data.poses[i], tiles.Find(t => t.id == c_data.tiles[i]).tile);
         }
-        for (int i = 0; i < o_data.gameObject.Count; i++) 
+
+        LoadObjects();
+    }
+
+    public void DeleteLevelObject(GameObject go)
+    {
+        string json = File.ReadAllText(Application.dataPath + "/homeObjects.json");
+        LevelObject o_data = JsonUtility.FromJson<LevelObject>(json);
+
+        foreach(Vector3Int pos in o_data.poses) 
         {
-            GameObject plant = (GameObject)Instantiate(o_data.gameObject[i], o_data.position[i], Quaternion.identity);
-            plant.transform.parent = transform;
-
-            plant.layer = 17;
+            if (pos == Vector3Int.FloorToInt(go.transform.position))
+            {
+                Debug.Log(pos + " deleted");
+            }
         }
-
-            
-            //Debug.Log("Level was loaded");
     }
 }
 

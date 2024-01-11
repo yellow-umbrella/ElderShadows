@@ -9,6 +9,7 @@ TagManager:
   - Shadow
   - Tree
   - Character
+  - House
   layers:
   - Default
   - TransparentFX

@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5907648999310635317}
   - component: {fileID: 6612660197520176456}
   - component: {fileID: -4213666264517253451}
-  m_Layer: 3
+  m_Layer: 17
   m_Name: pixel-art-house_1
-  m_TagString: Untagged
+  m_TagString: House
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

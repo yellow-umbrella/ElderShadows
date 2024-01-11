@@ -29,9 +29,12 @@ public class HomeSpawn : MonoBehaviour
 
         foreach (Collider2D c in tree_colliders)
         {
+            if(c.gameObject.tag == "Tree") 
+            {
+                Debug.Log("Tree" + c.transform.position + " " + c.gameObject.transform.position);
+                Destroy(c.gameObject);
+            }
             
-            Debug.Log("Tree" + c.transform.position);
-            Destroy(c.gameObject);
             
         }
     }

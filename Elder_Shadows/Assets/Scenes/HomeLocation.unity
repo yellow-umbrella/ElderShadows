@@ -978,6 +978,17 @@ MonoBehaviour:
   tiles:
   - {fileID: 11400000, guid: 6dead7fe950d24349bad34de07377ae3, type: 2}
   - {fileID: 11400000, guid: b5692925fd7360045ac8635297ac2a32, type: 2}
+  objects:
+  - {fileID: 11400000, guid: 8263ed63a48f1ca48801544207d70a50, type: 2}
+  - {fileID: 11400000, guid: 867718303ee8ef742b18f08a5df657c3, type: 2}
+  - {fileID: 11400000, guid: f5ebf0ec31c559b44993751500a02374, type: 2}
+  - {fileID: 11400000, guid: 92f8d62e2bc8f1e419f39bacdd2680cf, type: 2}
+  - {fileID: 11400000, guid: 03986f10e346e8c4d9e95df53c5f941e, type: 2}
+  - {fileID: 11400000, guid: df27ed28a97ac8642883075d291449e8, type: 2}
+  - {fileID: 11400000, guid: 1fa102f0d9e08c14bb4e3fd095642885, type: 2}
+  - {fileID: 11400000, guid: ec9643e32ec30be4b935c2eed33bbb1f, type: 2}
+  - {fileID: 11400000, guid: eebc19fa033a55547a98cf5d7dc7dfef, type: 2}
+  - {fileID: 11400000, guid: c477aac5eecba7a43bf6a926a843f8e3, type: 2}
   tilemap: {fileID: 862576976}
   collisions: {fileID: 1013516756}
 --- !u!114 &331398648

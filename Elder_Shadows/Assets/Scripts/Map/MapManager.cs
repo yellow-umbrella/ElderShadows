@@ -11,10 +11,17 @@ public class LevelData
     public List<Vector3Int> poses = new List<Vector3Int>();
 }
 
+public class LevelObject 
+{
+    public List<string> objects = new List<string>();
+    public List<Vector3Int> poses = new List<Vector3Int>();
+}
+
 public class MapManager : MonoBehaviour
 {
     public static MapManager instance;
     public List<CustomTile> tiles = new List<CustomTile> ();
+    public List<CustomGameObject> objects = new List<CustomGameObject>();
 
     private MapObject mapObject;
 
@@ -38,11 +45,13 @@ public class MapManager : MonoBehaviour
         //if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A)) Savelevel();
         //load level when pressing Ctrl + L
         //if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.L)) LoadLevel();
+        //save level when pressing Ctrl + U
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A)) UpdateLevelObjects();
     }
 
     public void Savelevel()
     {
-        //get the bounds of the tilemap
+        //get the bounds of the tilemap...
         BoundsInt bounds = tilemap.cellBounds;
         BoundsInt c_bounds = collisions.cellBounds;
 
@@ -96,6 +105,47 @@ public class MapManager : MonoBehaviour
         //Debug.Log("Level was saved");
     }
 
+    //junk
+    /*
+    public void SaveObjects() 
+    {
+        //string json = JsonUtility.ToJson(mapData, true);
+        //File.WriteAllText(Application.dataPath + "/homeLevel.json", json);
+        /////
+
+        GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+        List<GameObject> gameObject = new List<GameObject>();
+        List<Vector3> position = new List<Vector3>();
+
+        LevelObject levelObject = new LevelObject();
+
+        if(allObjects != null)
+        {
+            foreach (GameObject go in allObjects)
+            {
+                if (go.tag == "Tree")
+                {
+
+                    //gameObject.Add(go);
+                    //position.Add(go.transform.position);
+
+                    levelObject.objects.Add(go);
+                    levelObject.poses.Add(go.transform.position);
+
+                    Debug.Log(go + " is a tree");
+                }
+
+            }
+        }
+        
+    }
+    */
+
+    public void LoadObjects() 
+    {
+    
+    }
+
     public void SaveLevelObjects(List<GameObject> gameObject, List<Vector3> position) 
     {
         if (!File.Exists(Application.dataPath + "/homeObjects.json"))
@@ -114,23 +164,38 @@ public class MapManager : MonoBehaviour
 
     public void UpdateLevelObjects() 
     {
+        Debug.Log("LevelUpdateStrated");
+
+        ////////
+
         GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
         List<GameObject> gameObject = new List<GameObject>();
         List<Vector3> position = new List<Vector3>();
 
-        foreach (GameObject go in allObjects)
-        {
-            if (go.tag == "Tree")
-            {
-                gameObject.Add(go);
-                position.Add(go.transform.position);
+        LevelObject levelObject = new LevelObject();
 
-                print(go + " is a tree");
+        if (allObjects != null)
+        {
+            foreach (GameObject go in allObjects)
+            {
+                if (go.tag == "Tree")
+                {
+                    Debug.Log(go.name + " " + objects[0].gobject.name);
+
+                    CustomGameObject tempObject = objects.Find(o => o.gobject.name + "(Clone)" == go.name);
+ 
+                    Debug.Log(tempObject );
+
+                    levelObject.objects.Add(tempObject.id);
+                    levelObject.poses.Add(Vector3Int.FloorToInt(go.transform.position));
+                }
+
             }
-                
         }
 
-        
+        string json = JsonUtility.ToJson(levelObject, true);
+        File.WriteAllText(Application.dataPath + "/homeObjects01.json", json);
+        Debug.Log("LevelUpdateEnded");
     }
 
     public void LoadLevel()

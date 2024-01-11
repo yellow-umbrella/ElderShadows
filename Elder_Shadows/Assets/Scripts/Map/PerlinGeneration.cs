@@ -90,7 +90,8 @@ public class PerlinGeneration : MonoBehaviour
             pSpawn.MovePlayerOnGrass();
 
             mapManager.SaveLevelObjects(objectList, posList);
-            
+            mapManager.UpdateLevelObjects();
+
             homeSpawn.spawnHome();
 
             mapManager.UpdateLevelObjects();

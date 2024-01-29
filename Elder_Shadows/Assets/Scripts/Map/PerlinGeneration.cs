@@ -12,6 +12,8 @@ public class PerlinGeneration : MonoBehaviour
     public Tilemap wallsTileMap; 
     public TileBase[] forestTiles;
     public TileBase[] waterTiles;
+    public TileBase moutainTile;
+    public TileBase mountainWaterTile;
     public GameObject[] forestVegetation;
     public GameObject[] forestRocks;
 
@@ -52,12 +54,12 @@ public class PerlinGeneration : MonoBehaviour
         // add code to save players last location
         pSpawn.MovePlayerOnGrass();
 
-        mapManager.SaveLevelObjects();
+        mapManager.Savelevel();
     }
 
     public void GenerateWorld()
     {
-        if (File.Exists(Application.dataPath + "/homeObjects.json") && File.Exists(Application.dataPath + "/homeLevel.json") && File.Exists(Application.dataPath + "/homeCollisionsLevel.json"))
+        if (File.Exists(Application.persistentDataPath + "/map/home_floor.json") && File.Exists(Application.persistentDataPath + "/map/home_walls.json") && File.Exists(Application.persistentDataPath + "/map/home_objects.json"))
         {
 
             mapManager.LoadLevel();
@@ -75,10 +77,11 @@ public class PerlinGeneration : MonoBehaviour
                     float xCoord = xOffset + x / width * scale + seed;
                     float yCoord = yOffset + y / height * scale + seed;
 
-                    float rainfall = Mathf.PerlinNoise(xCoord, yCoord);
-                    float temperature = Mathf.PerlinNoise(xCoord, yCoord);
+                    float humidity = Mathf.PerlinNoise(xCoord, yCoord);
+                    //float temperature = Mathf.PerlinNoise(xCoord, yCoord);
+                    float altitude = Mathf.PerlinNoise(xCoord, yCoord);
 
-                    GenerateTile(x, y, temperature, rainfall);
+                    GenerateTile(x, y, humidity, altitude);
 
 
                 }
@@ -90,26 +93,29 @@ public class PerlinGeneration : MonoBehaviour
             pSpawn.MovePlayerOnGrass();
             homeSpawn.spawnHome();
 
-            //mapManager.SaveLevelObjects(objectList, posList);
             mapManager.Invoke("SaveLevelObjects", 1);
         }
 
     }
 
-    void GenerateTile(int x, int y, float temperature, float rainFall)
+    void GenerateTile(int x, int y, float humidity, float altitude)
     {
+        float humidityNum = 0.85f;
+        float altitudeNum = 0.75f;
+
         perlin = Mathf.PerlinNoise(x + Random.value, y + Random.value);
 
         float random = Random.Range(0f, 1f);
 
-        if (temperature <= 0.75f && rainFall >= 0.25f || temperature > 0.75f && rainFall >= 0.25f)
+        if (humidity < humidityNum && altitude < altitudeNum)
         {
+            //grass
             if (random <= vegetationChance)
             {
                 perlin *= forestTiles.Length - 1;
                 int tileNum = Mathf.RoundToInt(perlin);
                 int rand_val = Random.Range(0, forestVegetation.Length);
-                
+
                 tileMap.SetTile(new Vector3Int(x, y, 0), forestTiles[tileNum]);
                 GameObject plant = (GameObject)Instantiate(forestVegetation[rand_val], new Vector3(x, y, 0), Quaternion.identity);
                 plant.transform.parent = transform;
@@ -123,7 +129,7 @@ public class PerlinGeneration : MonoBehaviour
                 perlin *= forestTiles.Length - 1;
                 int tileNum = Mathf.RoundToInt(perlin);
                 int rand_val = Random.Range(0, forestRocks.Length);
-                
+
                 tileMap.SetTile(new Vector3Int(x, y, 0), forestTiles[tileNum]);
                 GameObject plant = (GameObject)Instantiate(forestRocks[rand_val], new Vector3(x, y, 0), Quaternion.identity);
                 plant.transform.parent = transform;
@@ -141,24 +147,22 @@ public class PerlinGeneration : MonoBehaviour
             }
 
         }
-        else if (temperature > 0.75f && rainFall < 0.25f || temperature <= 0.75f && rainFall < 0.25f)
+        else if (humidity >= humidityNum && altitude < altitudeNum)
         {
-            //vegetationChance = 0.015f;
-            float foo = 0.015f;
-            
-            if (random <= foo)
-            {
-                perlin *= waterTiles.Length - 1;
-                int tileNum = Mathf.RoundToInt(perlin);
-                wallsTileMap.SetTile(new Vector3Int(x, y, 0), waterTiles[tileNum]);
-            }
-            else
-            {
-                perlin *= waterTiles.Length - 1;
-                int tileNum = Mathf.RoundToInt(perlin);
-                wallsTileMap.SetTile(new Vector3Int(x, y, 0), waterTiles[tileNum]);
-            }
-
+            //water
+            perlin *= waterTiles.Length - 1;
+            int tileNum = Mathf.RoundToInt(perlin);
+            wallsTileMap.SetTile(new Vector3Int(x, y, 0), waterTiles[tileNum]);
+        }
+        else if (humidity < humidityNum && altitude >= altitudeNum)
+        {
+            //rock
+            tileMap.SetTile(new Vector3Int(x, y, 0), moutainTile);
+        }
+        else if (humidity >= humidityNum && altitude >= altitudeNum) 
+        {
+            //mountaine lake
+            wallsTileMap.SetTile(new Vector3Int(x, y, 0), mountainWaterTile);
         }
 
     }

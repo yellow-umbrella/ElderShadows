@@ -19,11 +19,17 @@ public class LevelObject
 
 public class MapManager : MonoBehaviour
 {
+    public const string HOME_MAP_PATH = "/map";
+    public const string HOME_MAP_FLOOR_PATH = "/home_floor.json";
+    public const string HOME_MAP_WALLS_PATH = "/home_walls.json";
+    public const string HOME_MAP_OBJECTS_PATH = "/home_objects.json";
+
     public static MapManager instance;
     public List<CustomTile> tiles = new List<CustomTile> ();
     public List<CustomGameObject> objects = new List<CustomGameObject>();
 
     private MapObject mapObject;
+    
 
 
     private void Awake()
@@ -32,6 +38,13 @@ public class MapManager : MonoBehaviour
         else Destroy(this);
 
         mapObject = GetComponent<MapObject>();
+
+        
+    }
+
+    private void Start()
+    {
+        
     }
 
     
@@ -46,7 +59,7 @@ public class MapManager : MonoBehaviour
         //load level when pressing Ctrl + L
         //if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.L)) LoadLevel();
         //save level when pressing Ctrl + A
-        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A)) SaveLevelObjects();
+        //if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A)) SaveLevelObjects();
     }
 
     public void Savelevel()
@@ -95,13 +108,32 @@ public class MapManager : MonoBehaviour
             }
         }
 
-        
+        SaveLevelObjects();
+
         string json = JsonUtility.ToJson(mapData, true);
         string c_json = JsonUtility.ToJson(collisionsData, true);
-        File.WriteAllText(Application.dataPath + "/homeLevel.json", json);
-        File.WriteAllText(Application.dataPath + "/homeCollisionsLevel.json", c_json);
+        //File.WriteAllText(Application.dataPath + "/homeLevel.json", json);
+        //File.WriteAllText(Application.dataPath + "/homeCollisionsLevel.json", c_json);
 
+        try
+        {
+            string map_path = Application.persistentDataPath + HOME_MAP_PATH;
+
+            if (!Directory.Exists(map_path))
+            {
+                Directory.CreateDirectory(map_path);
+            }
+
+            File.WriteAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_FLOOR_PATH, json);
+            File.WriteAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_WALLS_PATH, c_json);
+        }
+        catch
+        {
+            Debug.Log("Map directory not found");
+        }
         
+
+
         //Debug.Log("Level was saved");
     }
 
@@ -128,10 +160,26 @@ public class MapManager : MonoBehaviour
 
             }
         }
+        try
+        {
+            string map_path = Application.persistentDataPath + HOME_MAP_PATH;
+            string json = JsonUtility.ToJson(levelObject, true);
 
-        string json = JsonUtility.ToJson(levelObject, true);
-        File.WriteAllText(Application.dataPath + "/homeObjects.json", json);
-        Debug.Log("LevelUpdateEnded");
+            if (!Directory.Exists(map_path))
+            {
+                Directory.CreateDirectory(map_path);
+            }
+
+            File.WriteAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_OBJECTS_PATH, json);
+            Debug.Log("Objects save ended");
+        }
+        catch
+        {
+            Debug.Log("Map directory not found");
+        }
+        
+
+        
     }
 
     public void ClearLevelObjects(string go_tag) 
@@ -147,7 +195,8 @@ public class MapManager : MonoBehaviour
 
     public void LoadObjects()
     {
-        string json = File.ReadAllText(Application.dataPath + "/homeObjects.json");
+        //string json = File.ReadAllText(Application.dataPath + "/homeObjects.json");
+        string json = File.ReadAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_OBJECTS_PATH);
         LevelObject o_data = JsonUtility.FromJson<LevelObject>(json);
 
         ClearLevelObjects("Tree");
@@ -164,8 +213,11 @@ public class MapManager : MonoBehaviour
     public void LoadLevel()
     {
         //load the json file to a leveldata
-        string json = File.ReadAllText(Application.dataPath + "/homeLevel.json");
-        string c_json = File.ReadAllText(Application.dataPath + "/homeCollisionsLevel.json");
+        //string json = File.ReadAllText(Application.dataPath + "/homeLevel.json");
+        //string c_json = File.ReadAllText(Application.dataPath + "/homeCollisionsLevel.json");
+
+        string json = File.ReadAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_FLOOR_PATH);
+        string c_json = File.ReadAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_WALLS_PATH);
 
         LevelData data = JsonUtility.FromJson<LevelData>(json);
         LevelData c_data = JsonUtility.FromJson<LevelData>(c_json);
@@ -185,20 +237,6 @@ public class MapManager : MonoBehaviour
         }
 
         LoadObjects();
-    }
-
-    public void DeleteLevelObject(GameObject go)
-    {
-        string json = File.ReadAllText(Application.dataPath + "/homeObjects.json");
-        LevelObject o_data = JsonUtility.FromJson<LevelObject>(json);
-
-        foreach(Vector3Int pos in o_data.poses) 
-        {
-            if (pos == Vector3Int.FloorToInt(go.transform.position))
-            {
-                Debug.Log(pos + " deleted");
-            }
-        }
     }
 }
 

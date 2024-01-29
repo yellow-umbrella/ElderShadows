@@ -14,12 +14,10 @@ public class PlayerSpawn : MonoBehaviour
     public void MovePlayerOnGrass()
     {
         Vector3Int spawn_position = new Vector3Int();
-        string json = File.ReadAllText(Application.dataPath + "/homeLevel.json");
-        string c_json = File.ReadAllText(Application.dataPath + "/homeCollisionsLevel.json");
+        string json = File.ReadAllText(Application.persistentDataPath + "/map/home_floor.json");
+        
         //file with grass tiles
         SpawnData data = JsonUtility.FromJson<SpawnData>(json);
-        //file with lakes and trees
-        SpawnData c_data = JsonUtility.FromJson<SpawnData>(c_json);
 
         if(data.poses.Count > 0)
         {

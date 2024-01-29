@@ -91,7 +91,7 @@ public class PerlinGeneration : MonoBehaviour
             homeSpawn.spawnHome();
 
             //mapManager.SaveLevelObjects(objectList, posList);
-            mapManager.SaveLevelObjects();
+            mapManager.Invoke("SaveLevelObjects", 1);
         }
 
     }

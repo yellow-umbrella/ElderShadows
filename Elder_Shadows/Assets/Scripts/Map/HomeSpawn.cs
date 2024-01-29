@@ -26,7 +26,7 @@ public class HomeSpawn : MonoBehaviour
 
     public void removeTrees()
     {
-        Collider2D[] tree_colliders = Physics2D.OverlapCircleAll(player.transform.position, 6f, treesLayer);
+        Collider2D[] tree_colliders = Physics2D.OverlapCircleAll(player.transform.position, 4f, treesLayer);
         //List<GameObject> treesList = new List<GameObject>();
 
         foreach (Collider2D c in tree_colliders)

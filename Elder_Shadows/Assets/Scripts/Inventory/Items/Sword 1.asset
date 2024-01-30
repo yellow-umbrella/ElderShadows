@@ -18,7 +18,7 @@ MonoBehaviour:
   description: Its a sword.
   data:
     Name: Wooden Sword
-    Id: 2
+    Id: 3
     buffs:
     - attribute: 2
       value: 5

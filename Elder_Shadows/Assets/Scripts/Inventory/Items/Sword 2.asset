@@ -18,7 +18,7 @@ MonoBehaviour:
   description: Its a slightly cooler sword.
   data:
     Name: Iron Sword
-    Id: 3
+    Id: 4
     buffs:
     - attribute: 0
       value: 12

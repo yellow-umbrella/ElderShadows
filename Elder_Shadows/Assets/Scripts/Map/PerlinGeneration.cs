@@ -77,9 +77,12 @@ public class PerlinGeneration : MonoBehaviour
                     float xCoord = xOffset + x / width * scale + seed;
                     float yCoord = yOffset + y / height * scale + seed;
 
+                    float xCoord_a = xOffset + x / width * scale + seed+100000f;
+                    float yCoord_a = yOffset + y / height * scale + seed+100000f;
+
                     float humidity = Mathf.PerlinNoise(xCoord, yCoord);
                     //float temperature = Mathf.PerlinNoise(xCoord, yCoord);
-                    float altitude = Mathf.PerlinNoise(xCoord, yCoord);
+                    float altitude = Mathf.PerlinNoise(xCoord_a, yCoord_a);
 
                     GenerateTile(x, y, humidity, altitude);
 
@@ -100,8 +103,8 @@ public class PerlinGeneration : MonoBehaviour
 
     void GenerateTile(int x, int y, float humidity, float altitude)
     {
-        float humidityNum = 0.85f;
-        float altitudeNum = 0.75f;
+        float humidityNum = 0.65f;
+        float altitudeNum = 0.65f;
 
         perlin = Mathf.PerlinNoise(x + Random.value, y + Random.value);
 
@@ -147,7 +150,7 @@ public class PerlinGeneration : MonoBehaviour
             }
 
         }
-        else if (humidity >= humidityNum && altitude < altitudeNum)
+        else if (humidity >= humidityNum && altitude < altitudeNum || humidity >= humidityNum && altitude >= altitudeNum)
         {
             //water
             perlin *= waterTiles.Length - 1;
@@ -159,11 +162,11 @@ public class PerlinGeneration : MonoBehaviour
             //rock
             tileMap.SetTile(new Vector3Int(x, y, 0), moutainTile);
         }
-        else if (humidity >= humidityNum && altitude >= altitudeNum) 
+        /*else if (humidity >= humidityNum && altitude >= altitudeNum) 
         {
             //mountaine lake
             wallsTileMap.SetTile(new Vector3Int(x, y, 0), mountainWaterTile);
-        }
+        }*/
 
     }
 

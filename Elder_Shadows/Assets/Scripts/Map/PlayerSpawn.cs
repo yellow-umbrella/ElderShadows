@@ -28,7 +28,24 @@ public class PlayerSpawn : MonoBehaviour
         player.transform.position = spawn_position;
 
     }
+
+    public void isPlayerOnGrass() 
+    {
+        string json = File.ReadAllText(Application.persistentDataPath + "/map/home_floor.json");
+
+        //file with grass tiles
+        SpawnData data = JsonUtility.FromJson<SpawnData>(json);
+
+        foreach(var pose in data.poses)
+        {
+            if(pose == player.transform.position) 
+            {
+                Debug.Log("Player is on grass");
+            }
+        }
+    }
 }
+
 public class SpawnData
 {
     public List<TileBase> tiles = new List<TileBase>();

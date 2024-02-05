@@ -150,6 +150,11 @@ public class PerlinGeneration : MonoBehaviour
             }
 
         }
+        else if (humidity < humidityNum && altitude >= altitudeNum)
+        {
+            //rock
+            wallsTileMap.SetTile(new Vector3Int(x, y, 0), moutainTile);
+        }
         else if (humidity >= humidityNum && altitude < altitudeNum || humidity >= humidityNum && altitude >= altitudeNum)
         {
             //water
@@ -157,11 +162,7 @@ public class PerlinGeneration : MonoBehaviour
             int tileNum = Mathf.RoundToInt(perlin);
             wallsTileMap.SetTile(new Vector3Int(x, y, 0), waterTiles[tileNum]);
         }
-        else if (humidity < humidityNum && altitude >= altitudeNum)
-        {
-            //rock
-            tileMap.SetTile(new Vector3Int(x, y, 0), moutainTile);
-        }
+        
         /*else if (humidity >= humidityNum && altitude >= altitudeNum) 
         {
             //mountaine lake

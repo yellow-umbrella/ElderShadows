@@ -43,18 +43,10 @@ MonoBehaviour:
       amount: 0
     - AllowedItems: 02000000
       item:
-        Name: Sword 1
-        Id: 2
-        buffs:
-        - attribute: 2
-          value: 4
-          min: 3
-          max: 8
-        - attribute: 0
-          value: 13
-          min: 5
-          max: 15
-      amount: 1
+        Name: 
+        Id: -1
+        buffs: []
+      amount: 0
     - AllowedItems: 02000000
       item:
         Name: 

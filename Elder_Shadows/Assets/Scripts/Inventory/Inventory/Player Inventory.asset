@@ -19,17 +19,15 @@ MonoBehaviour:
     Slots:
     - AllowedItems: 
       item:
-        Name: Sword 1
-        Id: 2
-        buffs:
-        - attribute: 2
-          value: 4
-          min: 3
-          max: 8
-        - attribute: 0
-          value: 13
-          min: 5
-          max: 15
+        Name: Shield
+        Id: 3
+        buffs: []
+      amount: 1
+    - AllowedItems: 
+      item:
+        Name: Sword
+        Id: 3
+        buffs: []
       amount: 1
     - AllowedItems: 
       item:
@@ -39,34 +37,28 @@ MonoBehaviour:
       amount: 1
     - AllowedItems: 
       item:
+        Name: Sword
+        Id: 3
+        buffs: []
+      amount: 1
+    - AllowedItems: 
+      item:
+        Name: Shield
+        Id: 2
+        buffs: []
+      amount: 1
+    - AllowedItems: 
+      item:
+        Name: 
+        Id: -1
+        buffs: []
+      amount: 0
+    - AllowedItems: 
+      item:
         Name: Hare Meat
         Id: 1
         buffs: []
       amount: 7
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
-    - AllowedItems: 
-      item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
     - AllowedItems: 
       item:
         Name: 

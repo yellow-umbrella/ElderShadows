@@ -9,7 +9,6 @@ using System;
 
 public abstract class UserInterface : MonoBehaviour
 {
-
     public InventoryObject inventory;
     public Dictionary<GameObject, InventorySlot> slotsOnInterface = new Dictionary<GameObject, InventorySlot>();
     void Start()
@@ -29,14 +28,14 @@ public abstract class UserInterface : MonoBehaviour
     {
         if (_slot.item.Id >= 0)
         {
-            _slot.slotDisplay.transform.GetChild(0).GetComponentInChildren<Image>().sprite = _slot.ItemObject.uiDisplay;
-            _slot.slotDisplay.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
+            _slot.slotDisplay.transform.Find("Image").GetComponentInChildren<Image>().sprite = _slot.ItemObject.uiDisplay;
+            _slot.slotDisplay.transform.Find("Image").GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
             _slot.slotDisplay.GetComponentInChildren<TextMeshProUGUI>().text = _slot.amount == 1 ? "" : _slot.amount.ToString("n0");
         }
         else
         {
-            _slot.slotDisplay.transform.GetChild(0).GetComponentInChildren<Image>().sprite = null;
-            _slot.slotDisplay.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0);
+            _slot.slotDisplay.transform.Find("Image").GetComponentInChildren<Image>().sprite = null;
+            _slot.slotDisplay.transform.Find("Image").GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0);
             _slot.slotDisplay.GetComponentInChildren<TextMeshProUGUI>().text = "";
         }
     }
@@ -64,6 +63,51 @@ public abstract class UserInterface : MonoBehaviour
     public void OnExit(GameObject obj)
     {
         MouseData.slotHoveredOver = null;
+    }
+    
+    float clicked = 0;
+    float clicktime = 0;
+    float clickdelay = 0.33f;
+
+    public void OnDown(GameObject obj)
+    {
+        ClosePreviousDescription();
+    }
+
+    public void OnUp(GameObject obj)
+    {
+        if (Time.time - clicktime > clickdelay)
+        {
+            clicked = 0;
+        }
+        
+        clicked++;
+
+        if (clicked == 1)
+        {
+            clicktime = Time.time;
+        
+            if (MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver].ItemObject)
+            {
+                SetNewActiveSlot(obj);
+            }
+        }
+
+        if (clicked > 1 && Time.time - clicktime < clickdelay)
+        {
+            clicked = 0;
+            clicktime = 0;
+        
+            if (MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver].ItemObject)
+            {
+                UpdateDescription(obj);
+                OpenDescription(obj);
+            }
+        }
+        else if (clicked > 2 || Time.time - clicktime > clickdelay)
+        {
+            clicked = 0;
+        }
     }
     public void OnEnterInterface(GameObject obj)
     {
@@ -105,6 +149,7 @@ public abstract class UserInterface : MonoBehaviour
         {
             InventorySlot mouseHoverSlotData = MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver];
             inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
+            SetNewActiveSlot(MouseData.slotHoveredOver);
         }
     }
     public void OnDrag(GameObject obj)
@@ -114,12 +159,50 @@ public abstract class UserInterface : MonoBehaviour
     }
 
 
+    
+    
+    private void SetNewActiveSlot(GameObject obj)
+    {
+        if (MouseData.activeSlot != null)
+        {
+            MouseData.activeSlot.transform.Find("ActiveFrame").gameObject.SetActive(false);
+        }
+        MouseData.activeSlot = obj;
+        obj.transform.Find("ActiveFrame").gameObject.SetActive(true);
+    }
+    
+    private void OpenDescription(GameObject obj)
+    {
+        ClosePreviousDescription();
+        MouseData.activeDescription = obj;
+        obj.transform.Find("DescriptionBox").GetComponent<ItemDescriptionManager>().OpenDescription();
+    }
+
+    private void ClosePreviousDescription()
+    {
+        if (MouseData.activeDescription != null)
+        {
+            MouseData.activeDescription.transform.Find("DescriptionBox").gameObject.SetActive(false);
+        }
+    }
+
+    private void UpdateDescription(GameObject obj)
+    {
+        InventorySlot slotData = MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.activeSlot];
+
+        obj.transform.Find("DescriptionBox").Find("Description").Find("ItemName").GetComponent<TextMeshProUGUI>().text = 
+            slotData.ItemObject.name;
+        obj.transform.Find("DescriptionBox").Find("Description").Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = 
+            slotData.ItemObject.description;
+    }
 }
 public static class MouseData
 {
     public static UserInterface interfaceMouseIsOver;
     public static GameObject tempItemBeingDragged;
     public static GameObject slotHoveredOver;
+    public static GameObject activeSlot;
+    public static GameObject activeDescription;
 }
 
 

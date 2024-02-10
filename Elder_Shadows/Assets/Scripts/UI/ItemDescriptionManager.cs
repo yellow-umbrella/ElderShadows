@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ItemDescriptionManager : MonoBehaviour
 {
+    public InventorySlot inventorySlot;
+
     private GameObject descriptionObj;
     private RectTransform descriptionObjRT;
     private float availableWidth = Screen.width, availableHeight = Screen.height;
@@ -25,7 +29,13 @@ public class ItemDescriptionManager : MonoBehaviour
         gameObject.SetActive(true);
         AlignPosition();
     }
-
+    
+    public void UpdateDescription()
+    {
+        transform.Find("Description").Find("ItemName").GetComponent<TextMeshProUGUI>().text = inventorySlot.ItemObject.name;
+        transform.Find("Description").Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = inventorySlot.ItemObject.description;
+    }
+    
     private void AlignPosition()
     {
         if (descriptionObj.transform.position.x > availableWidth && descriptionObj.transform.position.y <= availableHeight)

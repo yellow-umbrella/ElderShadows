@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2089608651d156d42bff265b228e3532, type: 3}
-  m_Name: CollectFlowersQuest
+  m_Name: KillWolvesQuest
   m_EditorClassIdentifier: 
-  <id>k__BackingField: CollectFlowersQuest
-  displayName: Flowers for Domovyk
-  description: I want to decorate our home with flowers to make it more cozy. Please
-    gather some in the forest.
-  objectives: Bring 5 flowers to Domovyk
-  levelRequirement: 0
+  <id>k__BackingField: KillWolvesQuest
+  displayName: Protecting villagers from wolves
+  description: Too many wolves have been in the forest as of late, and they are hurting
+    our ships. Can you reduce their number?
+  objectives: Kill 4 wolves
+  levelRequirement: 2
   trustRequirement: 0
   questStepPrefabs:
-  - {fileID: 3391708655479069009, guid: 1e1b3b3d84607d846b4f27b036d10f0f, type: 3}
-  experience: 10
-  trust: 5
-  money: 0
+  - {fileID: 3363421193532780982, guid: cf50f1a59c0a64ce1bda4344d5f924b6, type: 3}
+  experience: 50
+  trust: 0
+  money: 25
   items: []

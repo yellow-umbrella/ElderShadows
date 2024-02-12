@@ -19,10 +19,10 @@ MonoBehaviour:
     solve our problem?
   objectives: Kill 5 poterchas
   levelRequirement: 2
-  trustRequirement: -100
+  trustRequirement: 0
   questStepPrefabs:
   - {fileID: 3363421193532780982, guid: 3478b1c2e3c74444eb7f144dd139736b, type: 3}
   experience: 40
-  trust: -5
-  money: 0
+  trust: 0
+  money: 10
   items: []

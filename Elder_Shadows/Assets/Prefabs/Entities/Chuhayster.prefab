@@ -382,9 +382,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   quests:
-  - {fileID: 11400000, guid: 64848036269bd3a489716df73d89d6dd, type: 2}
   - {fileID: 11400000, guid: d2f0f2ba68389c74d931d54905f5d1b2, type: 2}
+  - {fileID: 11400000, guid: 95d48612f65c9094287192deaf687297, type: 2}
   - {fileID: 11400000, guid: af12d2e02960ba34a9e4b30945bba004, type: 2}
+  - {fileID: 11400000, guid: 0c0da8bdaabbbc94dbeb286847d62c5b, type: 2}
+  - {fileID: 11400000, guid: 22e83f9685c60a24988a97a90068afd0, type: 2}
   questUI: {fileID: 0}
 --- !u!61 &3725251023713965889
 BoxCollider2D:

@@ -276,6 +276,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2f410e22fc5ab28448b34935e8aa1db8, type: 2}
   - {fileID: 11400000, guid: 7dc20f08c87421446891b9b93e4ab43d, type: 2}
   - {fileID: 11400000, guid: ad79ca6f7ad22644fa0fa5051b633c3f, type: 2}
+  - {fileID: 11400000, guid: 0810ff9ce46177645ad24c68b5b90200, type: 2}
   questUI: {fileID: 0}
 --- !u!1 &8864030150680335745
 GameObject:

@@ -10,7 +10,7 @@ public class QuestManager : MonoBehaviour
 {
     public static QuestManager instance;
 
-    [SerializeField] private List<QuestInfoSO> allQuestInfos;
+    [SerializeField] private QuestsDBSO allQuestInfos;
 
     private Dictionary<string, Quest> quests;
 
@@ -56,7 +56,7 @@ public class QuestManager : MonoBehaviour
     private Dictionary<string, Quest> CreateQuestsDictionary()
     {
         Dictionary<string, Quest> idToQuestMap = new Dictionary<string, Quest>();
-        foreach (QuestInfoSO questInfo in allQuestInfos)
+        foreach (QuestInfoSO questInfo in allQuestInfos.quests)
         {
             idToQuestMap.Add(questInfo.id, LoadQuest(questInfo));
         }

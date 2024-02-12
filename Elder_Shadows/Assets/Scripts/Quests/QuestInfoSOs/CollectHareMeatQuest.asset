@@ -18,12 +18,11 @@ MonoBehaviour:
     power. Can you hunt some hares for me? I am afraid to step deep into the forest
     because of wolves.
   objectives: Bring 5 pieces of hare meat
-  levelRequirement: 1
-  trustRequirement: -100
+  levelRequirement: 0
+  trustRequirement: 0
   questStepPrefabs:
   - {fileID: 3391708655479069009, guid: 60e889b2808d777468723714c247017d, type: 3}
   experience: 25
   trust: 0
-  money: 0
-  items:
-  - {fileID: 11400000, guid: 89d362338999eb741a4aad8922ecaf4e, type: 2}
+  money: 10
+  items: []

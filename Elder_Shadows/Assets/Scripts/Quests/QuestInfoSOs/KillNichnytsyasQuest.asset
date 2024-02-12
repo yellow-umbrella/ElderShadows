@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2089608651d156d42bff265b228e3532, type: 3}
-  m_Name: CollectBerriesQuest
+  m_Name: KillNichnytsyasQuest
   m_EditorClassIdentifier: 
-  <id>k__BackingField: CollectBerriesQuest
-  displayName: Berries for Chuhayster
-  description: I crave some berries. Can you help me?
-  objectives: Bring 10 berries to Chuhayster
-  levelRequirement: 0
-  trustRequirement: 0
+  <id>k__BackingField: KillNichnytsyasQuest
+  displayName: Night noises
+  description: Loud noises and screams disturb my rest every night. I'm pretty sure
+    nichnytsyas make these sounds. Can you deal with them for me?
+  objectives: Kill 3 nichnytsyas
+  levelRequirement: 10
+  trustRequirement: 5
   questStepPrefabs:
-  - {fileID: 3391708655479069009, guid: 7654a1f8f8b50904bb87e488d873ca34, type: 3}
-  experience: 15
+  - {fileID: 1055181769973367081, guid: 6e312fc0cb4660044b85cc3dcaf511cd, type: 3}
+  experience: 200
   trust: 5
   money: 0
   items: []

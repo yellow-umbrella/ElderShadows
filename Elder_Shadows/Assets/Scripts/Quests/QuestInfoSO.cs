@@ -21,7 +21,7 @@ public class QuestInfoSO : ScriptableObject
     public int trustRequirement;
 
     [Foldout("Steps", true)]
-    public GameObject[] questStepPrefabs;
+    public List<GameObject> questStepPrefabs;
 
     [Foldout("Rewards", true)]
     public int experience;
@@ -35,5 +35,10 @@ public class QuestInfoSO : ScriptableObject
         id = this.name;
         UnityEditor.EditorUtility.SetDirty(this);
 #endif
+    }
+
+    public void UpdateID()
+    {
+        OnValidate();
     }
 }

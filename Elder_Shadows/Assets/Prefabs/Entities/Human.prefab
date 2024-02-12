@@ -409,6 +409,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quests:
   - {fileID: 11400000, guid: 149ee117c05a46e46840338cbb704709, type: 2}
-  - {fileID: 11400000, guid: 43d487d31bfea7e49a69e3187e34ff55, type: 2}
   - {fileID: 11400000, guid: 6cc0debbda6da514386c7f8d76b71ea0, type: 2}
+  - {fileID: 11400000, guid: 43d487d31bfea7e49a69e3187e34ff55, type: 2}
+  - {fileID: 11400000, guid: 48d751dfc5c73184c931b9aca5248311, type: 2}
+  - {fileID: 11400000, guid: d8f5ba9f910954143afe700f2cad74c7, type: 2}
   questUI: {fileID: 0}

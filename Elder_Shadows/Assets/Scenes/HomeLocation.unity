@@ -934,7 +934,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 52ba8470981b7a846808ab5043530e16, type: 2}
   waterTiles:
   - {fileID: 11400000, guid: 89a7c39041fcf534eb16e3a89a9d0b59, type: 2}
-  moutainTile: {fileID: 11400000, guid: afdb6fb91a825714c8f01948c09d5ab6, type: 2}
+  moutainTile:
+  - {fileID: 11400000, guid: afdb6fb91a825714c8f01948c09d5ab6, type: 2}
+  - {fileID: 11400000, guid: 6ee920334e2a0fa47a76876fe84c72e2, type: 2}
   mountainWaterTile: {fileID: 11400000, guid: 318e4d0fc9248ba4792e22de75217012, type: 2}
   forestVegetation:
   - {fileID: 339704381559359000, guid: 9114f1c5408d602409c80f5ee0722876, type: 3}

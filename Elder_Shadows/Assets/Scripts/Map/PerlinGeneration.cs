@@ -12,7 +12,7 @@ public class PerlinGeneration : MonoBehaviour
     public Tilemap wallsTileMap; 
     public TileBase[] forestTiles;
     public TileBase[] waterTiles;
-    public TileBase moutainTile;
+    public TileBase[] moutainTile;
     public TileBase mountainWaterTile;
     public GameObject[] forestVegetation;
     public GameObject[] forestRocks;
@@ -104,7 +104,7 @@ public class PerlinGeneration : MonoBehaviour
     void GenerateTile(int x, int y, float humidity, float altitude)
     {
         float humidityNum = 0.65f;
-        float altitudeNum = 0.65f;
+        float altitudeNum = 0.80f;
 
         perlin = Mathf.PerlinNoise(x + Random.value, y + Random.value);
 
@@ -153,7 +153,14 @@ public class PerlinGeneration : MonoBehaviour
         else if (humidity < humidityNum && altitude >= altitudeNum)
         {
             //rock
-            wallsTileMap.SetTile(new Vector3Int(x, y, 0), moutainTile);
+            if (altitude - altitudeNum >= 0.05)
+            {
+                wallsTileMap.SetTile(new Vector3Int(x, y, 0), moutainTile[1]);
+            }
+            else 
+            {
+                wallsTileMap.SetTile(new Vector3Int(x, y, 0), moutainTile[0]);
+            }
         }
         else if (humidity >= humidityNum && altitude < altitudeNum || humidity >= humidityNum && altitude >= altitudeNum)
         {

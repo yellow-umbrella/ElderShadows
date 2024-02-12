@@ -10,6 +10,7 @@ public class CombatController : MonoBehaviour
     public CharacterDataManager dataManager;
     private bool canAttack = true;
     public UnityEvent<string> onEnemyKilled;
+    public SkillsDataBase skilldb;
 
     public void TryAttack()
     {
@@ -41,5 +42,10 @@ public class CombatController : MonoBehaviour
         canAttack = false;
         yield return new WaitForSeconds(characterData.atk_spd);
         canAttack = true;
+    }
+
+    public void CastSkill(int skillID)
+    {
+        Instantiate(skilldb.GetSkill(skillID).skillPrefab);
     }
 }

@@ -117,6 +117,11 @@ public class CharacterController : MonoBehaviour, IAttackable
         combat.TryAttack();
     }
 
+    public void OnSkillButtonPressed(int skillID)
+    {
+        combat.CastSkill(characterData.skillsID[0]);
+    }
+
     private void OnSee(GameObject target)
     {
         //TODO: add UI to show targetted entity HP or name

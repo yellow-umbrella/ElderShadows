@@ -56,6 +56,8 @@ public class CharacterData
     [Header("Other Parameters")] 
     public float atk_range = 1f;
 
+    public int[] skillsID;
+    
     [Header("Current value Parameters")]
     public float current_health = 100f;
     public float current_mana = 50f;

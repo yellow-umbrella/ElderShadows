@@ -985,6 +985,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d6ed859b45e114b429dea5e75a90b623, type: 2}
   - {fileID: 11400000, guid: a5b36b223f80b3e4e87e649c529d110f, type: 2}
   - {fileID: 11400000, guid: eff547e60524fec47ae9586d698f14d3, type: 2}
+  - {fileID: 11400000, guid: 5b80c9a633575384594ba8a3efc438e7, type: 2}
+  - {fileID: 11400000, guid: 9d04658ac56d7da469844e6d0fae832b, type: 2}
   objects:
   - {fileID: 11400000, guid: 8263ed63a48f1ca48801544207d70a50, type: 2}
   - {fileID: 11400000, guid: 867718303ee8ef742b18f08a5df657c3, type: 2}

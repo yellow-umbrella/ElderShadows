@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "QuestsDB", menuName = "Quest System/QuestsDB")]
 public class QuestsDBSO:ScriptableObject
 {
-    public List<QuestInfoSO> quests;
+    public QuestInfoSO[] quests;
 }

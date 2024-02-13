@@ -10,13 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36c92f6916f51c84180ccd6986ebd922, type: 3}
-  m_Name: Hare Meat
+  m_Name: Mint Tea
   m_EditorClassIdentifier: 
-  uiDisplay: {fileID: 21300000, guid: 14e62563269c11443b9c936be93b95f4, type: 3}
+  uiDisplay: {fileID: 0}
   stackable: 0
   type: 0
-  description: Tender and flavorful meat obtained from hunting hares.
+  description: A refreshing beverage crafted from mint leaves.
   data:
-    Name: Hare Meat
-    Id: 1
-    buffs: []
+    Name: Mint Tea
+    Id: -1
+    buffs:
+    - attribute: 8
+      value: 1
+      min: 1
+      max: 2

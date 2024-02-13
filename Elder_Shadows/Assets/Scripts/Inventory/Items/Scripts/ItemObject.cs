@@ -10,7 +10,10 @@ public enum ItemType
     Shield,
     Boots,
     Chest,
-    Default
+    Default,
+    Accessory,
+    Quest,
+    Material,
 }
 
 public enum Attributes

@@ -10,22 +10,25 @@ public class ItemDescriptionManager : MonoBehaviour
 
     private GameObject descriptionObj;
     private RectTransform descriptionObjRT;
-    private float availableWidth = Screen.width, availableHeight = Screen.height;
+    private RectTransform descriptionBoxRT;
+    private Vector2 availableAnchorArea;
+    private float availableWidth, availableHeight;
+
     void Awake()
     {
         descriptionObj = transform.Find("Description").gameObject;
         descriptionObjRT = descriptionObj.GetComponent<RectTransform>();
-        
-        float CUIwidth = transform.root.Find("Canvas").Find("CharacterMenu").GetComponent<RectTransform>().sizeDelta.x;
-        float CUIheight = transform.root.Find("Canvas").Find("CharacterMenu").GetComponent<RectTransform>().sizeDelta.y;
-        float deltaX = (availableWidth - CUIwidth) / 2, deltaY = (availableHeight - CUIheight) / 2;
-        
-        availableWidth -= deltaX;
-        availableHeight = deltaY;
+        descriptionBoxRT = gameObject.GetComponent<RectTransform>();
+
+        Vector2 contentSizeDelta = transform.parent.parent.Find("Content").GetComponent<RectTransform>().sizeDelta;
+
+        availableAnchorArea.x = 1 - descriptionBoxRT.sizeDelta.x / 2 / contentSizeDelta.x;
+        availableAnchorArea.y = 1 - descriptionBoxRT.sizeDelta.y / 2 / contentSizeDelta.y;
     }
 
     public void OpenDescription()
     {
+        UpdateDescription();
         gameObject.SetActive(true);
         AlignPosition();
     }
@@ -38,23 +41,47 @@ public class ItemDescriptionManager : MonoBehaviour
     
     private void AlignPosition()
     {
-        if (descriptionObj.transform.position.x > availableWidth && descriptionObj.transform.position.y <= availableHeight)
-        {
-            descriptionObjRT.pivot = new Vector2(0, 1);
-            descriptionObjRT.anchorMin = new Vector2(0, 1);
-            descriptionObjRT.anchorMax = new Vector2(0, 1);
-        }
-        else if (descriptionObj.transform.position.x > availableWidth && descriptionObj.transform.position.y > availableHeight)
+        ChangePosition();
+    }
+
+    private void ChangePosition()
+    {
+        if (descriptionBoxRT.anchorMax.x > availableAnchorArea.x && descriptionBoxRT.anchorMax.y > availableAnchorArea.y) // right
         {
             descriptionObjRT.pivot = new Vector2(0, 0);
             descriptionObjRT.anchorMin = new Vector2(0, 0);
             descriptionObjRT.anchorMax = new Vector2(0, 0);
+            
+            if (descriptionBoxRT.anchoredPosition.y < 0)
+                descriptionBoxRT.anchoredPosition = new Vector2(descriptionBoxRT.anchoredPosition.x, -descriptionBoxRT.anchoredPosition.y);
         }
-        else if (descriptionObj.transform.position.x <= availableWidth && descriptionObj.transform.position.y <= availableHeight)
+        else if (descriptionBoxRT.anchorMax.x <= availableAnchorArea.x && descriptionBoxRT.anchorMax.y <= availableAnchorArea.y) // bottom
+        {
+            descriptionObjRT.pivot = new Vector2(1, 1);
+            descriptionObjRT.anchorMin = new Vector2(1, 1);
+            descriptionObjRT.anchorMax = new Vector2(1, 1);
+            
+            if (descriptionBoxRT.anchoredPosition.y > 0)
+                descriptionBoxRT.anchoredPosition = new Vector2(descriptionBoxRT.anchoredPosition.x, -descriptionBoxRT.anchoredPosition.y);
+        }
+        else if (descriptionBoxRT.anchorMax.x > availableAnchorArea.x && descriptionBoxRT.anchorMax.y <= availableAnchorArea.y) // bottom right
+        {
+            descriptionObjRT.pivot = new Vector2(0, 1);
+            descriptionObjRT.anchorMin = new Vector2(0, 1);
+            descriptionObjRT.anchorMax = new Vector2(0, 1);
+            
+            if (descriptionBoxRT.anchoredPosition.y > 0)
+                descriptionBoxRT.anchoredPosition = new Vector2(descriptionBoxRT.anchoredPosition.x, -descriptionBoxRT.anchoredPosition.y);
+        }
+        else if (descriptionBoxRT.anchorMax.x <= availableAnchorArea.x && descriptionBoxRT.anchorMax.y > availableAnchorArea.y) // default
         {
             descriptionObjRT.pivot = new Vector2(1, 0);
             descriptionObjRT.anchorMin = new Vector2(1, 0);
             descriptionObjRT.anchorMax = new Vector2(1, 0);
+            
+            if (descriptionBoxRT.anchoredPosition.y < 0)
+                descriptionBoxRT.anchoredPosition = new Vector2(descriptionBoxRT.anchoredPosition.x, -descriptionBoxRT.anchoredPosition.y);
         }
+        //descriptionBoxRT.anchoredPosition = new Vector2(0, 0);
     }
 }

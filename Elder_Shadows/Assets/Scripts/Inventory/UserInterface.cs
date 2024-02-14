@@ -11,18 +11,22 @@ public abstract class UserInterface : MonoBehaviour
 {
     public InventoryObject inventory;
     public Dictionary<GameObject, InventorySlot> slotsOnInterface = new Dictionary<GameObject, InventorySlot>();
-    public Dictionary<GameObject, GameObject> descriptionsOnInterface = new Dictionary<GameObject, GameObject>();
+    [SerializeField] public GameObject descriptionBoxObject;
+    
+    private Transform descriptionsBox;
+    private float shiftY = -1;
     void Start()
     {
         for (int i = 0; i < inventory.GetSlots.Length; i++)
         {
             inventory.GetSlots[i].parent = this;
             inventory.GetSlots[i].OnAfterUpdate += OnSlotUpdate;
-
         }
         CreateSlots();
         AddEvent(gameObject, EventTriggerType.PointerEnter, delegate { OnEnterInterface(gameObject); });
         AddEvent(gameObject, EventTriggerType.PointerExit, delegate { OnExitInterface(gameObject); });
+        
+        descriptionsBox = transform.parent.Find("Descriptions").transform;
     }
 
     public void OnSlotUpdate(InventorySlot _slot)
@@ -67,51 +71,19 @@ public abstract class UserInterface : MonoBehaviour
     {
         MouseData.slotHoveredOver = null;
     }
-    
-    float clicked = 0;
-    float clicktime = 0;
-    float clickdelay = 0.2f;
-
-    public void OnDown(GameObject obj)
-    {
-        if (MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver].ItemObject)
-        {
-            ClosePreviousDescription(obj);
-        }
-    }
 
     public void OnUp(GameObject obj)
     {
-        if (Time.time - clicktime > clickdelay)
+        if (MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver].ItemObject &&
+            (MouseData.slotHoveredOver != MouseData.activeSlot || !descriptionBoxObject.activeSelf))
         {
-            clicked = 0;
+            SetNewActiveSlot(obj);
+            OpenDescription(obj);
         }
         
-        clicked++;
-
-        if (clicked == 1)
+        if (!MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver].ItemObject)
         {
-            clicktime = Time.time;
-        
-            if (MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver].ItemObject)
-            {
-                SetNewActiveSlot(obj);
-            }
-        }
-
-        if (clicked > 1 && Time.time - clicktime < clickdelay)
-        {
-            clicked = 0;
-            clicktime = 0;
-        
-            if (MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver].ItemObject)
-            {
-                OpenDescription(obj);
-            }
-        }
-        else if (clicked > 2 || Time.time - clicktime > clickdelay)
-        {
-            clicked = 0;
+            descriptionBoxObject.SetActive(false);
         }
     }
     public void OnEnterInterface(GameObject obj)
@@ -120,12 +92,12 @@ public abstract class UserInterface : MonoBehaviour
     }
     public void OnExitInterface(GameObject obj)
     {
-        MouseData.previousInterfaceMouseWasOver = obj.GetComponent<UserInterface>();
         MouseData.interfaceMouseIsOver = null;
     }
     public void OnDragStart(GameObject obj)
     {
         MouseData.tempItemBeingDragged = CreateTempItem(obj);
+        descriptionBoxObject.SetActive(false);
     }
     public GameObject CreateTempItem(GameObject obj)
     {
@@ -178,41 +150,33 @@ public abstract class UserInterface : MonoBehaviour
     
     private void OpenDescription(GameObject obj)
     {
-        ClosePreviousDescription(obj);
         MouseData.activeSlot = obj;
-        
-        MouseData.interfaceMouseIsOver.descriptionsOnInterface[obj].GetComponent<ItemDescriptionManager>().UpdateDescription();
-        MouseData.interfaceMouseIsOver.descriptionsOnInterface[obj].GetComponent<ItemDescriptionManager>().OpenDescription();
+        MoveDescription(obj);
     }
 
-    private void ClosePreviousDescription(GameObject obj)
+    private void MoveDescription(GameObject obj)
     {
-        if (MouseData.activeSlot != null)
-        {
-            if (MouseData.interfaceMouseIsOver != MouseData.previousInterfaceMouseWasOver && MouseData.previousInterfaceMouseWasOver != null)
-            {
-                try
-                {
-                    MouseData.previousInterfaceMouseWasOver.descriptionsOnInterface[MouseData.activeSlot].gameObject.SetActive(false);
-                    MouseData.previousInterfaceMouseWasOver = obj.GetComponent<UserInterface>();
-                }
-                catch (KeyNotFoundException e)
-                {
-                    Console.WriteLine(e);
-                    MouseData.previousInterfaceMouseWasOver = obj.GetComponent<UserInterface>();
-                }
-            }
-            else
-            {
-                MouseData.interfaceMouseIsOver.descriptionsOnInterface[MouseData.activeSlot].gameObject.SetActive(false);
-            }
-        }
+        var descRT = descriptionBoxObject.GetComponent<RectTransform>();
+        var contentRT = transform.parent.Find("Content").GetComponent<RectTransform>();
+        descRT.SetParent(descriptionsBox.transform);
+        
+        descRT.anchorMin =
+            new Vector2(Mathf.Abs((obj.GetComponent<RectTransform>().localPosition.x + contentRT.sizeDelta.x / 2) / contentRT.sizeDelta.x),
+                1f - Mathf.Abs(obj.GetComponent<RectTransform>().localPosition.y) / contentRT.sizeDelta.y);
+        descRT.anchorMax = descRT.anchorMin;
+        
+        if (shiftY == -1)
+            shiftY = Mathf.Abs(obj.GetComponent<RectTransform>().anchoredPosition.y) -
+                     (descRT.sizeDelta.y / 2 - descriptionBoxObject.transform.Find("Description").GetComponent<RectTransform>().sizeDelta.y);
+        descRT.anchoredPosition = new Vector2(0, 0);
+        
+        descriptionBoxObject.GetComponent<ItemDescriptionManager>().inventorySlot = slotsOnInterface[obj];
+        descriptionBoxObject.GetComponent<ItemDescriptionManager>().OpenDescription();
     }
 }
 public static class MouseData
 {
     public static UserInterface interfaceMouseIsOver;
-    public static UserInterface previousInterfaceMouseWasOver;
     public static GameObject tempItemBeingDragged;
     public static GameObject slotHoveredOver;
     public static GameObject activeSlot;

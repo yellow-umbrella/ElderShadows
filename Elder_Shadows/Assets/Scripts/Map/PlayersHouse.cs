@@ -5,25 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class PlayersHouse : MonoBehaviour, IInteractable
 {
+    //move other house functions there
+
     public void EnterHouse() 
     {
-        SceneManager.LoadScene("PlayersHouse");
-    }
-
-    public void ExitHouse() 
-    {
-        SceneManager.LoadScene("HomeLocation");
+        SceneManager.LoadScene(4, LoadSceneMode.Single);
     }
 
     public void Interact() 
     {
-        if (gameObject.layer == 17) 
-        {
-            EnterHouse();
-        }else if (gameObject.layer == 3) 
-        {
-            ExitHouse();
-        }
-        
+        EnterHouse();
     }
 }

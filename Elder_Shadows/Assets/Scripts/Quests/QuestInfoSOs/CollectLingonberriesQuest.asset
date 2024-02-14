@@ -23,4 +23,5 @@ MonoBehaviour:
   experience: 15
   trust: 5
   money: 0
-  items: []
+  items:
+  - {fileID: 11400000, guid: edbd1cd7c7002f3478024c92b4eb8f9f, type: 2}

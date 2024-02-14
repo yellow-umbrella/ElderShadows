@@ -10,9 +10,14 @@ public class LoadDBs
 {
     private static string questCSVPath = "/Editor/CSVs/QuestsDB.tsv";
     private static string questDBPath = "Assets/Scripts/Quests/QuestsDB.asset";
-    
+    private static string questsSOPath = "Assets/Scripts/Quests/QuestInfoSOs/";
+    private static string questsPrefabsPath = "Assets/Prefabs/Quests/";
+    private static string itemsSOPath = "Assets/Scripts/Inventory/Items/";
     private static string itemsCSVPath = "/Editor/CSVs/ItemsDB.tsv";
     private static string itemsDBPath = "Assets/Scripts/Inventory/Items/ItemDatabase.asset";
+    private static string entitiesSOPath = "Assets/Scripts/Entities/EntityInfoSOs/";
+    private static string entitiesPrefabsPath = "Assets/Prefabs/Entities/";
+
 
     [MenuItem("Utilities/Generate Quests")]
     public static void GenerateQuests()
@@ -26,8 +31,8 @@ public class LoadDBs
         for (int i = 1; i < allLines.Length; i++)
         {
             string[] splitData = allLines[i].Split('\t');
-
-            string questSOPath = $"Assets/Scripts/Quests/QuestInfoSOs/{splitData[0]}.asset";
+            // checking if this quest already exists and loading or creating it 
+            string questSOPath = $"{questsSOPath}{splitData[0]}.asset";
             QuestInfoSO quest = AssetDatabase.LoadAssetAtPath<QuestInfoSO>(questSOPath);
             if (quest == null )
             {
@@ -37,14 +42,26 @@ public class LoadDBs
             {
                 isNewQuest = false;
             }
-
+            // filling quest attributes
             quest.displayName = splitData[1];
             quest.description = splitData[2];
             quest.objectives = splitData[3];
             quest.experience = int.Parse(splitData[4]);
             quest.trust = int.Parse(splitData[5]);
             quest.money = int.Parse(splitData[6]);
-            // skiping reward_items column splitData[7]
+            // converting names of reward items to ItemObjects
+            string[] rewards = splitData[7].Split(",");
+            List<ItemObject> rewardItems = new List<ItemObject>();
+            foreach (string reward in rewards)
+            {
+                ItemObject item = AssetDatabase.LoadAssetAtPath<ItemObject>($"{itemsSOPath}{reward}.asset");
+                if (item != null)
+                {
+                    rewardItems.Add(item);
+                }
+            }
+            quest.items = rewardItems.ToArray();
+
             quest.levelRequirement = int.Parse(splitData[8]);
             quest.trustRequirement = int.Parse(splitData[9]);
             // skiping Requirements_quests column splitData[10]
@@ -56,7 +73,7 @@ public class LoadDBs
             {
                 // parts[0] - type of step; parts[1] - step name
                 string[] parts = step.Split(":");
-                string stepPrefabPath = $"Assets/Prefabs/Quests/{parts[1]}.prefab";
+                string stepPrefabPath = $"{questsPrefabsPath}{parts[1]}.prefab";
                 // creating new prefab if it doesn't exist
                 if (!File.Exists(stepPrefabPath))
                 {
@@ -65,9 +82,19 @@ public class LoadDBs
                     {
                         case "Gathering":
                             questStepObj = new GameObject(parts[1], typeof(CollectQuestStep));
+                            ItemObject item = AssetDatabase.LoadAssetAtPath<ItemObject>($"{itemsSOPath}{parts[2]}.asset");
+                            if (item != null)
+                            {
+                                questStepObj.GetComponent<CollectQuestStep>().SetData(item, int.Parse(parts[3]));
+                            }
                             break;
                         case "Killing":
                             questStepObj = new GameObject(parts[1], typeof(KillQuestStep));
+                            EntityInfoSO entity = AssetDatabase.LoadAssetAtPath<EntityInfoSO>($"{entitiesSOPath}{parts[2]}.asset");
+                            if (entity != null)
+                            {
+                                questStepObj.GetComponent<KillQuestStep>().SetData(entity, int.Parse(parts[3]));
+                            }
                             break;
                     }
                     PrefabUtility.SaveAsPrefabAsset(questStepObj, stepPrefabPath);
@@ -82,6 +109,17 @@ public class LoadDBs
             {
                 AssetDatabase.CreateAsset(quest, questSOPath);
                 quest.UpdateID();
+
+                // add new quest to its quest giver
+                string questGiverPath = $"{entitiesPrefabsPath}{splitData[11]}.prefab";
+                if (File.Exists(questGiverPath))
+                {
+                    GameObject questGiverPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(questGiverPath);
+                    GameObject questGiver = PrefabUtility.InstantiatePrefab(questGiverPrefab) as GameObject;
+                    questGiver.GetComponent<QuestGiver>().AddNewQuest(quest);
+                    PrefabUtility.SaveAsPrefabAsset(questGiver, questGiverPath);
+                    UnityEngine.Object.DestroyImmediate(questGiver);
+                }
             }
 
             quests.Add(quest);

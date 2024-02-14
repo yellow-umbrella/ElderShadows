@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public class QuestGiver : MonoBehaviour, IInteractable
 {
-    [SerializeField] private QuestInfoSO[] quests;
+    [SerializeField] private List<QuestInfoSO> quests;
 
     [SerializeField] private QuestUIManager questUI;
 
@@ -120,5 +120,10 @@ public class QuestGiver : MonoBehaviour, IInteractable
     public void Interact()
     {
         Speak();
+    }
+
+    public void AddNewQuest(QuestInfoSO quest)
+    {
+        quests.Add(quest);
     }
 }

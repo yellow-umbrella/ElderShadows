@@ -43,4 +43,10 @@ public class CollectQuestStep : QuestStep
         this.amountCollected = System.Int32.Parse(state);
         UpdateState();
     }
+
+    public void SetData(ItemObject item, int amount)
+    {
+        itemToCollect = item;
+        amountToCollect = amount;
+    }
 }

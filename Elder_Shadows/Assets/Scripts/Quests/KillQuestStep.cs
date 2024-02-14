@@ -52,4 +52,10 @@ public class KillQuestStep : QuestStep
         this.amountKilled = System.Int32.Parse(state);
         UpdateState();
     }
+
+    public void SetData(EntityInfoSO entity, int amount)
+    {
+        entityToKill = entity;
+        amountToKill = amount;
+    }
 }

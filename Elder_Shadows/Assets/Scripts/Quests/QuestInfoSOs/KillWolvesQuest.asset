@@ -22,6 +22,6 @@ MonoBehaviour:
   questStepPrefabs:
   - {fileID: 3363421193532780982, guid: cf50f1a59c0a64ce1bda4344d5f924b6, type: 3}
   experience: 50
-  trust: 0
+  trust: -1
   money: 25
   items: []

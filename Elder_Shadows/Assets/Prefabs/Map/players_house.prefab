@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5907648999310635317}
   - component: {fileID: 6612660197520176456}
   - component: {fileID: -4213666264517253451}
-  - component: {fileID: 5843170104498927799}
+  - component: {fileID: 7868645655985950116}
   m_Layer: 17
   m_Name: players_house
   m_TagString: Interactable
@@ -113,7 +113,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.1372142, y: 2.5020893}
   m_EdgeRadius: 0
---- !u!114 &5843170104498927799
+--- !u!114 &7868645655985950116
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,9 +122,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1231450657522565720}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ee9dea6f0461794da99ccfe77d16e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: fe52b035ff2a72147b4a01b2b0af91fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextLocationIdx: 4
 --- !u!1 &5115741005470061542
 GameObject:
   m_ObjectHideFlags: 0

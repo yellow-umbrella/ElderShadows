@@ -39,7 +39,7 @@ public class CharacterData
     [Header("=====Strength=====")]
     public float max_health;
     public float hregen;
-    public int phys_dmg = 50;
+    public float phys_dmg = 50;
     public float phys_res = 0f;
 
     [Header("=====Inteligence=====")]
@@ -155,6 +155,50 @@ public class CharacterDataManager
         
         CharacterBarsUIManager.instance.UpdateHealthBar(data.max_health, data.current_health);
         CharacterBarsUIManager.instance.UpdateManaBar(data.max_mana, data.current_mana);
+    }
+
+    public float GetAttributeValue(Attributes attribute)
+    {
+        float value = 0;
+        
+        switch (attribute)
+        {
+            case Attributes.MaxHealth:
+                value = data.max_health;
+                break;
+            case Attributes.HRegen:
+                value = data.hregen;
+                break;
+            case Attributes.PhysDmg:
+                value = data.phys_dmg;
+                break;
+            case Attributes.PhysRes:
+                value = data.phys_res;
+                break;
+            case Attributes.MaxMana:
+                value = data.max_mana;
+                break;
+            case Attributes.Mregen:
+                value = data.mregen;
+                break;
+            case Attributes.MagDmg:
+                value = data.magic_dmg;
+                break;
+            case Attributes.MagRes:
+                value = data.magic_res;
+                break;
+            case Attributes.MoveSpeed:
+                value = data.movespeed;
+                break;
+            case Attributes.Evasion:
+                value = data.evasion;
+                break;
+            case Attributes.AtkRange:
+                value = data.atk_range;
+                break;
+        }
+
+        return value;
     }
 
     private int GetNewExpDifference()

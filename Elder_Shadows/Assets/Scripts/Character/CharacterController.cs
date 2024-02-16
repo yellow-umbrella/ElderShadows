@@ -48,7 +48,7 @@ public class CharacterController : MonoBehaviour, IAttackable
         transform.position += new Vector3(joystick.Horizontal, joystick.Vertical, transform.position.z) * characterData.movespeed * Time.deltaTime;
     }
 
-    public IAttackable.State TakeDamage(int damage, GameObject attacker)
+    public IAttackable.State TakeDamage(float damage, GameObject attacker)
     {
         dataManager.DealDamage(damage);
         if (characterData.current_health <= 0)

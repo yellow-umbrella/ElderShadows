@@ -10,5 +10,5 @@ public interface IAttackable
         Dead = 1,
     }
 
-    public State TakeDamage(int damage, GameObject attacker);
+    public State TakeDamage(float damage, GameObject attacker);
 }

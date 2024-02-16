@@ -73,12 +73,12 @@ public class BaseEntity : MonoBehaviour, IAttackable
     }
 
     [SerializeField] private EntityInfoSO info;
-    [SerializeField] private int health = 10;
+    [SerializeField] private float health = 10;
     [SerializeField] private float moveSpeed;
 
     [SerializeField] private List<Modifier> possibleModifiers;
 
-    public int Health
+    public float Health
     {
         get { return health; }
     }
@@ -273,7 +273,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
 
     // handling taking damage and death
 
-    public IAttackable.State TakeDamage(int damage, GameObject attacker)
+    public IAttackable.State TakeDamage(float damage, GameObject attacker)
     {
         health -= damage;
         if (health <= 0)

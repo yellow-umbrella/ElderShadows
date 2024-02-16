@@ -84,6 +84,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
         get { return health; }
     }
 
+    public EntityInfoSO Info { get { return info; } }
     public string ID { get { return info.id; } }
 
     [Foldout("Drop parameters", true)]
@@ -110,11 +111,15 @@ public class BaseEntity : MonoBehaviour, IAttackable
     [Foldout("Wandering parameters", true)]
     [SerializeField] private float wanderingRadius = 4;
 
+    public Behavior CurrentBehavior { get { return reactionToPlayer;} }
+    public bool IsModified { get { return isModified; } }
+
     // attack parameters
     private bool canAttack = true;
     private float timeBetweenAggroChecks = 1;
     private float timeToNextAggroCheck;
     private List<Collider2D> intruders = new List<Collider2D>();
+    private bool isModified = false;
 
     // behavior parameters
     private Dictionary<Behavior, IAttackBehavior> matchedBehavior;
@@ -155,6 +160,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
             if (r < modifier.chance)
             {
                 modifier.Apply(this);
+                isModified = true;
             }
         }
 

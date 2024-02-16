@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 5188768648147095298}
   - component: {fileID: 8613077596488322045}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141,8 +141,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10
-  m_fontSizeBase: 10
+  m_fontSize: 14
+  m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -478,6 +478,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar: {fileID: 8618678577164348815}
   entity: {fileID: 5792414836176843517}
+  entityName: {fileID: 8613077596488322045}
 --- !u!1 &5874711273709127831
 GameObject:
   m_ObjectHideFlags: 0

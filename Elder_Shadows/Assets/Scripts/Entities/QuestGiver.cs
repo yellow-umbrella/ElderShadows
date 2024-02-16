@@ -5,15 +5,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class QuestGiver : MonoBehaviour, IInteractable
+public class QuestGiver : NPC
 {
-    [SerializeField] private List<QuestInfoSO> quests;
+    public event Action<Quest.QuestState> onActiveQuestStateChange;
 
+    [SerializeField] private List<QuestInfoSO> quests;
     [SerializeField] private QuestUIManager questUI;
 
     private Quest activeQuest = null;
-
-    public event Action<Quest.QuestState> onActiveQuestStateChange;
+    private float chanceToOfferQuest = .5f;
 
     private void Start()
     {
@@ -51,23 +51,24 @@ public class QuestGiver : MonoBehaviour, IInteractable
         }
     }
 
-    [ContextMenu("Speak")]
-    public void Speak()
+    public bool OfferQuest()
     {
         if (activeQuest != null)
         {
             bool canFinish = (activeQuest.state == Quest.QuestState.CAN_FINISH);
             questUI.DisplayActiveQuest(activeQuest.info, true, DeclineQuest, FinishQuest);
-        } else
+            return true;
+        } 
+        Quest quest = ChooseQuest();
+        if (quest != null)
         {
-            activeQuest = ChooseQuest();
-            if (activeQuest != null )
-            {
-                onActiveQuestStateChange?.Invoke(activeQuest.state);
-                Debug.Log("Offering new quest: " + activeQuest.info.displayName);
-                questUI.OfferQuest(activeQuest.info, DeclineQuest, AcceptQuest);
-            }
+            activeQuest = quest;
+            onActiveQuestStateChange?.Invoke(activeQuest.state);
+            Debug.Log("Offering new quest: " + activeQuest.info.displayName);
+            questUI.OfferQuest(activeQuest.info, DeclineQuest, AcceptQuest);
+            return true;
         }
+        return false;
     }
 
     private Quest ChooseQuest()
@@ -91,14 +92,14 @@ public class QuestGiver : MonoBehaviour, IInteractable
         return null;
     }
 
-    public void AcceptQuest()
+    private void AcceptQuest()
     {
         QuestManager.instance.StartQuest(activeQuest.info.id);
         questUI.HideQuestUI();
         Debug.Log("Player accepted quest: " + activeQuest.info.displayName);
     }
     
-    public void FinishQuest()
+    private void FinishQuest()
     {
         if (QuestManager.instance.FinishQuest(activeQuest.info.id))
         {
@@ -108,7 +109,7 @@ public class QuestGiver : MonoBehaviour, IInteractable
         }
     }
 
-    public void DeclineQuest()
+    private void DeclineQuest()
     {
         QuestManager.instance.DeclineQuest(activeQuest.info.id);
         Debug.Log("Player declined quest: " + activeQuest.info.displayName);
@@ -117,9 +118,12 @@ public class QuestGiver : MonoBehaviour, IInteractable
         questUI.HideQuestUI();
     }
 
-    public void Interact()
+    public override void Interact()
     {
-        Speak();
+        if (!OfferQuest())
+        {
+            base.Interact();
+        }
     }
 
     public void AddNewQuest(QuestInfoSO quest)

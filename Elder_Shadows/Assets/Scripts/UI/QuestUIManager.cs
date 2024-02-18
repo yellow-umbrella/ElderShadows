@@ -23,11 +23,12 @@ public class QuestUIManager : MonoBehaviour
     private Action questPositiveCallback;
     private Action closeAction;
 
-    public void OfferQuest(QuestInfoSO quest, Action questDeclinedCallback, Action questAcceptedCallback)
+    public void OfferQuest(QuestInfoSO quest, Action questDeclinedCallback, 
+        Action questAcceptedCallback, Action closeActionCallback)
     {
         this.questNegativeCallback = questDeclinedCallback;
         this.questPositiveCallback = questAcceptedCallback;
-        closeAction = questDeclinedCallback;
+        closeAction = closeActionCallback;
 
         DisplayQuest(quest);
 
@@ -38,11 +39,12 @@ public class QuestUIManager : MonoBehaviour
         finishQuestButton.gameObject.SetActive(false);
     }
     
-    public void DisplayActiveQuest(QuestInfoSO quest, bool canBeFinished, Action questCanceledCallback, Action questFinishedCallback)
+    public void DisplayActiveQuest(QuestInfoSO quest, bool canBeFinished, Action questCanceledCallback, 
+        Action questFinishedCallback, Action closeActionCallback)
     {
         this.questNegativeCallback = questCanceledCallback;
         this.questPositiveCallback = questFinishedCallback;
-        closeAction = null;
+        closeAction = closeActionCallback;
 
         DisplayQuest(quest);
 
@@ -66,7 +68,7 @@ public class QuestUIManager : MonoBehaviour
 
     public void QuestDecision(bool decision)
     {
-        //HideQuestUI();
+        HideQuestUI();
         if (decision)
         {
             questPositiveCallback();

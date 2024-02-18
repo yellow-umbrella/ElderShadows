@@ -322,7 +322,7 @@ MonoBehaviour:
   npc: {fileID: 7119133976344636819}
   dialogPanel: {fileID: 5652041260357581724}
   replicText: {fileID: 8828823027593592104}
-  showingTime: 10
+  showingTime: 5
   canvas: {fileID: 5607506192440877530}
 --- !u!1 &7119133976344636817
 GameObject:
@@ -334,8 +334,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7119133976344636816}
   - component: {fileID: 2030223429306395650}
+  - component: {fileID: 2342559215298398076}
+  - component: {fileID: 4316434585772766474}
   - component: {fileID: 7119133976344636819}
-  m_Layer: 0
+  - component: {fileID: 2752186307247983626}
+  m_Layer: 6
   m_Name: Domovyk
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -384,6 +387,47 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &2342559215298398076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7119133976344636817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  drawGizmos: 1
+  detailedGizmos: 0
+  startEndModifier:
+    addPoints: 0
+    exactStartPoint: 3
+    exactEndPoint: 3
+    useRaycasting: 0
+    mask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    useGraphRaycasting: 0
+  traversableTags: -1
+  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  graphMask:
+    value: -1
+--- !u!114 &4316434585772766474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7119133976344636817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dec42a78632ed9543b7d6e62f5c471f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 1
 --- !u!114 &7119133976344636819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,12 +441,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogLines: {fileID: 11400000, guid: d56ffe1fd2bb5724491affb7a108d470, type: 2}
+  positionLimits: {x: 10, y: 10}
   quests:
   - {fileID: 11400000, guid: 2f410e22fc5ab28448b34935e8aa1db8, type: 2}
   - {fileID: 11400000, guid: 7dc20f08c87421446891b9b93e4ab43d, type: 2}
   - {fileID: 11400000, guid: ad79ca6f7ad22644fa0fa5051b633c3f, type: 2}
   - {fileID: 11400000, guid: 0810ff9ce46177645ad24c68b5b90200, type: 2}
   questUI: {fileID: 0}
+--- !u!114 &2752186307247983626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7119133976344636817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d79cd759b20970541a977349d46669a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 4316434585772766474}
+  questGiver: {fileID: 7119133976344636819}
+  probabilityToTeleport: 0
+  wanderingRadius: 4
 --- !u!1 &8225940829365094988
 GameObject:
   m_ObjectHideFlags: 0

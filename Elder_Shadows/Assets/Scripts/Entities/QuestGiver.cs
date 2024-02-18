@@ -13,7 +13,7 @@ public class QuestGiver : NPC
     [SerializeField] private QuestUIManager questUI;
 
     private Quest activeQuest = null;
-    private float chanceToOfferQuest = .5f;
+    private Quest newQuest = null;
 
     private void Start()
     {
@@ -45,30 +45,33 @@ public class QuestGiver : NPC
 
     private void FixedUpdate()
     {
-        if (activeQuest == null && ChooseQuest() != null)
+        if (!HasActiveQuest() && CanOfferQuest())
         {
             onActiveQuestStateChange(Quest.QuestState.CAN_START);
         }
     }
 
-    public bool OfferQuest()
+    public bool HasActiveQuest()
     {
-        if (activeQuest != null)
-        {
-            bool canFinish = (activeQuest.state == Quest.QuestState.CAN_FINISH);
-            questUI.DisplayActiveQuest(activeQuest.info, true, DeclineQuest, FinishQuest);
-            return true;
-        } 
-        Quest quest = ChooseQuest();
-        if (quest != null)
-        {
-            activeQuest = quest;
-            onActiveQuestStateChange?.Invoke(activeQuest.state);
-            Debug.Log("Offering new quest: " + activeQuest.info.displayName);
-            questUI.OfferQuest(activeQuest.info, DeclineQuest, AcceptQuest);
-            return true;
-        }
-        return false;
+        return activeQuest != null;
+    }
+
+    public void ShowActiveQuest()
+    {
+        // check if can finish
+        questUI.DisplayActiveQuest(activeQuest.info, true, AbortQuest, FinishQuest, FinishInteraction);
+    }
+
+    public bool CanOfferQuest()
+    {
+        newQuest = ChooseQuest();
+        return newQuest != null;
+    }
+    
+    public void OfferQuest()
+    {
+        questUI.OfferQuest(newQuest.info, DeclineQuest, AcceptQuest, DeclineQuest);
+        Debug.Log("Offering new quest: " + newQuest.info.displayName);
     }
 
     private Quest ChooseQuest()
@@ -94,36 +97,36 @@ public class QuestGiver : NPC
 
     private void AcceptQuest()
     {
+        activeQuest = newQuest;
+        onActiveQuestStateChange?.Invoke(activeQuest.state);
         QuestManager.instance.StartQuest(activeQuest.info.id);
-        questUI.HideQuestUI();
         Debug.Log("Player accepted quest: " + activeQuest.info.displayName);
+        FinishInteraction();
     }
     
     private void FinishQuest()
     {
-        if (QuestManager.instance.FinishQuest(activeQuest.info.id))
-        {
-            Debug.Log("Player finished quest: " + activeQuest.info.displayName);
-            activeQuest = null;
-            questUI.HideQuestUI();
-        }
+        Debug.Log("Player finished quest: " + activeQuest.info.displayName);
+        QuestManager.instance.FinishQuest(activeQuest.info.id);
+        activeQuest = null;
+        onActiveQuestStateChange(Quest.QuestState.REQUIREMENTS_NOT_MET);
+        FinishInteraction();
+    }
+
+    private void AbortQuest()
+    {
+        Debug.Log("Player declined quest: " + activeQuest.info.displayName);
+        QuestManager.instance.DeclineQuest(activeQuest.info.id);
+        activeQuest = null;
+        onActiveQuestStateChange(Quest.QuestState.REQUIREMENTS_NOT_MET);
+        FinishInteraction();
     }
 
     private void DeclineQuest()
     {
-        QuestManager.instance.DeclineQuest(activeQuest.info.id);
-        Debug.Log("Player declined quest: " + activeQuest.info.displayName);
+        Debug.Log("Player aborted quest: " + newQuest.info.displayName);
         activeQuest = null;
-        onActiveQuestStateChange(Quest.QuestState.REQUIREMENTS_NOT_MET);
-        questUI.HideQuestUI();
-    }
-
-    public override void Interact()
-    {
-        if (!OfferQuest())
-        {
-            base.Interact();
-        }
+        FinishInteraction();
     }
 
     public void AddNewQuest(QuestInfoSO quest)

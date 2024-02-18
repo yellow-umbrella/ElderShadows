@@ -26,8 +26,7 @@ public class NPCVisuals : MonoBehaviour
     {
         replicText.text = text;
         ShowDialog();
-        StartCoroutine(WaitAndHideDialog());
-        finishDialog();
+        StartCoroutine(WaitAndHideDialog(finishDialog));
     }
 
     protected virtual void ShowDialog()
@@ -35,10 +34,11 @@ public class NPCVisuals : MonoBehaviour
         dialogPanel.SetActive(true);
     }
 
-    private IEnumerator WaitAndHideDialog()
+    private IEnumerator WaitAndHideDialog(Action finishDialog)
     {
         yield return new WaitForSeconds(showingTime);
         HideDialog();
+        finishDialog();
     }
 
     protected virtual void HideDialog()

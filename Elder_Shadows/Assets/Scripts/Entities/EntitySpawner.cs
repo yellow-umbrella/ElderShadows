@@ -8,6 +8,8 @@ using Random = UnityEngine.Random;
 
 public class EntitySpawner : MonoBehaviour
 {
+    public static EntitySpawner Instance { get; private set; }
+
     [SerializeField] private List<BaseEntity> entities = new List<BaseEntity>();
     [SerializeField] private Vector2 spawnLimits;
     [SerializeField] private Vector2 spawnInternalLimits;
@@ -20,6 +22,16 @@ public class EntitySpawner : MonoBehaviour
     private bool canSpawn = false;
     private HashSet<Vector2Int> grassTiles;
     private const string TILE_DATA_PATH = "/map/home_floor.json";
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(this);
+            return;
+        }
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -52,6 +64,24 @@ public class EntitySpawner : MonoBehaviour
         // choosing entity to spawn
         BaseEntity entity = entities[Random.Range(0, entities.Count)];
 
+        //find safe position to spawn
+        Vector2 position = new Vector2();
+        if (!GetSafePosition(spawnLimits, ref position))
+        {
+            return;
+        }
+
+        Quaternion rotation = Quaternion.identity;
+        BaseEntity instance = Instantiate(entity, position, rotation, transform);
+
+        instance.MaxDistanceFromPlayer = maxDistanceFromPlayer;
+        instance.OnDeath += SpawnedEntity_OnDeath;
+        instance.OnTooFar += SpawnedEntity_OnTooFar;
+        spawnCount++;
+    }
+
+    public bool GetSafePosition(Vector2 spawnLimits, ref Vector2 safePosition)
+    {
         bool isAllowedPosition = false;
         Vector2 position = new Vector2();
         Vector2 cameraLeftBottom = new Vector2();
@@ -63,11 +93,11 @@ public class EntitySpawner : MonoBehaviour
         while (!isAllowedPosition)
         {
             // finding positions of visible corners on camera
-            cameraLeftBottom = Camera.main.ViewportToWorldPoint(new Vector3(0,0,Camera.main.transform.position.z));
+            cameraLeftBottom = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, Camera.main.transform.position.z));
             cameraRightTop = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.transform.position.z));
 
             // choosing zone for spawning
-            switch (Random.Range(0,4))
+            switch (Random.Range(0, 4))
             {
                 // left of the camera
                 case 0:
@@ -89,7 +119,7 @@ public class EntitySpawner : MonoBehaviour
                                            cameraRightTop.y + spawnInternalLimits.y);
                     maxBound = new Vector2(cameraRightTop.x,
                                            cameraRightTop.y + spawnLimits.y);
-                    break; 
+                    break;
                 // below the camera
                 case 3:
                     minBound = new Vector2(cameraLeftBottom.x,
@@ -108,17 +138,12 @@ public class EntitySpawner : MonoBehaviour
 
             if (maxPosChecked <= 0)
             {
-                return;
+                return false;
             }
         }
 
-        Quaternion rotation = Quaternion.identity;
-        BaseEntity instance = Instantiate(entity, position, rotation, transform);
-
-        instance.MaxDistanceFromPlayer = maxDistanceFromPlayer;
-        instance.OnDeath += SpawnedEntity_OnDeath;
-        instance.OnTooFar += SpawnedEntity_OnTooFar;
-        spawnCount++;
+        safePosition = position;
+        return true;
     }
 
     private void GetTileData()
@@ -134,7 +159,7 @@ public class EntitySpawner : MonoBehaviour
         }
     }
 
-    private bool IsGround(Vector2 position)
+    public bool IsGround(Vector2 position)
     {
         return grassTiles.Contains(position.ToVector2Int());
     }

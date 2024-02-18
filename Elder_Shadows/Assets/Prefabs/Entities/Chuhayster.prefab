@@ -220,7 +220,7 @@ MonoBehaviour:
   npc: {fileID: 8015215162052185891}
   dialogPanel: {fileID: 1373694274777027855}
   replicText: {fileID: 7667674438351122360}
-  showingTime: 10
+  showingTime: 5
   canvas: {fileID: 6349270086741811954}
 --- !u!1 &3560357751275830021
 GameObject:
@@ -333,9 +333,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3450506199153538698}
-  - component: {fileID: 8015215162052185891}
   - component: {fileID: 3725251023713965889}
-  m_Layer: 0
+  - component: {fileID: 2816814114780628801}
+  - component: {fileID: 8890965603803263572}
+  - component: {fileID: 8015215162052185891}
+  - component: {fileID: 5778165730010506925}
+  m_Layer: 6
   m_Name: Chuhayster
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -358,26 +361,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8015215162052185891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5374774086696083251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a955b128b7f01bf41894fb2cf43fbdac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogLines: {fileID: 11400000, guid: 117b0e3df587f7443983c18fa8d3928c, type: 2}
-  quests:
-  - {fileID: 11400000, guid: d2f0f2ba68389c74d931d54905f5d1b2, type: 2}
-  - {fileID: 11400000, guid: 95d48612f65c9094287192deaf687297, type: 2}
-  - {fileID: 11400000, guid: af12d2e02960ba34a9e4b30945bba004, type: 2}
-  - {fileID: 11400000, guid: 0c0da8bdaabbbc94dbeb286847d62c5b, type: 2}
-  - {fileID: 11400000, guid: 22e83f9685c60a24988a97a90068afd0, type: 2}
-  questUI: {fileID: 0}
 --- !u!61 &3725251023713965889
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -404,6 +387,84 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &2816814114780628801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5374774086696083251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  drawGizmos: 1
+  detailedGizmos: 0
+  startEndModifier:
+    addPoints: 0
+    exactStartPoint: 3
+    exactEndPoint: 3
+    useRaycasting: 0
+    mask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    useGraphRaycasting: 0
+  traversableTags: -1
+  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  graphMask:
+    value: -1
+--- !u!114 &8890965603803263572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5374774086696083251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dec42a78632ed9543b7d6e62f5c471f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 1
+--- !u!114 &8015215162052185891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5374774086696083251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a955b128b7f01bf41894fb2cf43fbdac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogLines: {fileID: 11400000, guid: 117b0e3df587f7443983c18fa8d3928c, type: 2}
+  positionLimits: {x: 10, y: 10}
+  quests:
+  - {fileID: 11400000, guid: d2f0f2ba68389c74d931d54905f5d1b2, type: 2}
+  - {fileID: 11400000, guid: 95d48612f65c9094287192deaf687297, type: 2}
+  - {fileID: 11400000, guid: af12d2e02960ba34a9e4b30945bba004, type: 2}
+  - {fileID: 11400000, guid: 0c0da8bdaabbbc94dbeb286847d62c5b, type: 2}
+  - {fileID: 11400000, guid: 22e83f9685c60a24988a97a90068afd0, type: 2}
+  questUI: {fileID: 0}
+--- !u!114 &5778165730010506925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5374774086696083251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d79cd759b20970541a977349d46669a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 8890965603803263572}
+  questGiver: {fileID: 8015215162052185891}
+  probabilityToTeleport: 0.001
+  wanderingRadius: 4
 --- !u!1 &6530571316415624594
 GameObject:
   m_ObjectHideFlags: 0

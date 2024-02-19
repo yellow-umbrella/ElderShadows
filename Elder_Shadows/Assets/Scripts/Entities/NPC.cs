@@ -11,6 +11,7 @@ public class NPC : MonoBehaviour, IInteractable
 
     [SerializeField] private DialogLinesSO dialogLines;
     [SerializeField] private Vector2 positionLimits;
+    [SerializeField] private Transform[] pointsToTeleport;
 
     protected bool isInteracting = false;
     protected bool canInteract = true;
@@ -65,6 +66,26 @@ public class NPC : MonoBehaviour, IInteractable
 
     public bool Teleport()
     {
+        // has predefined positions to teleport
+        if (pointsToTeleport.Length > 0)
+        {
+            List<Vector2> validPositions = new List<Vector2>();
+            foreach (var point in pointsToTeleport)
+            {
+                if (EntitySpawner.Instance.IsSafePosition(point.position))
+                {
+                    validPositions.Add(point.position);
+                }
+            }
+            if (validPositions.Count == 0)
+            {
+                return false;
+            }
+            transform.position = validPositions[UnityEngine.Random.Range(0, validPositions.Count)];
+            return true;
+        }
+
+        // teleports near the player
         Vector2 position = transform.position;
         if (EntitySpawner.Instance.GetSafePosition(positionLimits, ref position))
         {

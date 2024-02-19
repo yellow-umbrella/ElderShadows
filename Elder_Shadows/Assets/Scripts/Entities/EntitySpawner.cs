@@ -164,6 +164,18 @@ public class EntitySpawner : MonoBehaviour
         return grassTiles.Contains(position.ToVector2Int());
     }
 
+    public bool IsSafePosition(Vector2 position)
+    {
+        Vector2 viewportPos = Camera.main.WorldToViewportPoint(position);
+        if (Mathf.Min(viewportPos.x, viewportPos.y) >= 0 - spawnInternalLimits.y 
+            && Mathf.Max(viewportPos.x, viewportPos.y) <= 1 + spawnInternalLimits.y)
+        {
+            return false;
+        }
+
+        return IsGround(position);
+    }
+
     private void SpawnedEntity_OnTooFar(BaseEntity entity)
     {
         Destroy(entity.gameObject);

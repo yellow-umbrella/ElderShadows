@@ -150,12 +150,17 @@ public class MapManager : MonoBehaviour
         {
             foreach (GameObject go in allObjects)
             {
-                if (go.tag == "Tree" || go.tag == "House")
+                if (go.layer == 17)
                 {
-                    CustomGameObject tempObject = objects.Find(o => o.gobject.name + "(Clone)" == go.name);
+                    try 
+                    {
+                        CustomGameObject tempObject = objects.Find(o => o.gobject.name + "(Clone)" == go.name);
+                        levelObject.objects.Add(tempObject.id);
+                        levelObject.poses.Add(Vector3Int.FloorToInt(go.transform.position));
+                    }
+                    catch 
+                    { }
 
-                    levelObject.objects.Add(tempObject.id);
-                    levelObject.poses.Add(Vector3Int.FloorToInt(go.transform.position));
                 }
 
             }

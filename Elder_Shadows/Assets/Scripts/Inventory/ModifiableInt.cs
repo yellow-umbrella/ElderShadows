@@ -11,8 +11,8 @@ public class ModifiableInt
     public int BaseValue { get { return baseValue; } set { baseValue = value; UpdateModifiedValue(); } }
 
     [SerializeField]
-    private int modifiedValue;
-    public int ModifiedValue { get { return modifiedValue; } private set { modifiedValue = value; } }
+    private float modifiedValue;
+    public float ModifiedValue { get { return modifiedValue; } private set { modifiedValue = value; } }
 
     public List<IModifier> modifiers = new List<IModifier>();
 
@@ -35,7 +35,7 @@ public class ModifiableInt
 
     public void UpdateModifiedValue()
     {
-        var valueToAdd = 0;
+        var valueToAdd = 0f;
         for (int i = 0; i < modifiers.Count; i++)
         {
             modifiers[i].AddValue(ref valueToAdd);

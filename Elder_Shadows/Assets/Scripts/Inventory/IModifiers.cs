@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IModifier
 {
-    void AddValue(ref int baseValue);
+    void AddValue(ref float baseValue);
 }

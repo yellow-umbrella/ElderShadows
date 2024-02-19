@@ -10,5 +10,13 @@ public interface IAttackable
         Dead = 1,
     }
 
-    public State TakeDamage(float damage, GameObject attacker);
+    public enum DamageType
+    {
+        Physical,
+        Magic
+    }
+
+    public State TakeDamage(float damage, DamageType type, GameObject attacker);
+    
+    //public State AddDebuff(Buff debuff, GameObject attacker);
 }

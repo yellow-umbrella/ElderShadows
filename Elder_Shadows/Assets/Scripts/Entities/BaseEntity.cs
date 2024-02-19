@@ -221,7 +221,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
     {
         if (attackRange.OverlapPoint(attackTarget.transform.position) && canAttack)
         {
-            attackTarget.GetComponent<IAttackable>().TakeDamage(damage, this.gameObject);
+            attackTarget.GetComponent<IAttackable>().TakeDamage(damage, IAttackable.DamageType.Physical, this.gameObject);
             StartCoroutine(AttackCooldown());
             return true;
         }
@@ -273,7 +273,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
 
     // handling taking damage and death
 
-    public IAttackable.State TakeDamage(float damage, GameObject attacker)
+    public IAttackable.State TakeDamage(float damage, IAttackable.DamageType type, GameObject attacker)
     {
         health -= damage;
         if (health <= 0)

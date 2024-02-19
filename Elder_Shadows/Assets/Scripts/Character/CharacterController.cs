@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -48,9 +47,16 @@ public class CharacterController : MonoBehaviour, IAttackable
         transform.position += new Vector3(joystick.Horizontal, joystick.Vertical, transform.position.z) * characterData.movespeed * Time.deltaTime;
     }
 
-    public IAttackable.State TakeDamage(float damage, GameObject attacker)
+    public IAttackable.State TakeDamage(float damage, IAttackable.DamageType type, GameObject attacker)
     {
-        dataManager.DealDamage(damage);
+        if (type == IAttackable.DamageType.Physical &&  Random.Range(0f, 1f) < dataManager.GetAttributeValue(Attributes.Evasion))
+        {
+            return IAttackable.State.Alive;
+        }
+        
+        var puredmg = damage - dataManager.GetAttributeValue(type == IAttackable.DamageType.Physical ? Attributes.PhysDmg : Attributes.MagDmg);
+        
+        dataManager.DealDamage(puredmg);
         if (characterData.current_health <= 0)
         {
             Die();

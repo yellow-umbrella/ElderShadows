@@ -77,17 +77,17 @@ public class Item
 public class ItemBuff : IModifier
 {
     public Attributes attribute;
-    public int value;
-    public int min;
-    public int max;
-    public ItemBuff(int _min, int _max)
+    public float value;
+    public float min;
+    public float max;
+    public ItemBuff(float _min, float _max)
     {
         min = _min;
         max = _max;
         GenerateValue();
     }
 
-    public void AddValue(ref int baseValue)
+    public void AddValue(ref float baseValue)
     {
         baseValue += value;
     }

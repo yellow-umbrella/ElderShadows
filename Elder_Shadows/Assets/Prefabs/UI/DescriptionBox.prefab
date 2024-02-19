@@ -998,6 +998,10 @@ MonoBehaviour:
       Id: -1
       buffs: []
     amount: 0
+  descriptionObj: {fileID: 3801301467730691758}
+  contentRT: {fileID: 0}
+  itemNameTMP: {fileID: 7468729406279173569}
+  itemDescriptionTMP: {fileID: 3144397325074127344}
 --- !u!1 &7161892193849868740
 GameObject:
   m_ObjectHideFlags: 0

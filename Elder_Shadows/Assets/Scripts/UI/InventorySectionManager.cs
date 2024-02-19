@@ -10,7 +10,6 @@ public class InventorySectionManager : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(gameObject);
         AddEvent(gameObject, EventTriggerType.PointerUp, delegate { OnUp(); });
     }
 
@@ -25,7 +24,6 @@ public class InventorySectionManager : MonoBehaviour
 
     private void OnUp()
     {
-        if (descriptionBoxObject && descriptionBoxObject.activeSelf)
-            descriptionBoxObject.SetActive(false);
+        descriptionBoxObject.SetActive(false);
     }
 }

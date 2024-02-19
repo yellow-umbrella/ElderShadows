@@ -11,7 +11,6 @@ public class InventoryUIManager : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(gameObject);
         AddEvent(gameObject, EventTriggerType.PointerUp, delegate { OnUp(); });
     }
 
@@ -26,9 +25,7 @@ public class InventoryUIManager : MonoBehaviour
 
     private void OnUp()
     {
-        if (descriptionBoxDynamic && descriptionBoxDynamic.activeSelf)
-            descriptionBoxDynamic.SetActive(false);
-        if (descriptionBoxStatic && descriptionBoxStatic.activeSelf)
-            descriptionBoxStatic.SetActive(false);
+        descriptionBoxDynamic.SetActive(false);
+        descriptionBoxStatic.SetActive(false);
     }
 }

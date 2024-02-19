@@ -11,9 +11,11 @@ public abstract class UserInterface : MonoBehaviour
 {
     public InventoryObject inventory;
     public Dictionary<GameObject, InventorySlot> slotsOnInterface = new Dictionary<GameObject, InventorySlot>();
-    [SerializeField] public GameObject descriptionBoxObject;
     
-    private Transform descriptionsBox;
+    [SerializeField] protected RectTransform descriptionRT;
+    [SerializeField] protected GameObject descriptionBoxObject;
+    [SerializeField] protected GameObject descriptionsAreaTransform;
+    
     private float shiftY = -1;
     void Start()
     {
@@ -25,8 +27,6 @@ public abstract class UserInterface : MonoBehaviour
         CreateSlots();
         AddEvent(gameObject, EventTriggerType.PointerEnter, delegate { OnEnterInterface(gameObject); });
         AddEvent(gameObject, EventTriggerType.PointerExit, delegate { OnExitInterface(gameObject); });
-        
-        descriptionsBox = transform.parent.Find("Descriptions").transform;
     }
 
     public void OnSlotUpdate(InventorySlot _slot)
@@ -65,7 +65,7 @@ public abstract class UserInterface : MonoBehaviour
     {
         MouseData.slotHoveredOver = obj;
         
-        transform.parent.Find("Descriptions").GetComponent<DescriptionsContainerManager>().UpdateDescriptionContainers();
+        descriptionsAreaTransform.GetComponent<DescriptionsContainerManager>().UpdateDescriptionContainers();
     }
     public void OnExit(GameObject obj)
     {
@@ -156,19 +156,19 @@ public abstract class UserInterface : MonoBehaviour
 
     private void MoveDescription(GameObject obj)
     {
-        var descRT = descriptionBoxObject.GetComponent<RectTransform>();
-        var contentRT = transform.parent.Find("Content").GetComponent<RectTransform>();
-        descRT.SetParent(descriptionsBox.transform);
+        var descBoxRT = descriptionBoxObject.GetComponent<RectTransform>();
+        var contentRT = gameObject.GetComponent<RectTransform>();
+        descBoxRT.SetParent(descriptionsAreaTransform.transform);
         
-        descRT.anchorMin =
+        descBoxRT.anchorMin =
             new Vector2(Mathf.Abs((obj.GetComponent<RectTransform>().localPosition.x + contentRT.sizeDelta.x / 2) / contentRT.sizeDelta.x),
                 1f - Mathf.Abs(obj.GetComponent<RectTransform>().localPosition.y) / contentRT.sizeDelta.y);
-        descRT.anchorMax = descRT.anchorMin;
+        descBoxRT.anchorMax = descBoxRT.anchorMin;
         
         if (shiftY == -1)
             shiftY = Mathf.Abs(obj.GetComponent<RectTransform>().anchoredPosition.y) -
-                     (descRT.sizeDelta.y / 2 - descriptionBoxObject.transform.Find("Description").GetComponent<RectTransform>().sizeDelta.y);
-        descRT.anchoredPosition = new Vector2(0, 0);
+                     (descBoxRT.sizeDelta.y / 2 - descriptionRT.sizeDelta.y);
+        descBoxRT.anchoredPosition = new Vector2(0, 0);
         
         descriptionBoxObject.GetComponent<ItemDescriptionManager>().inventorySlot = slotsOnInterface[obj];
         descriptionBoxObject.GetComponent<ItemDescriptionManager>().OpenDescription();

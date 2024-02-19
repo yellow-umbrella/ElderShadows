@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e62d7432ed13ff478df71d84ce3cda9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemToCollect: {fileID: 11400000, guid: cde94d41f4f6ab84686a8e9a6e95061f, type: 2}
+  itemToCollect: {fileID: 11400000, guid: ef44e9c8eee9fde4f963972f9db1c420, type: 2}
   amountToCollect: 5

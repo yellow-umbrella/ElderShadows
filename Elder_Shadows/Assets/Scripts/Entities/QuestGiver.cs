@@ -5,15 +5,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class QuestGiver : MonoBehaviour, IInteractable
+public class QuestGiver : NPC
 {
-    [SerializeField] private QuestInfoSO[] quests;
+    public event Action<Quest.QuestState> onActiveQuestStateChange;
 
+    [SerializeField] private List<QuestInfoSO> quests;
     [SerializeField] private QuestUIManager questUI;
 
     private Quest activeQuest = null;
-
-    public event Action<Quest.QuestState> onActiveQuestStateChange;
+    private Quest newQuest = null;
 
     private void Start()
     {
@@ -45,29 +45,35 @@ public class QuestGiver : MonoBehaviour, IInteractable
 
     private void FixedUpdate()
     {
-        if (activeQuest == null && ChooseQuest() != null)
+        if (!HasActiveQuest() && CanOfferQuest())
         {
             onActiveQuestStateChange(Quest.QuestState.CAN_START);
         }
     }
 
-    [ContextMenu("Speak")]
-    public void Speak()
+    public bool HasActiveQuest()
     {
-        if (activeQuest != null)
+        return activeQuest != null;
+    }
+
+    public void ShowActiveQuest()
+    {
+        questUI.DisplayActiveQuest(activeQuest.info, AbortQuest, FinishInteraction);
+    }
+
+    public bool CanOfferQuest()
+    {
+        if (newQuest == null)
         {
-            bool canFinish = (activeQuest.state == Quest.QuestState.CAN_FINISH);
-            questUI.DisplayActiveQuest(activeQuest.info, true, DeclineQuest, FinishQuest);
-        } else
-        {
-            activeQuest = ChooseQuest();
-            if (activeQuest != null )
-            {
-                onActiveQuestStateChange?.Invoke(activeQuest.state);
-                Debug.Log("Offering new quest: " + activeQuest.info.displayName);
-                questUI.OfferQuest(activeQuest.info, DeclineQuest, AcceptQuest);
-            }
-        }
+            newQuest = ChooseQuest();
+        } 
+        return newQuest != null;
+    }
+    
+    public void OfferQuest()
+    {
+        questUI.OfferQuest(newQuest.info, DeclineQuest, AcceptQuest, DeclineQuest);
+        Debug.Log("Offering new quest: " + newQuest.info.displayName);
     }
 
     private Quest ChooseQuest()
@@ -90,35 +96,48 @@ public class QuestGiver : MonoBehaviour, IInteractable
 
         return null;
     }
-
-    public void AcceptQuest()
-    {
-        QuestManager.instance.StartQuest(activeQuest.info.id);
-        questUI.HideQuestUI();
-        Debug.Log("Player accepted quest: " + activeQuest.info.displayName);
-    }
     
-    public void FinishQuest()
+    public bool FinishQuest()
     {
         if (QuestManager.instance.FinishQuest(activeQuest.info.id))
         {
             Debug.Log("Player finished quest: " + activeQuest.info.displayName);
             activeQuest = null;
-            questUI.HideQuestUI();
+            onActiveQuestStateChange(Quest.QuestState.REQUIREMENTS_NOT_MET);
+            return true;
         }
+        return false;
     }
 
-    public void DeclineQuest()
+    private void AcceptQuest()
     {
-        QuestManager.instance.DeclineQuest(activeQuest.info.id);
+        activeQuest = QuestManager.instance.GetQuestById(newQuest.info.id);
+        newQuest = null;
+        onActiveQuestStateChange?.Invoke(activeQuest.state);
+        QuestManager.instance.StartQuest(activeQuest.info.id);
+        Debug.Log("Player accepted quest: " + activeQuest.info.displayName);
+        FinishInteraction();
+    }
+    
+    private void AbortQuest()
+    {
         Debug.Log("Player declined quest: " + activeQuest.info.displayName);
+        QuestManager.instance.DeclineQuest(activeQuest.info.id);
         activeQuest = null;
         onActiveQuestStateChange(Quest.QuestState.REQUIREMENTS_NOT_MET);
-        questUI.HideQuestUI();
+        FinishInteraction();
     }
 
-    public void Interact()
+    private void DeclineQuest()
     {
-        Speak();
+        Debug.Log("Player aborted quest: " + newQuest.info.displayName);
+        activeQuest = null;
+        newQuest = null;
+        FinishInteraction();
+    }
+
+    public void AddNewQuest(QuestInfoSO quest)
+    {
+        quests.Add(quest);
     }
 }

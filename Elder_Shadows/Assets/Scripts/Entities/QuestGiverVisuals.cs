@@ -4,23 +4,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class QuestGiverVisuals : MonoBehaviour
+public class QuestGiverVisuals : NPCVisuals
 {
-    [SerializeField] private QuestGiver questGiver;
-
+    private QuestGiver questGiver;
     private SpriteRenderer sprite;
 
     private void Awake()
     {
+        questGiver = npc as QuestGiver;
         sprite = GetComponent<SpriteRenderer>();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         questGiver.onActiveQuestStateChange += ChangeAppearance;
     }
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         questGiver.onActiveQuestStateChange -= ChangeAppearance;
     }
 

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2089608651d156d42bff265b228e3532, type: 3}
+  m_Name: KillNichnytsyasQuest
+  m_EditorClassIdentifier: 
+  <id>k__BackingField: KillNichnytsyasQuest
+  displayName: Night noises
+  description: Loud noises and screams disturb my rest every night. I'm pretty sure
+    nichnytsyas make these sounds. Can you deal with them for me?
+  objectives: Kill 3 nichnytsyas
+  levelRequirement: 10
+  trustRequirement: 5
+  questStepPrefabs:
+  - {fileID: 1055181769973367081, guid: 6e312fc0cb4660044b85cc3dcaf511cd, type: 3}
+  experience: 200
+  trust: 0
+  money: 0
+  items: []

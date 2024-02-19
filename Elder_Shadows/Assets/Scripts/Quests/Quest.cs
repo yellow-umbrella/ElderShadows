@@ -24,7 +24,7 @@ public class Quest
         this.info = info;
         this.state = QuestState.REQUIREMENTS_NOT_MET;
         this.currentStep = 0;
-        this.questStepStates = new QuestStepState[info.questStepPrefabs.Length];
+        this.questStepStates = new QuestStepState[info.questStepPrefabs.Count];
         for (int i = 0; i < questStepStates.Length; i++)
         {
             questStepStates[i] = new QuestStepState();
@@ -38,7 +38,7 @@ public class Quest
         this.currentStep = currentStep;
         this.questStepStates = questStepStates;
 
-        if (this.questStepStates.Length != this.info.questStepPrefabs.Length)
+        if (this.questStepStates.Length != this.info.questStepPrefabs.Count)
         {
             Debug.LogWarning("Saved Data out of sync with QuestInfo");
         }
@@ -58,7 +58,7 @@ public class Quest
 
     public bool CurrentStepExists()
     {
-        return (currentStep < info.questStepPrefabs.Length);
+        return (currentStep < info.questStepPrefabs.Count);
     }
 
     public void CreateCurrentQuestStep(Transform parent)

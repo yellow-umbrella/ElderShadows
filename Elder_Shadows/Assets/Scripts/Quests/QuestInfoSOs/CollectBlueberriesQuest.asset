@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2089608651d156d42bff265b228e3532, type: 3}
+  m_Name: CollectBlueberriesQuest
+  m_EditorClassIdentifier: 
+  <id>k__BackingField: CollectBlueberriesQuest
+  displayName: Blueberries for Domovyk
+  description: I want to make blueberry pie for us, but I'm out of blueberries. Go
+    to the forest and gather some, please!
+  objectives: Bring 10 blueberries to Domovyk
+  levelRequirement: 0
+  trustRequirement: 0
+  questStepPrefabs:
+  - {fileID: 7144229013784862276, guid: e13094d7facefab47befc4afb055756e, type: 3}
+  experience: 15
+  trust: 5
+  money: 0
+  items:
+  - {fileID: 11400000, guid: 60b8eda5a0f71b54b952f37a7de6595f, type: 2}

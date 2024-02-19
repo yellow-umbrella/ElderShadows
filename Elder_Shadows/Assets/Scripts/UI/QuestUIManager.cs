@@ -13,7 +13,6 @@ public class QuestUIManager : MonoBehaviour
     [SerializeField] private Button acceptQuestButton;
 
     [SerializeField] private Button cancelQuestButton;
-    [SerializeField] private Button finishQuestButton;
 
     [SerializeField] private TextMeshProUGUI questName;
     [SerializeField] private TextMeshProUGUI questDescription;
@@ -23,11 +22,12 @@ public class QuestUIManager : MonoBehaviour
     private Action questPositiveCallback;
     private Action closeAction;
 
-    public void OfferQuest(QuestInfoSO quest, Action questDeclinedCallback, Action questAcceptedCallback)
+    public void OfferQuest(QuestInfoSO quest, Action questDeclinedCallback, 
+        Action questAcceptedCallback, Action closeActionCallback)
     {
         this.questNegativeCallback = questDeclinedCallback;
         this.questPositiveCallback = questAcceptedCallback;
-        closeAction = questDeclinedCallback;
+        closeAction = closeActionCallback;
 
         DisplayQuest(quest);
 
@@ -35,24 +35,20 @@ public class QuestUIManager : MonoBehaviour
         acceptQuestButton.gameObject.SetActive(true);
 
         cancelQuestButton.gameObject.SetActive(false);
-        finishQuestButton.gameObject.SetActive(false);
     }
     
-    public void DisplayActiveQuest(QuestInfoSO quest, bool canBeFinished, Action questCanceledCallback, Action questFinishedCallback)
+    public void DisplayActiveQuest(QuestInfoSO quest, 
+        Action questCanceledCallback, Action closeActionCallback)
     {
         this.questNegativeCallback = questCanceledCallback;
-        this.questPositiveCallback = questFinishedCallback;
-        closeAction = null;
+        closeAction = closeActionCallback;
 
         DisplayQuest(quest);
 
         cancelQuestButton.gameObject.SetActive(true);
-        finishQuestButton.gameObject.SetActive(true);
 
         declineQuestButton.gameObject.SetActive(false);
         acceptQuestButton.gameObject.SetActive(false);
-
-        finishQuestButton.interactable = canBeFinished;
     }
 
     private void DisplayQuest(QuestInfoSO quest)
@@ -66,7 +62,7 @@ public class QuestUIManager : MonoBehaviour
 
     public void QuestDecision(bool decision)
     {
-        //HideQuestUI();
+        HideQuestUI();
         if (decision)
         {
             questPositiveCallback();

@@ -12,13 +12,14 @@ public class AStarManager : MonoBehaviour
 
     void Start()
     {
-        // should be called after map and colliders are generated
-        Invoke("Scan", 2);
+        StartCoroutine(ScanMap());
     }
 
-    private void Scan()
+    IEnumerator ScanMap()
     {
         startedScanning = true;
+        yield return new WaitForFixedUpdate();
+        yield return new WaitForFixedUpdate();
         AstarPath.active.Scan();
     }
 

@@ -1520,16 +1520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4adb4e44b3886e844bda1ee2c9e20a3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allQuestInfos:
-  - {fileID: 11400000, guid: d2f0f2ba68389c74d931d54905f5d1b2, type: 2}
-  - {fileID: 11400000, guid: 64848036269bd3a489716df73d89d6dd, type: 2}
-  - {fileID: 11400000, guid: 149ee117c05a46e46840338cbb704709, type: 2}
-  - {fileID: 11400000, guid: 2f410e22fc5ab28448b34935e8aa1db8, type: 2}
-  - {fileID: 11400000, guid: 7dc20f08c87421446891b9b93e4ab43d, type: 2}
-  - {fileID: 11400000, guid: af12d2e02960ba34a9e4b30945bba004, type: 2}
-  - {fileID: 11400000, guid: 6cc0debbda6da514386c7f8d76b71ea0, type: 2}
-  - {fileID: 11400000, guid: 43d487d31bfea7e49a69e3187e34ff55, type: 2}
-  - {fileID: 11400000, guid: ad79ca6f7ad22644fa0fa5051b633c3f, type: 2}
+  allQuestInfos: {fileID: 11400000, guid: e077212324e69144d8293495938be196, type: 2}
 --- !u!1 &633087217
 GameObject:
   m_ObjectHideFlags: 0
@@ -12124,6 +12115,7 @@ MonoBehaviour:
   spawnInternalLimits: {x: 0, y: 0}
   spawnDelay: 0.3
   maxSpawnCount: 50
+  maxDistanceFromPlayer: 0
   aStarManager: {fileID: 1059987833}
 --- !u!1 &1704875948
 GameObject:

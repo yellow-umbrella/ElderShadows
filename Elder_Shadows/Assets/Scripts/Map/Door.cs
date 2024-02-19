@@ -7,13 +7,25 @@ public class Door : MonoBehaviour, IInteractable
 {
     public int nextLocationIdx;
 
+    protected bool isInteracting = true;
+    protected bool canInteract = true;
+
     public void GoToLocation(int index) 
     {
         SceneManager.LoadScene(index, LoadSceneMode.Single);
     }
 
-    public void Interact() 
+    public virtual void Interact() 
     {
         GoToLocation(nextLocationIdx);
+    }
+
+    public virtual bool CanInteract() 
+    {
+        return canInteract;
+    }
+    public virtual bool IsInteracting() 
+    {
+        return isInteracting;
     }
 }

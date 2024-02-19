@@ -6,5 +6,8 @@ using UnityEngine;
 public class DialogLinesSO : ScriptableObject
 {
     [TextArea(2, 5)]
-    public string[] lines;
+    public string[] busyLines;
+
+    [TextArea(2, 5)]
+    public string[] gratitudeLines;
 }

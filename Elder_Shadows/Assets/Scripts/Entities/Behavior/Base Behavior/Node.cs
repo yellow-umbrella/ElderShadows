@@ -79,6 +79,16 @@ namespace BehaviorTree
 
             return parent.ClearData(key);
         }
+
+        public Node GetRoot()
+        {
+            Node root = this;
+            while (root.parent != null)
+            {
+                root = root.parent;
+            }
+            return root;
+        }
     }
 
 }

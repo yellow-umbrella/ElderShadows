@@ -41,6 +41,8 @@ public class QuestGiverBT : BehaviorTree.Tree
                         new ActiveQuestCheck(questGiver),
                         new ActiveQuestNode(questGiver)
                     }),
+                    // show gratitude
+                    new ShowGratitudeNode(questGiver),
                     // propose new quest
                     new SequenceNode(new List<Node>
                     {

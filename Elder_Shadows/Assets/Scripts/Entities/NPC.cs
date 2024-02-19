@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour, IInteractable
 {
-    public event Action<string, Action> OnShowReplic;
+    public event Action<string> OnShowReplic;
+    public event Action OnHideReplic;
 
     [SerializeField] private DialogLinesSO dialogLines;
     [SerializeField] private Vector2 positionLimits;
@@ -24,26 +25,42 @@ public class NPC : MonoBehaviour, IInteractable
         isInteracting = true;
     }
 
-    protected void FinishInteraction()
+    public void FinishInteraction()
     {
         isInteracting = false;
     }
 
-    public bool ShowDialog()
+    public bool ShowBusyDialog()
     {
-        if (dialogLines == null || dialogLines.lines.Length == 0)
+        return ShowDialog(dialogLines.busyLines);
+    }
+
+    public bool ShowGratitudeDialog()
+    {
+        return ShowDialog(dialogLines.gratitudeLines);
+    }
+
+    private bool ShowDialog(string[] lines)
+    {
+        if (lines == null || lines.Length == 0)
         {
             FinishInteraction();
             return false;
         }
-        string replic = dialogLines.lines[UnityEngine.Random.Range(0, dialogLines.lines.Length)];
-        OnShowReplic?.Invoke(replic, FinishInteraction);
+        string replic = lines[UnityEngine.Random.Range(0, lines.Length)];
+        OnShowReplic?.Invoke(replic);
         return true;
     }
 
     public bool IsInteracting()
     {
         return isInteracting;
+    }
+
+    public void StopTalking()
+    {
+        OnHideReplic?.Invoke();
+        FinishInteraction();
     }
 
     public bool Teleport()

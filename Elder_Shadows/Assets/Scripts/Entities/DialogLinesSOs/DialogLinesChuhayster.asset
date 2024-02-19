@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d958c4a8b596d42a6ca903f203e5ad, type: 3}
   m_Name: DialogLinesChuhayster
   m_EditorClassIdentifier: 
-  lines:
+  busyLines:
   - Sorry, I'm busy
+  gratitudeLines:
+  - Thank you!
+  - You are the best!

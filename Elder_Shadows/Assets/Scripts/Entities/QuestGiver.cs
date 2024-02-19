@@ -58,13 +58,15 @@ public class QuestGiver : NPC
 
     public void ShowActiveQuest()
     {
-        // check if can finish
-        questUI.DisplayActiveQuest(activeQuest.info, true, AbortQuest, FinishQuest, FinishInteraction);
+        questUI.DisplayActiveQuest(activeQuest.info, AbortQuest, FinishInteraction);
     }
 
     public bool CanOfferQuest()
     {
-        newQuest = ChooseQuest();
+        if (newQuest == null)
+        {
+            newQuest = ChooseQuest();
+        } 
         return newQuest != null;
     }
     
@@ -94,25 +96,29 @@ public class QuestGiver : NPC
 
         return null;
     }
+    
+    public bool FinishQuest()
+    {
+        if (QuestManager.instance.FinishQuest(activeQuest.info.id))
+        {
+            Debug.Log("Player finished quest: " + activeQuest.info.displayName);
+            activeQuest = null;
+            onActiveQuestStateChange(Quest.QuestState.REQUIREMENTS_NOT_MET);
+            return true;
+        }
+        return false;
+    }
 
     private void AcceptQuest()
     {
-        activeQuest = newQuest;
+        activeQuest = QuestManager.instance.GetQuestById(newQuest.info.id);
+        newQuest = null;
         onActiveQuestStateChange?.Invoke(activeQuest.state);
         QuestManager.instance.StartQuest(activeQuest.info.id);
         Debug.Log("Player accepted quest: " + activeQuest.info.displayName);
         FinishInteraction();
     }
     
-    private void FinishQuest()
-    {
-        Debug.Log("Player finished quest: " + activeQuest.info.displayName);
-        QuestManager.instance.FinishQuest(activeQuest.info.id);
-        activeQuest = null;
-        onActiveQuestStateChange(Quest.QuestState.REQUIREMENTS_NOT_MET);
-        FinishInteraction();
-    }
-
     private void AbortQuest()
     {
         Debug.Log("Player declined quest: " + activeQuest.info.displayName);
@@ -126,6 +132,7 @@ public class QuestGiver : NPC
     {
         Debug.Log("Player aborted quest: " + newQuest.info.displayName);
         activeQuest = null;
+        newQuest = null;
         FinishInteraction();
     }
 

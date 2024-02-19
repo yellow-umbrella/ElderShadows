@@ -42,31 +42,35 @@ MonoBehaviour:
         Name: Hare Meat
         Id: 1
         buffs: []
-      amount: 7
+      amount: 100
     - AllowedItems: 
       item:
         Name: 
         Id: -1
         buffs: []
-      amount: 0
+      amount: 1
     - AllowedItems: 
       item:
         Name: 
         Id: -1
         buffs: []
-      amount: 0
+      amount: 1
     - AllowedItems: 
       item:
         Name: 
         Id: -1
         buffs: []
-      amount: 0
+      amount: 1
     - AllowedItems: 
       item:
-        Name: 
-        Id: -1
-        buffs: []
-      amount: 0
+        Name: Wreath
+        Id: 17
+        buffs:
+        - attribute: 7
+          value: 2
+          min: 1
+          max: 3
+      amount: 1
     - AllowedItems: 
       item:
         Name: 

@@ -14,8 +14,16 @@ public class ActiveQuestNode : Node
 
     public override NodeState Evaluate()
     {
+        GetRoot().SetData(ShowGratitudeNode.GRATITUDE, false);
+
         if ((Node)parent.GetData(PREV_ACTION) != this)
         {
+            if (questGiver.FinishQuest())
+            {
+                GetRoot().SetData(ShowGratitudeNode.GRATITUDE, true);
+                state = NodeState.FAILURE;
+                return state;
+            }
             questGiver.ShowActiveQuest();
         }
         state = NodeState.RUNNING;

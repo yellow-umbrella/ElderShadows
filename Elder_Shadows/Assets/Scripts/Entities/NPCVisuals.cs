@@ -10,39 +10,36 @@ public class NPCVisuals : MonoBehaviour
     [SerializeField] protected NPC npc;
     [SerializeField] private GameObject dialogPanel;
     [SerializeField] private TextMeshProUGUI replicText;
-    [SerializeField] private float showingTime;
+    [SerializeField] private Transform canvas;
+    private float canvasOffset = .5f;
 
     protected virtual void Start()
     {
         npc.OnShowReplic += ShowReplic;
+        npc.OnHideReplic += HideDialog;
     }
 
     protected virtual void OnDestroy()
     {
         npc.OnShowReplic -= ShowReplic;
+        npc.OnHideReplic -= HideDialog;
     }
 
-    protected virtual void ShowReplic(string text, Action finishDialog)
+    protected virtual void ShowReplic(string text)
     {
         replicText.text = text;
         ShowDialog();
-        StartCoroutine(WaitAndHideDialog(finishDialog));
     }
 
     protected virtual void ShowDialog()
     {
         dialogPanel.SetActive(true);
-    }
-
-    private IEnumerator WaitAndHideDialog(Action finishDialog)
-    {
-        yield return new WaitForSeconds(showingTime);
-        HideDialog();
-        finishDialog();
+        canvas.position += new Vector3(0, canvasOffset);
     }
 
     protected virtual void HideDialog()
     {
         dialogPanel.SetActive(false);
+        canvas.position += new Vector3(0, -canvasOffset);
     }
 }

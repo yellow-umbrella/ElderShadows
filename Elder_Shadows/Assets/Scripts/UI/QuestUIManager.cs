@@ -13,7 +13,6 @@ public class QuestUIManager : MonoBehaviour
     [SerializeField] private Button acceptQuestButton;
 
     [SerializeField] private Button cancelQuestButton;
-    [SerializeField] private Button finishQuestButton;
 
     [SerializeField] private TextMeshProUGUI questName;
     [SerializeField] private TextMeshProUGUI questDescription;
@@ -36,25 +35,20 @@ public class QuestUIManager : MonoBehaviour
         acceptQuestButton.gameObject.SetActive(true);
 
         cancelQuestButton.gameObject.SetActive(false);
-        finishQuestButton.gameObject.SetActive(false);
     }
     
-    public void DisplayActiveQuest(QuestInfoSO quest, bool canBeFinished, Action questCanceledCallback, 
-        Action questFinishedCallback, Action closeActionCallback)
+    public void DisplayActiveQuest(QuestInfoSO quest, 
+        Action questCanceledCallback, Action closeActionCallback)
     {
         this.questNegativeCallback = questCanceledCallback;
-        this.questPositiveCallback = questFinishedCallback;
         closeAction = closeActionCallback;
 
         DisplayQuest(quest);
 
         cancelQuestButton.gameObject.SetActive(true);
-        finishQuestButton.gameObject.SetActive(true);
 
         declineQuestButton.gameObject.SetActive(false);
         acceptQuestButton.gameObject.SetActive(false);
-
-        finishQuestButton.interactable = canBeFinished;
     }
 
     private void DisplayQuest(QuestInfoSO quest)

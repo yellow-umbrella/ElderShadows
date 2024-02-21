@@ -75,7 +75,7 @@ public abstract class UserInterface : MonoBehaviour
     public void OnUp(GameObject obj)
     {
         if (MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver].ItemObject &&
-            (MouseData.slotHoveredOver != MouseData.activeSlot || !descriptionBoxObject.activeSelf))
+            (MouseData.slotHoveredOver != MouseData.activeSlot || !descriptionBoxObject || !MouseData.activeSlot))
         {
             SetNewActiveSlot(obj);
             OpenDescription(obj);
@@ -127,7 +127,12 @@ public abstract class UserInterface : MonoBehaviour
         {
             InventorySlot mouseHoverSlotData = MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver];
             inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
-            SetNewActiveSlot(MouseData.slotHoveredOver);
+            
+            if (MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver].ItemObject &&
+                (MouseData.slotHoveredOver != MouseData.activeSlot || !descriptionBoxObject || !MouseData.activeSlot))
+            {
+                SetNewActiveSlot(obj);
+            }
         }
     }
     public void OnDrag(GameObject obj)

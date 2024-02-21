@@ -101,7 +101,6 @@ MonoBehaviour:
   npc: {fileID: 8015215162052185891}
   dialogPanel: {fileID: 7353895584951057733}
   replicText: {fileID: 2597310924813631286}
-  showingTime: 5
   canvas: {fileID: 5587045849606890005}
 --- !u!1 &2827699784527809413
 GameObject:
@@ -593,6 +592,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogLines: {fileID: 11400000, guid: a18696773ffc5a14998f770a3a8e0625, type: 2}
   positionLimits: {x: 10, y: 10}
+  pointsToTeleport: []
   quests:
   - {fileID: 11400000, guid: 149ee117c05a46e46840338cbb704709, type: 2}
   - {fileID: 11400000, guid: 6cc0debbda6da514386c7f8d76b71ea0, type: 2}
@@ -614,7 +614,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 4092447189180878790}
   questGiver: {fileID: 8015215162052185891}
-  probabilityToTeleport: 0
+  probabilityToTeleport: 0.001
   wanderingRadius: 4
 --- !u!1 &7353895584951057733
 GameObject:

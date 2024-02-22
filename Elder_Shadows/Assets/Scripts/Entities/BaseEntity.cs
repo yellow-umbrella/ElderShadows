@@ -3,7 +3,6 @@ using Pathfinding;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -11,7 +10,6 @@ using Random = UnityEngine.Random;
 public class BaseEntity : MonoBehaviour, IAttackable
 {
     public event EventHandler OnDeath;
-    public event Action OnReachedEndOfPath;
     public event Action<BaseEntity> OnTooFar;
 
     public enum ModifierType
@@ -21,7 +19,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
         Speed
     }
 
-    [System.Serializable]
+    [Serializable]
     private struct Modifier
     {
         public ModifierType type;
@@ -53,24 +51,11 @@ public class BaseEntity : MonoBehaviour, IAttackable
         Scared = 3,
     }
 
-    [System.Serializable]
+    [Serializable]
     private struct Item
     {
         public ItemObject itemInfo;
         public float chance;
-    }
-    
-    [System.Serializable]
-    private struct LayerMaskToBehaviorType
-    {
-        public LayerMask intrudersMask;
-        public Behavior behavior;
-    }
-
-    private struct LayerMaskToIBehavior
-    {
-        public LayerMask intrudersMask;
-        public IAttackBehavior behavior;
     }
 
     [SerializeField] private EntityInfoSO info;
@@ -103,95 +88,34 @@ public class BaseEntity : MonoBehaviour, IAttackable
     [SerializeField] private Collider2D seeingRange;
 
     [Foldout("Behavior parameters", true)]
-    [SerializeField] private List<LayerMaskToBehaviorType> reactionMask;
     [SerializeField] private Behavior reactionToPlayer;
     [SerializeField] private Behavior reactionToTrustedPlayer;
     [SerializeField] private int trustRequired;
+    [SerializeField] private LayerMask aggressionTargets = new LayerMask();
+    [SerializeField] private LayerMask targets = new LayerMask();
+    [SerializeField] private LayerMask enemies = new LayerMask();
+    [SerializeField] private LayerMask scaryEnemies = new LayerMask();
 
-    [Foldout("Wandering parameters", true)]
-    [SerializeField] private float wanderingRadius = 4;
+    public Behavior CurrentReaction { get { return reactionToPlayer;} }
+    public bool IsModified { get; private set; } = false;
 
-    public Behavior CurrentBehavior { get { return reactionToPlayer;} }
-    public bool IsModified { get { return isModified; } }
-
-    // attack parameters
-    private bool canAttack = true;
-    private float timeBetweenAggroChecks = 1;
-    private float timeToNextAggroCheck;
-    private List<Collider2D> intruders = new List<Collider2D>();
-    private bool isModified = false;
-
-    // behavior parameters
-    private Dictionary<Behavior, IAttackBehavior> matchedBehavior;
-    private List<LayerMaskToIBehavior> attackBehavior;
-    private IIdleBehavior idleBehavior;
     private const int characterLayer = 7;
-
-    // pathfinding parameters
-    private Seeker seeker;
-    private Path path;
-    private int currentWaypoint = 0;
-    private float nextWaypointDist = .5f;
-    private bool reachedEndOfPath = true;
-    public bool ReachedEndOfPath 
-    { 
-        get {  return reachedEndOfPath; } 
-        private set 
-        {
-            if (reachedEndOfPath != value && value)
-            {
-                OnReachedEndOfPath?.Invoke();
-            }
-            reachedEndOfPath = value;
-        }
-    }
-    private float timeBetweenPathGen = 1f;
-    private float nextPathGen;
 
     public float MaxDistanceFromPlayer { get; set; } = float.MaxValue;
 
+    private GameObject hitBy = null;
+
     private void Awake()
     {
-        seeker = GetComponent<Seeker>();
-
         foreach (Modifier modifier in possibleModifiers)
         {
             float r = Random.value;
             if (r < modifier.chance)
             {
                 modifier.Apply(this);
-                isModified = true;
+                IsModified = true;
             }
         }
-
-        matchedBehavior =
-            new Dictionary<Behavior, IAttackBehavior>()
-            {
-                {Behavior.Aggressive, new AggressiveBehavior(this) },
-                {Behavior.Defensive, new DefensiveBehavior(this) },
-                {Behavior.Relaxed, new RelaxedBehavior(this) },
-                {Behavior.Scared, new ScaredBehavior(this) },
-            };
-
-        attackBehavior = new List<LayerMaskToIBehavior>
-        {
-            new LayerMaskToIBehavior()
-            {
-                intrudersMask = (1 << characterLayer),
-                behavior = matchedBehavior[reactionToPlayer]
-            }
-        };
-
-        foreach (var reaction in reactionMask)
-        {
-            attackBehavior.Add(new LayerMaskToIBehavior()
-            {
-                intrudersMask = reaction.intrudersMask,
-                behavior = matchedBehavior[reaction.behavior]
-            });
-        }
-
-        idleBehavior = new WanderingBehavior(this, wanderingRadius);
     }
 
     private void Update()
@@ -200,86 +124,120 @@ public class BaseEntity : MonoBehaviour, IAttackable
         {
             OnTooFar?.Invoke(this);
         }
-
-        if (!AttackBehavior())
-        {
-            idleBehavior.Behave();
-        }
-        MoveOnPath();
-        /*if (this.gameObject.tag != "Untagged")
-        {
-            Die();
-        }*/
     }
 
-    private void FixedUpdate()
+    
+    public void Attack(GameObject attackTarget)
     {
-        CheckForIntruders();
+        attackTarget.GetComponent<IAttackable>()
+            .TakeDamage(damage, IAttackable.DamageType.Physical, gameObject);
     }
 
-    // handling attack
-
-    private bool AttackBehavior()
+    public bool CanAttack(GameObject attackTarget)
     {
-        foreach (var behavior in attackBehavior)
+        if (attackTarget.HasComponent<IAttackable>())
         {
-            if (behavior.behavior.Behave())
-            {
-                return true;
-            }
+            return attackRange.OverlapPoint(attackTarget.transform.position);
         }
         return false;
     }
 
-    public bool TryAttack(GameObject attackTarget)
+    /// <summary>
+    /// Finds all aggression targets, that entity can see.
+    /// </summary>
+    public List<GameObject> FindTargets()
     {
-        if (attackRange.OverlapPoint(attackTarget.transform.position) && canAttack)
+        LayerMask mask = aggressionTargets;
+        if (CurrentReaction == Behavior.Aggressive)
         {
-            attackTarget.GetComponent<IAttackable>().TakeDamage(damage, IAttackable.DamageType.Physical, this.gameObject);
-            StartCoroutine(AttackCooldown());
-            return true;
-        }
-        return false;
-    }
-
-    private IEnumerator AttackCooldown()
-    {
-        canAttack = false;
-        yield return new WaitForSeconds(attackCooldown);
-        canAttack = true;
-    }
-
-    // finding enemies around
-
-    protected void CheckForIntruders()
-    {
-        // tick timer
-        timeToNextAggroCheck -= Time.fixedDeltaTime;
-        if (timeToNextAggroCheck <= 0)
-        {
-            timeToNextAggroCheck = timeBetweenAggroChecks;
-        } else
-        {
-            return;
+            mask = mask | (1 << characterLayer);
         }
 
-        // check every group of intruders and react to them
-        foreach (var behavior in attackBehavior)
+        return FindGameObjects(mask);
+    }
+
+    /// <summary>
+    /// Finds all scary enemies, that entity can see.
+    /// </summary>
+    public List<GameObject> FindEnemies()
+    {
+        LayerMask mask = scaryEnemies;
+        if (CurrentReaction == Behavior.Scared)
         {
-            ContactFilter2D contactFilter = new ContactFilter2D();
-            contactFilter.SetLayerMask(behavior.intrudersMask);
-            contactFilter.useTriggers = true;
+            mask = mask | (1 << characterLayer);
+        }
 
-            seeingRange.OverlapCollider(contactFilter, intruders);
+        return FindGameObjects(mask);
+    }
 
-            foreach (Collider2D collider in intruders)
+    private List<GameObject> FindGameObjects(LayerMask mask)
+    {
+        ContactFilter2D contactFilter = new ContactFilter2D();
+        contactFilter.SetLayerMask(mask);
+        contactFilter.useTriggers = false;
+
+        List<Collider2D> colliders = new List<Collider2D>();
+        seeingRange.OverlapCollider(contactFilter, colliders);
+
+        List<GameObject> objects = new List<GameObject>();
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.gameObject != gameObject)
             {
-                GameObject potentialTarget = collider.gameObject;
-                behavior.behavior.OnSee(potentialTarget);
+                objects.Add(collider.gameObject);
             }
         }
+
+        return objects;
     }
 
+    /// <summary>
+    /// Checks if entity was hit by one of the targets.
+    /// </summary>
+    public GameObject HitByTarget()
+    {
+        GameObject target = null;
+        if (hitBy != null)
+        {
+            LayerMask mask = targets | aggressionTargets;
+            if (CurrentReaction == Behavior.Defensive || CurrentReaction == Behavior.Aggressive)
+            {
+                mask = mask | (1 << characterLayer);
+            }
+            if (mask.LayerInMask(hitBy.layer))
+            {
+                target = hitBy;
+                hitBy = null;
+            }
+        }
+        return target;
+    }
+
+    /// <summary>
+    /// Checks if entity was hit by one of the enemies.
+    /// </summary>
+    public GameObject HitByEnemy()
+    {
+        GameObject enemy = null;
+        if (hitBy != null)
+        {
+            LayerMask mask = enemies | scaryEnemies;
+            if (CurrentReaction == Behavior.Relaxed || CurrentReaction == Behavior.Scared)
+            {
+                mask = mask | (1 << characterLayer);
+            }
+            if (mask.LayerInMask(hitBy.layer))
+            {
+                enemy = hitBy;
+                hitBy = null;
+            }
+        }
+        return enemy;
+    }
+
+    /// <summary>
+    /// Checks if target's collider is touching seeing range collider
+    /// </summary>
     public bool CanSee(GameObject target)
     {
         return seeingRange.OverlapPoint(target.transform.position);
@@ -294,18 +252,8 @@ public class BaseEntity : MonoBehaviour, IAttackable
         {
             Die();
             return IAttackable.State.Dead;
-        } else
-        {
-            foreach (var behavior in attackBehavior)
-            {
-                if (behavior.intrudersMask.LayerInMask(attacker.layer))
-                {
-                    behavior.behavior.OnHit(attacker);
-                    break;
-                }
-
-            } 
         }
+        hitBy = attacker;
         return IAttackable.State.Alive;
     }
 
@@ -331,58 +279,6 @@ public class BaseEntity : MonoBehaviour, IAttackable
                 groundItem.item = item.itemInfo;
                 Instantiate(groundItem, pos, Quaternion.identity);
             }
-        }
-    }
-
-    // movement using A* Pathfinding project
-
-    public void MoveTowards(Vector3 target)
-    {
-        SetPath(target);
-    }
-
-    private void SetPath(Vector2 target)
-    {
-        if (seeker.IsDone() && (Time.time > nextPathGen || ReachedEndOfPath))
-        {
-            seeker.StartPath(transform.position, target, OnPathGenComplete);
-            nextPathGen = Time.time + timeBetweenPathGen;
-        }
-    }
-
-    private void MoveOnPath()
-    {
-        if (path == null)
-        {
-            return;
-        }
-
-        if (currentWaypoint >= path.vectorPath.Count)
-        {
-            ReachedEndOfPath = true;
-            return;
-        } else
-        {
-            ReachedEndOfPath = false;
-        }
-
-        Vector2 direction = (path.vectorPath[currentWaypoint] - transform.position).normalized;
-        transform.Translate(direction * moveSpeed * Time.deltaTime);
-
-        float dist = Vector2.Distance(transform.position, path.vectorPath[currentWaypoint]);
-
-        if (dist < nextWaypointDist)
-        {
-            currentWaypoint++;
-        }
-    }
-
-    private void OnPathGenComplete(Path p)
-    {
-        if (!p.error)
-        {
-            path = p;
-            currentWaypoint = 0;
         }
     }
 }

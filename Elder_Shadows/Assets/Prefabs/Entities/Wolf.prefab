@@ -273,9 +273,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5792414836176843518}
-  - component: {fileID: 5792414836176843517}
   - component: {fileID: 3690292537189368024}
   - component: {fileID: 5930382753387479}
+  - component: {fileID: 6929995231048874667}
+  - component: {fileID: 5792414836176843517}
+  - component: {fileID: 3753600717742527748}
   m_Layer: 9
   m_Name: Wolf
   m_TagString: Untagged
@@ -301,44 +303,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5792414836176843517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5792414836176843519}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e4a612ee90b09f4792e1058e27800b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  info: {fileID: 11400000, guid: 88139212435d68b45abb39bdc5e8736d, type: 2}
-  health: 10
-  moveSpeed: 2
-  possibleModifiers:
-  - type: 1
-    chance: 0.3
-    modifier: 1.5
-  expForKill: 15
-  dropItems: []
-  damage: 3
-  attackCooldown: 1.5
-  attackRange: {fileID: 880465719648579546}
-  seeingRange: {fileID: 8728303751395186868}
-  reactionMask:
-  - intrudersMask:
-      serializedVersion: 2
-      m_Bits: 3584
-    behavior: 1
-  - intrudersMask:
-      serializedVersion: 2
-      m_Bits: 4352
-    behavior: 0
-  reactionToPlayer: 0
-  reactionToTrustedPlayer: 1
-  trustRequired: 50
-  wanderingRadius: 5
 --- !u!58 &3690292537189368024
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -383,6 +347,76 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
+--- !u!114 &6929995231048874667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792414836176843519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dec42a78632ed9543b7d6e62f5c471f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 2
+--- !u!114 &5792414836176843517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792414836176843519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e4a612ee90b09f4792e1058e27800b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  info: {fileID: 11400000, guid: 88139212435d68b45abb39bdc5e8736d, type: 2}
+  health: 10
+  moveSpeed: 2
+  possibleModifiers:
+  - type: 1
+    chance: 0.3
+    modifier: 1.5
+  expForKill: 15
+  dropItems: []
+  damage: 3
+  attackCooldown: 1.5
+  attackRange: {fileID: 880465719648579546}
+  seeingRange: {fileID: 8728303751395186868}
+  reactionToPlayer: 0
+  reactionToTrustedPlayer: 1
+  trustRequired: 50
+  aggressionTargets:
+    serializedVersion: 2
+    m_Bits: 256
+  targets:
+    serializedVersion: 2
+    m_Bits: 7680
+  enemies:
+    serializedVersion: 2
+    m_Bits: 0
+  scaryEnemies:
+    serializedVersion: 2
+    m_Bits: 0
+  wanderingRadius: 5
+--- !u!114 &3753600717742527748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792414836176843519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad705f1589569d145a80a35815d62d83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 6929995231048874667}
+  entity: {fileID: 5792414836176843517}
+  wanderingRadius: 4
+  attackCooldown: 1
 --- !u!1 &5792414836558830140
 GameObject:
   m_ObjectHideFlags: 0

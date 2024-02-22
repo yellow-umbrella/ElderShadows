@@ -271,6 +271,8 @@ GameObject:
   - component: {fileID: 5792414836176843517}
   - component: {fileID: 3690292537189368024}
   - component: {fileID: 5930382753387479}
+  - component: {fileID: 4101204576643623386}
+  - component: {fileID: 6897944401315134676}
   m_Layer: 10
   m_Name: Zlyden
   m_TagString: Untagged
@@ -321,19 +323,21 @@ MonoBehaviour:
   attackCooldown: 1
   attackRange: {fileID: 880465719648579546}
   seeingRange: {fileID: 8728303751395186868}
-  reactionMask:
-  - intrudersMask:
-      serializedVersion: 2
-      m_Bits: 1536
-    behavior: 1
-  - intrudersMask:
-      serializedVersion: 2
-      m_Bits: 6400
-    behavior: 0
   reactionToPlayer: 0
   reactionToTrustedPlayer: 0
   trustRequired: 0
-  wanderingRadius: 5
+  aggressionTargets:
+    serializedVersion: 2
+    m_Bits: 4096
+  targets:
+    serializedVersion: 2
+    m_Bits: 3072
+  enemies:
+    serializedVersion: 2
+    m_Bits: 0
+  scaryEnemies:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!58 &3690292537189368024
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -378,6 +382,35 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
+--- !u!114 &4101204576643623386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792414836176843519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dec42a78632ed9543b7d6e62f5c471f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 2
+--- !u!114 &6897944401315134676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792414836176843519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad705f1589569d145a80a35815d62d83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 4101204576643623386}
+  entity: {fileID: 5792414836176843517}
+  wanderingRadius: 4
+  attackCooldown: 1
 --- !u!1 &5792414836558830140
 GameObject:
   m_ObjectHideFlags: 0

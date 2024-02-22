@@ -39,7 +39,7 @@ public class BaseEntityVisuals : MonoBehaviour
 
     private void SetHealthbarColor()
     {
-        switch (entity.CurrentBehavior)
+        switch (entity.CurrentReaction)
         {
             case BaseEntity.Behavior.Aggressive:
                 healthBar.color = Color.red;

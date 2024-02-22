@@ -461,9 +461,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2800430324373740860}
-  - component: {fileID: 4380414845481937082}
   - component: {fileID: 7003251188265073427}
   - component: {fileID: 6680192731621319221}
+  - component: {fileID: 347912890076632134}
+  - component: {fileID: 4380414845481937082}
+  - component: {fileID: -4776698765681381929}
   m_Layer: 8
   m_Name: Hare
   m_TagString: Untagged
@@ -489,46 +491,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4380414845481937082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4875288569728316549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e4a612ee90b09f4792e1058e27800b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  info: {fileID: 11400000, guid: e24c990444c58e145bd8527e596bf195, type: 2}
-  health: 5
-  moveSpeed: 3
-  possibleModifiers:
-  - type: 2
-    chance: 0.5
-    modifier: 1.5
-  expForKill: 5
-  dropItems:
-  - itemInfo: {fileID: 11400000, guid: c31b655fbf7ed47c88755c08dab402b9, type: 2}
-    chance: 1
-  damage: 1
-  attackCooldown: 3
-  attackRange: {fileID: 5112880757809269999}
-  seeingRange: {fileID: 5596017496038558039}
-  reactionMask:
-  - intrudersMask:
-      serializedVersion: 2
-      m_Bits: 2304
-    behavior: 2
-  - intrudersMask:
-      serializedVersion: 2
-      m_Bits: 5696
-    behavior: 3
-  reactionToPlayer: 3
-  reactionToTrustedPlayer: 2
-  trustRequired: 20
-  wanderingRadius: 4
 --- !u!58 &7003251188265073427
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -573,6 +535,78 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
+--- !u!114 &347912890076632134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4875288569728316549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dec42a78632ed9543b7d6e62f5c471f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
+--- !u!114 &4380414845481937082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4875288569728316549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e4a612ee90b09f4792e1058e27800b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  info: {fileID: 11400000, guid: e24c990444c58e145bd8527e596bf195, type: 2}
+  health: 5
+  moveSpeed: 3
+  possibleModifiers:
+  - type: 2
+    chance: 0.5
+    modifier: 1.5
+  expForKill: 5
+  dropItems:
+  - itemInfo: {fileID: 11400000, guid: c31b655fbf7ed47c88755c08dab402b9, type: 2}
+    chance: 1
+  damage: 1
+  attackCooldown: 3
+  attackRange: {fileID: 5112880757809269999}
+  seeingRange: {fileID: 5596017496038558039}
+  reactionToPlayer: 3
+  reactionToTrustedPlayer: 2
+  trustRequired: 20
+  aggressionTargets:
+    serializedVersion: 2
+    m_Bits: 0
+  targets:
+    serializedVersion: 2
+    m_Bits: 0
+  enemies:
+    serializedVersion: 2
+    m_Bits: 7936
+  scaryEnemies:
+    serializedVersion: 2
+    m_Bits: 1536
+  wanderingRadius: 4
+--- !u!114 &-4776698765681381929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4875288569728316549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad705f1589569d145a80a35815d62d83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 347912890076632134}
+  entity: {fileID: 4380414845481937082}
+  wanderingRadius: 4
+  attackCooldown: 1
 --- !u!1 &5621260781650034789
 GameObject:
   m_ObjectHideFlags: 0

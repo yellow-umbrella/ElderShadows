@@ -182,7 +182,7 @@ public class EntitySpawner : MonoBehaviour
         spawnCount--;
     }
 
-    private void SpawnedEntity_OnDeath(object sender, System.EventArgs e)
+    private void SpawnedEntity_OnDeath(BaseEntity entity)
     {
         spawnCount--;
     }

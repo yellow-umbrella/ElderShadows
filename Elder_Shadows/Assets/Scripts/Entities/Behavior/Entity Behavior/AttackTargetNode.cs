@@ -7,14 +7,12 @@ using BehaviorTree;
 public class AttackTargetNode : Node
 {
     private BaseEntity entity;
-    private float attackCooldown;
     private bool canAttack = true;
     public const string ATTACK_TARGET = "attack_target";
 
-    public AttackTargetNode(BaseEntity entity, float attackCooldown)
+    public AttackTargetNode(BaseEntity entity)
     {
         this.entity = entity;
-        this.attackCooldown = attackCooldown;
     }
 
     public override NodeState Evaluate()
@@ -32,7 +30,7 @@ public class AttackTargetNode : Node
     private IEnumerator AttackCooldown()
     {
         canAttack = false;
-        yield return new WaitForSeconds(attackCooldown);
+        yield return new WaitForSeconds(entity.Info.attackCooldown);
         canAttack = true;
     }
 }

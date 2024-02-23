@@ -18,3 +18,37 @@ MonoBehaviour:
     venture into the woods. It is an aggressive animal, that will strike you if you
     come to close to it. Usually, wolves spend their time hunting hares and patrolling
     their territory.
+  attacks:
+  - {fileID: 11400000, guid: f29a89755a44887409203a408e838354, type: 2}
+  health: 10
+  speed: 2
+  physDmg: 3
+  physRes: 0
+  magDmg: 0
+  magRes: 0
+  attackCooldown: 1.5
+  seeingRange: 0
+  reactionToPlayer: 0
+  reactionToTrustedPlayer: 1
+  trustRequired: 50
+  aggressionTargets:
+    serializedVersion: 2
+    m_Bits: 4352
+  targets:
+    serializedVersion: 2
+    m_Bits: 7936
+  enemies:
+    serializedVersion: 2
+    m_Bits: 0
+  scaryEnemies:
+    serializedVersion: 2
+    m_Bits: 0
+  trustForKill: -1
+  expForKill: 15
+  possibleModifiers:
+  - type: 1
+    chance: 0.3
+    modifier: 1.5
+  dropItems:
+  - itemInfo: {fileID: 11400000, guid: fbae51ae5eab85d4fb936113b16a7239, type: 2}
+    chance: 0.5

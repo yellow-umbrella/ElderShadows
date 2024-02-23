@@ -20,9 +20,45 @@ MonoBehaviour:
     killing them.
 
 
-
     Mavkas like to play with each other, dance and sing songs
     together. They look like beautiful young girls with hair of different colors.
     Mavkas usually wear white dresses and wreaths from forest flowers. The most expressive
     feature distinguishing them from humans is their torn back so that you can see
     their ribs, guts and heart.'
+  attacks:
+  - {fileID: 11400000, guid: c2c589bdcfcbcbb4aa7ed9b8da8f13a1, type: 2}
+  - {fileID: 11400000, guid: f29a89755a44887409203a408e838354, type: 2}
+  health: 50
+  speed: 1
+  physDmg: 10
+  physRes: 1
+  magDmg: 10
+  magRes: 1
+  attackCooldown: 0.75
+  seeingRange: 0
+  reactionToPlayer: 0
+  reactionToTrustedPlayer: 1
+  trustRequired: 50
+  aggressionTargets:
+    serializedVersion: 2
+    m_Bits: 4096
+  targets:
+    serializedVersion: 2
+    m_Bits: 7936
+  enemies:
+    serializedVersion: 2
+    m_Bits: 0
+  scaryEnemies:
+    serializedVersion: 2
+    m_Bits: 0
+  trustForKill: -5
+  expForKill: 25
+  possibleModifiers:
+  - type: 1
+    chance: 0.3
+    modifier: 1.5
+  dropItems:
+  - itemInfo: {fileID: 11400000, guid: 6907d71c05ceea14984b6be5b1f302b6, type: 2}
+    chance: 0.2
+  - itemInfo: {fileID: 11400000, guid: 2e2b6cfa80dc1aa4abb590e26ee132a9, type: 2}
+    chance: 0.5

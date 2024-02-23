@@ -5,6 +5,8 @@ using Unity.VisualScripting;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using static UnityEditor.Progress;
+using System.Globalization;
 
 public class LoadDBs
 {
@@ -17,7 +19,7 @@ public class LoadDBs
     private static string itemsDBPath = "Assets/Scripts/Inventory/Items/ItemDatabase.asset";
     private static string entitiesSOPath = "Assets/Scripts/Entities/EntityInfoSOs/";
     private static string entitiesPrefabsPath = "Assets/Prefabs/Entities/";
-
+    private static string entitiesCSVPath = "/Editor/CSVs/EntitiesDB.tsv";
 
     [MenuItem("Utilities/Generate Quests")]
     public static void GenerateQuests()
@@ -34,11 +36,12 @@ public class LoadDBs
             // checking if this quest already exists and loading or creating it 
             string questSOPath = $"{questsSOPath}{splitData[0]}.asset";
             QuestInfoSO quest = AssetDatabase.LoadAssetAtPath<QuestInfoSO>(questSOPath);
-            if (quest == null )
+            if (quest == null)
             {
                 quest = ScriptableObject.CreateInstance<QuestInfoSO>();
                 isNewQuest = true;
-            } else
+            }
+            else
             {
                 isNewQuest = false;
             }
@@ -104,7 +107,7 @@ public class LoadDBs
                 GameObject questStep = AssetDatabase.LoadAssetAtPath<GameObject>(stepPrefabPath);
                 quest.questStepPrefabs.Add(questStep);
             }
-            
+
             if (isNewQuest)
             {
                 AssetDatabase.CreateAsset(quest, questSOPath);
@@ -156,8 +159,18 @@ public class LoadDBs
 
             item.description = splitData[2];
             item.type = (ItemType)Enum.Parse(typeof(ItemType), splitData[4]);
-            item.data.Id = int.Parse(splitData[0]);
+            //item.data.Id = int.Parse(splitData[0]);
             item.data.Name = splitData[1];
+
+            if (item.type == ItemType.Helmet || item.type == ItemType.Weapon || item.type == ItemType.Shield 
+                || item.type == ItemType.Boots || item.type == ItemType.Chest)
+            {
+                item.stackable = false;
+            }
+            else
+            {
+                item.stackable = true;  
+            }
 
             if (splitData[3] != "")
             {
@@ -183,6 +196,56 @@ public class LoadDBs
 
         itemDB.ItemObjects = items.ToArray();
         EditorUtility.SetDirty(itemDB);
+        AssetDatabase.SaveAssets();
+    }
+
+    [MenuItem("Utilities/Generate Entities")]
+    public static void GenerateEntities()
+    {
+        string[] allLines = File.ReadAllLines(Application.dataPath + entitiesCSVPath);
+        bool isNewEntity;
+
+        for (int i = 1; i < allLines.Length; i++)
+        {
+            string[] splitData = allLines[i].Split('\t');
+            string entitySOPath = $"{entitiesSOPath}{splitData[0]}.asset";
+            EntityInfoSO entity = AssetDatabase.LoadAssetAtPath<EntityInfoSO>(entitySOPath);
+
+            if (entity == null)
+            {
+                entity = ScriptableObject.CreateInstance<EntityInfoSO>();
+                isNewEntity = true;
+            }
+            else
+            {
+                isNewEntity = false;
+            }
+
+            var culture = new CultureInfo("en-US");
+
+            entity.displayName = splitData[0];
+            entity.health = float.Parse(splitData[1]);
+            entity.speed = float.Parse(splitData[2]);
+            entity.physDmg = float.Parse(splitData[3]);
+            entity.physRes = float.Parse(splitData[4]);
+            entity.magDmg = float.Parse(splitData[5]);
+            entity.magRes = float.Parse(splitData[6]);
+            entity.attackCooldown = float.Parse(splitData[7], NumberStyles.Float, culture);
+            entity.seeingRange = float.Parse(splitData[8]);
+            entity.reactionToPlayer = (BaseEntity.Behavior)Enum
+                .Parse(typeof(BaseEntity.Behavior), splitData[9]);
+            entity.reactionToTrustedPlayer = (BaseEntity.Behavior)Enum
+                .Parse(typeof(BaseEntity.Behavior), splitData[10]);
+            entity.trustRequired = int.Parse(splitData[11]);
+            entity.trustForKill = int.Parse(splitData[12]);
+            entity.expForKill = int.Parse(splitData[13]);
+
+            if (isNewEntity)
+            {
+                AssetDatabase.CreateAsset(entity, entitySOPath);
+            }
+        }
+
         AssetDatabase.SaveAssets();
     }
 }

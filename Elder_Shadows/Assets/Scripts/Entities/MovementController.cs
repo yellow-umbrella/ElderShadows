@@ -7,16 +7,14 @@ using UnityEngine;
 [RequireComponent(typeof(Seeker))]
 public class MovementController : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed;
+    public float MoveSpeed { get; set; } = 1.0f;
+    public bool ReachedEndOfPath { get; private set; }
+    public bool IsGeneratingPath { get; private set; }
 
     private Seeker seeker;
     private Path path;
-
     private int currentWaypoint = 0;
     private float nextWaypointDist = .5f;
-
-    public bool ReachedEndOfPath { get; private set; }
-    public bool IsGeneratingPath { get; private set; }
 
     private void Awake()
     {
@@ -24,7 +22,9 @@ public class MovementController : MonoBehaviour
         ReachedEndOfPath = true;
     }
 
-    // ask seeker to plan new path
+    /// <summary>
+    /// Ask seeker to plan new path from current position to target position.
+    /// </summary>
     public void SetPath(Vector2 target)
     {
         if (seeker.IsDone())
@@ -70,7 +70,7 @@ public class MovementController : MonoBehaviour
 
         // move on path in direction of current waypoint
         Vector2 direction = (path.vectorPath[currentWaypoint] - transform.position).normalized;
-        transform.Translate(direction * moveSpeed * Time.deltaTime);
+        transform.Translate(direction * MoveSpeed * Time.deltaTime);
 
         // if close to current waypoint move on to next
         float dist = Vector2.Distance(transform.position, path.vectorPath[currentWaypoint]);

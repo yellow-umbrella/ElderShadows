@@ -19,3 +19,39 @@ MonoBehaviour:
     intentionally harm people and can lure them into swamps or deep water at night.
     They look like children in white robes with empty, dead eyes and hold flames
     in their hands. Also, poterchas can turn themselves into lights.
+  attacks:
+  - {fileID: 11400000, guid: c2c589bdcfcbcbb4aa7ed9b8da8f13a1, type: 2}
+  health: 10
+  speed: 2
+  physDmg: 3
+  physRes: 1
+  magDmg: 3
+  magRes: 0
+  attackCooldown: 2
+  seeingRange: 0
+  reactionToPlayer: 1
+  reactionToTrustedPlayer: 2
+  trustRequired: 10
+  aggressionTargets:
+    serializedVersion: 2
+    m_Bits: 4096
+  targets:
+    serializedVersion: 2
+    m_Bits: 6912
+  enemies:
+    serializedVersion: 2
+    m_Bits: 1024
+  scaryEnemies:
+    serializedVersion: 2
+    m_Bits: 0
+  trustForKill: -5
+  expForKill: 10
+  possibleModifiers:
+  - type: 0
+    chance: 0.3
+    modifier: 1.5
+  dropItems:
+  - itemInfo: {fileID: 11400000, guid: f4f6e59c2eb8ff54a87fbe7a80aa4cd1, type: 2}
+    chance: 0.5
+  - itemInfo: {fileID: 11400000, guid: 2e2b6cfa80dc1aa4abb590e26ee132a9, type: 2}
+    chance: 0.5

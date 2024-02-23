@@ -17,3 +17,42 @@ MonoBehaviour:
   description: Good spirits who look like small fluffy animals, change the color
     of their fur depending on the place where they are. Only people with a good heart
     and a bright soul can approach them.
+  attacks: []
+  health: 6
+  speed: 3
+  physDmg: 0
+  physRes: 0
+  magDmg: 0
+  magRes: 1
+  attackCooldown: 0
+  seeingRange: 3
+  reactionToPlayer: 3
+  reactionToTrustedPlayer: 2
+  trustRequired: 30
+  aggressionTargets:
+    serializedVersion: 2
+    m_Bits: 0
+  targets:
+    serializedVersion: 2
+    m_Bits: 0
+  enemies:
+    serializedVersion: 2
+    m_Bits: 0
+  scaryEnemies:
+    serializedVersion: 2
+    m_Bits: 5120
+  trustForKill: -2
+  expForKill: 5
+  possibleModifiers:
+  - type: 0
+    chance: 0.3
+    modifier: 1.5
+  dropItems:
+  - itemInfo: {fileID: 11400000, guid: d61c14faa761378469a6cc1b220a4127, type: 2}
+    chance: 0.5
+  - itemInfo: {fileID: 11400000, guid: e9cde16194ce5cd42926a701aa0b7835, type: 2}
+    chance: 0.1
+  - itemInfo: {fileID: 11400000, guid: d91b0c11a1372d34cb6ad801d4541cae, type: 2}
+    chance: 0.1
+  - itemInfo: {fileID: 11400000, guid: ef44e9c8eee9fde4f963972f9db1c420, type: 2}
+    chance: 0.1

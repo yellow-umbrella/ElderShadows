@@ -19,3 +19,39 @@ MonoBehaviour:
     usually look like ugly, wrinkled, and dirty small old men. It is known that they
     are servants of Lykho and when they don`t have a human host they are hanging
     out near it."
+  attacks:
+  - {fileID: 11400000, guid: f29a89755a44887409203a408e838354, type: 2}
+  health: 10
+  speed: 2
+  physDmg: 3
+  physRes: 0
+  magDmg: 3
+  magRes: 0
+  attackCooldown: 1
+  seeingRange: 0
+  reactionToPlayer: 0
+  reactionToTrustedPlayer: 0
+  trustRequired: 0
+  aggressionTargets:
+    serializedVersion: 2
+    m_Bits: 4096
+  targets:
+    serializedVersion: 2
+    m_Bits: 7936
+  enemies:
+    serializedVersion: 2
+    m_Bits: 0
+  scaryEnemies:
+    serializedVersion: 2
+    m_Bits: 0
+  trustForKill: 0
+  expForKill: 15
+  possibleModifiers:
+  - type: 2
+    chance: 0.3
+    modifier: 1.5
+  dropItems:
+  - itemInfo: {fileID: 11400000, guid: 9dc51ba44560b984eae45ea248045cfb, type: 2}
+    chance: 0.9
+  - itemInfo: {fileID: 11400000, guid: d61c14faa761378469a6cc1b220a4127, type: 2}
+    chance: 0.5

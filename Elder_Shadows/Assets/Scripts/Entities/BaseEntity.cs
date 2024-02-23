@@ -1,15 +1,13 @@
 using MyBox;
-using Pathfinding;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(Seeker))]
 public class BaseEntity : MonoBehaviour, IAttackable
 {
-    public event EventHandler OnDeath;
+    public event Action<BaseEntity> OnDeath;
     public event Action<BaseEntity> OnTooFar;
 
     public enum ModifierType
@@ -20,7 +18,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
     }
 
     [Serializable]
-    private struct Modifier
+    public struct Modifier
     {
         public ModifierType type;
         public float chance;
@@ -31,13 +29,17 @@ public class BaseEntity : MonoBehaviour, IAttackable
             switch (type)
             {
                 case ModifierType.Health:
-                    entity.health = (int)(entity.health * modifier);
+                    entity.Health = entity.Health * modifier;
                     break;
                 case ModifierType.Damage:
-                    entity.damage = (int)(entity.damage * modifier);
+                    entity.physDmg = entity.physDmg * modifier;
+                    entity.magDmg = entity.magDmg * modifier;
                     break;
                 case ModifierType.Speed:
-                    entity.moveSpeed = entity.moveSpeed * modifier;
+                    if (entity.gameObject.TryGetComponent(out MovementController controller))
+                    {
+                        controller.MoveSpeed = controller.MoveSpeed * modifier;
+                    }
                     break;
             }
         }
@@ -52,62 +54,41 @@ public class BaseEntity : MonoBehaviour, IAttackable
     }
 
     [Serializable]
-    private struct Item
+    public struct Drop
     {
         public ItemObject itemInfo;
         public float chance;
     }
 
-    [SerializeField] private EntityInfoSO info;
-    [SerializeField] private float health = 10;
-    [SerializeField] private float moveSpeed;
-
-    [SerializeField] private List<Modifier> possibleModifiers;
-
-    public float Health
-    {
-        get { return health; }
-    }
 
     public EntityInfoSO Info { get { return info; } }
     public string ID { get { return info.id; } }
-
-    [Foldout("Drop parameters", true)]
-    [SerializeField] private int expForKill = 5;
-    [SerializeField] private List<Item> dropItems = new List<Item>();
-    
-    public int ExpForKill
-    {
-        get { return expForKill; }
-    }
-
-    [Foldout("Attack parameters", true)]
-    [SerializeField] private int damage = 2;
-    [SerializeField] private float attackCooldown = 3;
-    [SerializeField] private Collider2D attackRange;
-    [SerializeField] private Collider2D seeingRange;
-
-    [Foldout("Behavior parameters", true)]
-    [SerializeField] private Behavior reactionToPlayer;
-    [SerializeField] private Behavior reactionToTrustedPlayer;
-    [SerializeField] private int trustRequired;
-    [SerializeField] private LayerMask aggressionTargets = new LayerMask();
-    [SerializeField] private LayerMask targets = new LayerMask();
-    [SerializeField] private LayerMask enemies = new LayerMask();
-    [SerializeField] private LayerMask scaryEnemies = new LayerMask();
-
-    public Behavior CurrentReaction { get { return reactionToPlayer;} }
+    public float Health { get; private set; }
+    public int ExpForKill { get { return info.expForKill; } }
+    public Behavior CurrentReaction { get { return info.reactionToPlayer;} }
     public bool IsModified { get; private set; } = false;
-
-    private const int characterLayer = 7;
-
     public float MaxDistanceFromPlayer { get; set; } = float.MaxValue;
 
+
+    [SerializeField] private EntityInfoSO info;
+    [SerializeField] private Collider2D seeingRange;
+
+    private float physDmg;
+    private float magDmg;
+
+    private const int characterLayer = 7;
     private GameObject hitBy = null;
+    private EntityAttackSO currentAttack = null;
 
     private void Awake()
     {
-        foreach (Modifier modifier in possibleModifiers)
+        Health = info.health;
+        physDmg = info.physDmg;
+        magDmg = info.magDmg;
+
+        GetComponent<MovementController>().MoveSpeed = info.speed;
+
+        foreach (Modifier modifier in info.possibleModifiers)
         {
             float r = Random.value;
             if (r < modifier.chance)
@@ -125,21 +106,87 @@ public class BaseEntity : MonoBehaviour, IAttackable
             OnTooFar?.Invoke(this);
         }
     }
-
     
     public void Attack(GameObject attackTarget)
     {
+        float damage = 0;
+        switch (currentAttack.dmgType)
+        {
+            case IAttackable.DamageType.Physical:
+                damage = physDmg;
+                break;
+            case IAttackable.DamageType.Magic: 
+                damage = magDmg; 
+                break;
+        }
         attackTarget.GetComponent<IAttackable>()
-            .TakeDamage(damage, IAttackable.DamageType.Physical, gameObject);
+            .TakeDamage(damage, currentAttack.dmgType, gameObject);
     }
 
     public bool CanAttack(GameObject attackTarget)
     {
-        if (attackTarget.HasComponent<IAttackable>())
+        if (attackTarget.HasComponent<IAttackable>() && ChooseAttack(ref currentAttack))
         {
-            return attackRange.OverlapPoint(attackTarget.transform.position);
+            return Vector2.Distance(attackTarget.transform.position, transform.position) <= currentAttack.range;
         }
         return false;
+    }
+
+    private bool ChooseAttack(ref EntityAttackSO attack)
+    {
+        if (info.attacks.Count == 0) { return false; }
+        attack = info.attacks[Random.Range(0, info.attacks.Count)];
+        return true;
+    }
+
+    public IAttackable.State TakeDamage(float damage, IAttackable.DamageType type, GameObject attacker)
+    {
+        float resistance = 0;
+        switch (type)
+        {
+            case IAttackable.DamageType.Physical:
+                resistance = info.physRes;
+                break;
+            case IAttackable.DamageType.Magic:
+                resistance = info.magRes;
+                break;
+        }
+
+        Health -= Mathf.Max(0, damage - resistance);
+
+        if (Health <= 0)
+        {
+            Die();
+            return IAttackable.State.Dead;
+        }
+
+        hitBy = attacker;
+        return IAttackable.State.Alive;
+    }
+
+    [ContextMenu("Die")]
+    protected void Die()
+    {
+        OnDeath?.Invoke(this);
+        DropItems();
+        Destroy(gameObject);
+    }
+
+    private void DropItems()
+    {
+        foreach(var item in info.dropItems)
+        {
+            if (Random.value <= item.chance)
+            {
+                float offset = 1f;
+                Vector2 pos = new Vector2(transform.position.x + Random.Range(-offset, offset), 
+                    transform.position.y + Random.Range(-offset, offset));
+                GroundItem groundItem = new GameObject().AddComponent<GroundItem>();
+                groundItem.gameObject.AddComponent<SpriteRenderer>();
+                groundItem.item = item.itemInfo;
+                Instantiate(groundItem, pos, Quaternion.identity);
+            }
+        }
     }
 
     /// <summary>
@@ -147,7 +194,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
     /// </summary>
     public List<GameObject> FindTargets()
     {
-        LayerMask mask = aggressionTargets;
+        LayerMask mask = info.aggressionTargets;
         if (CurrentReaction == Behavior.Aggressive)
         {
             mask = mask | (1 << characterLayer);
@@ -161,7 +208,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
     /// </summary>
     public List<GameObject> FindEnemies()
     {
-        LayerMask mask = scaryEnemies;
+        LayerMask mask = info.scaryEnemies;
         if (CurrentReaction == Behavior.Scared)
         {
             mask = mask | (1 << characterLayer);
@@ -199,7 +246,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
         GameObject target = null;
         if (hitBy != null)
         {
-            LayerMask mask = targets | aggressionTargets;
+            LayerMask mask = info.targets | info.aggressionTargets;
             if (CurrentReaction == Behavior.Defensive || CurrentReaction == Behavior.Aggressive)
             {
                 mask = mask | (1 << characterLayer);
@@ -221,7 +268,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
         GameObject enemy = null;
         if (hitBy != null)
         {
-            LayerMask mask = enemies | scaryEnemies;
+            LayerMask mask = info.enemies | info.scaryEnemies;
             if (CurrentReaction == Behavior.Relaxed || CurrentReaction == Behavior.Scared)
             {
                 mask = mask | (1 << characterLayer);
@@ -241,44 +288,5 @@ public class BaseEntity : MonoBehaviour, IAttackable
     public bool CanSee(GameObject target)
     {
         return seeingRange.OverlapPoint(target.transform.position);
-    }
-
-    // handling taking damage and death
-
-    public IAttackable.State TakeDamage(float damage, IAttackable.DamageType type, GameObject attacker)
-    {
-        health -= damage;
-        if (health <= 0)
-        {
-            Die();
-            return IAttackable.State.Dead;
-        }
-        hitBy = attacker;
-        return IAttackable.State.Alive;
-    }
-
-    [ContextMenu("Die")]
-    protected void Die()
-    {
-        OnDeath?.Invoke(this, EventArgs.Empty);
-        DropItems();
-        Destroy(gameObject);
-    }
-
-    private void DropItems()
-    {
-        foreach(var item in dropItems)
-        {
-            if (Random.value <= item.chance)
-            {
-                float offset = 1f;
-                Vector2 pos = new Vector2(transform.position.x + Random.Range(-offset, offset), 
-                    transform.position.y + Random.Range(-offset, offset));
-                GroundItem groundItem = new GameObject().AddComponent<GroundItem>();
-                groundItem.gameObject.AddComponent<SpriteRenderer>();
-                groundItem.item = item.itemInfo;
-                Instantiate(groundItem, pos, Quaternion.identity);
-            }
-        }
     }
 }

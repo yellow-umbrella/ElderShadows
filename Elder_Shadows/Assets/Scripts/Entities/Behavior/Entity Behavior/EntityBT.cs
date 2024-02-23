@@ -1,25 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using BehaviorTree;
 
+[RequireComponent(typeof(MovementController))]
+[RequireComponent(typeof(BaseEntity))]
 public class EntityBT : BehaviorTree.Tree
 {
-    [SerializeField] private MovementController controller;
-    [SerializeField] private BaseEntity entity;
     [SerializeField] private float wanderingRadius = 4f;
-    [SerializeField] private float attackCooldown = 1f;
+
+    private MovementController controller;
+    private BaseEntity entity;
 
     protected override Node SetupTree()
     {
+        controller = gameObject.GetComponent<MovementController>();
+        entity = gameObject.GetComponent<BaseEntity>();
+
         Node root = new SelectorNode(new List<Node>
         {
             // attack existing target
             new SequenceNode(new List<Node>
             {
                 new TargetInAttackRangeCheck(entity),
-                new AttackTargetNode(entity, attackCooldown)
+                new AttackTargetNode(entity)
             }),
             // find new target and go to it
             new SequenceNode(new List<Node>

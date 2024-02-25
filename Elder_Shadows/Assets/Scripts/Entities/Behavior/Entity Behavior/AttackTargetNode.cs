@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using BehaviorTree;
+using System;
 
 public class AttackTargetNode : Node
 {
     private BaseEntity entity;
-    private bool canAttack = true;
     public const string ATTACK_TARGET = "attack_target";
+    public const string ATTACK_COOLDOWN = "attack_cooldown";
 
     public AttackTargetNode(BaseEntity entity)
     {
@@ -17,22 +18,33 @@ public class AttackTargetNode : Node
 
     public override NodeState Evaluate()
     {
-        GameObject target = (GameObject)GetData(ATTACK_TARGET);
-        if (canAttack)
+        GameObject target = GetData(ATTACK_TARGET) as GameObject;
+        if (target == null)
         {
-            entity.Attack(target);
-            entity.StartCoroutine(AttackCooldown());
-            state = NodeState.SUCCESS;
+            state = NodeState.FAILURE;
             return state;
         }
-        state = NodeState.FAILURE;
-        return state;
-    }
 
-    private IEnumerator AttackCooldown()
-    {
-        canAttack = false;
-        yield return new WaitForSeconds(entity.Info.attackCooldown);
-        canAttack = true;
+        if (state == NodeState.RUNNING)
+        {
+            if (entity.CanInflictDamage)
+            {
+                entity.Attack(target);
+                entity.CanInflictDamage = false;
+            }
+            if (!entity.IsAttacking)
+            {
+                state = NodeState.SUCCESS;
+            }
+            return state;
+        }
+
+        entity.StartAttack(target);
+        if (GetData(ATTACK_COOLDOWN) is Func<IEnumerator> cooldown)
+        {
+            entity.StartCoroutine(cooldown());
+        }
+        state = NodeState.RUNNING;
+        return state;
     }
 }

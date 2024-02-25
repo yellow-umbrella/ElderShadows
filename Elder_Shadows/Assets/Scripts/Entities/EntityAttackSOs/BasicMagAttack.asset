@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea138ff71d9fec4b81f01495def3a54, type: 3}
+  m_Script: {fileID: 11500000, guid: f66c54299e734bb45a4d00c25c21b59f, type: 3}
   m_Name: BasicMagAttack
   m_EditorClassIdentifier: 
   dmgType: 1

@@ -19,7 +19,7 @@ public class TargetInSeeingRangeCheck : Node
     {
         // if was hit by target and see it, than go to it
         GameObject hitBy = entity.HitByTarget();
-        if (hitBy != null && entity.CanSee(hitBy))
+        if (hitBy != null && hitBy.GetComponent<IAttackable>() != null && entity.CanSee(hitBy))
         {
             GetRoot().SetData(AttackTargetNode.ATTACK_TARGET, hitBy);
             state = NodeState.SUCCESS;

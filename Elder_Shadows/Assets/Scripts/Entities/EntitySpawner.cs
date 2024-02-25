@@ -71,6 +71,11 @@ public class EntitySpawner : MonoBehaviour
             return;
         }
 
+        SpawnEntity(entity, position);
+    }
+
+    public void SpawnEntity(BaseEntity entity, Vector2 position)
+    {
         Quaternion rotation = Quaternion.identity;
         BaseEntity instance = Instantiate(entity, position, rotation, transform);
 

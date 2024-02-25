@@ -9,11 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f66c54299e734bb45a4d00c25c21b59f, type: 3}
-  m_Name: BasicPhysAttack
+  m_Script: {fileID: 11500000, guid: f366110e3f415be4eaad78bde3995fd2, type: 3}
+  m_Name: SummonWolvesAttack
   m_EditorClassIdentifier: 
   dmgType: 0
-  dmgMultiplier: 1
+  dmgMultiplier: 0
   debufs: []
-  attackType: 0
-  range: 1
+  attackType: 3
+  entities:
+  - {fileID: 5792414836176843517, guid: 2e51f0a001b9cf746b5f799350b2a303, type: 3}
+  amount: 1

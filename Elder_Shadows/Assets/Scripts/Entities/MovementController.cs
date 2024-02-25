@@ -7,9 +7,11 @@ using UnityEngine;
 [RequireComponent(typeof(Seeker))]
 public class MovementController : MonoBehaviour
 {
+    public event Action OnMoving;
     public float MoveSpeed { get; set; } = 1.0f;
     public bool ReachedEndOfPath { get; private set; }
     public bool IsGeneratingPath { get; private set; }
+    public Vector2 MovementDirection { get; private set; }
 
     private Seeker seeker;
     private Path path;
@@ -71,6 +73,8 @@ public class MovementController : MonoBehaviour
         // move on path in direction of current waypoint
         Vector2 direction = (path.vectorPath[currentWaypoint] - transform.position).normalized;
         transform.Translate(direction * MoveSpeed * Time.deltaTime);
+        MovementDirection = SnapVector(direction);
+        OnMoving?.Invoke();
 
         // if close to current waypoint move on to next
         float dist = Vector2.Distance(transform.position, path.vectorPath[currentWaypoint]);
@@ -80,4 +84,16 @@ public class MovementController : MonoBehaviour
         }
     }
 
+    public static Vector2 SnapVector(Vector2 dir)
+    {
+        if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
+        {
+            dir.y = 0;
+        }
+        else
+        {
+            dir.x = 0;
+        }
+        return dir.normalized;
+    }
 }

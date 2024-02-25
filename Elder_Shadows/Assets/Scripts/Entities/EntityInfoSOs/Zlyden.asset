@@ -21,6 +21,7 @@ MonoBehaviour:
     out near it."
   attacks:
   - {fileID: 11400000, guid: f29a89755a44887409203a408e838354, type: 2}
+  specialAttacks: []
   health: 10
   speed: 2
   physDmg: 3
@@ -28,6 +29,8 @@ MonoBehaviour:
   magDmg: 3
   magRes: 0
   attackCooldown: 1
+  specialAttackCooldown: 0
+  specialAttackChance: 0
   seeingRange: 0
   reactionToPlayer: 0
   reactionToTrustedPlayer: 0

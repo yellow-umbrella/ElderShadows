@@ -7,17 +7,30 @@ using UnityEngine.UI;
 public class BaseEntityVisuals : MonoBehaviour
 {
     [SerializeField] private Image healthBar;
-    [SerializeField] private BaseEntity entity;
     [SerializeField] private TextMeshProUGUI entityName;
+    [SerializeField] private bool isMiniboss;
+    private BaseEntity entity;
+    private MovementController movementController;
 
     private float maxValue;
 
     private void Start()
     {
+        movementController = GetComponentInParent<MovementController>();
+        entity = GetComponentInParent<BaseEntity>();
         maxValue = entity.Health;
         healthBar.fillAmount = 1;
         entityName.text = entity.Info.displayName;
         SetNameColor();
+        entity.OnStartAttack += Entity_OnStartAttack;
+    }
+
+    private void Entity_OnStartAttack(EntityAttackSO.AttackType attackType)
+    {
+        // trigger right animation based on attack type
+        entity.CanInflictDamage = true;
+        // set in the end of animation
+        entity.IsAttacking = false;
     }
 
     private void Update()
@@ -28,7 +41,11 @@ public class BaseEntityVisuals : MonoBehaviour
 
     private void SetNameColor()
     {
-        if (entity.IsModified)
+        if (isMiniboss)
+        {
+            entityName.color = Color.red;
+            entityName.fontStyle = FontStyles.Bold;
+        } else if (entity.IsModified)
         {
             entityName.color = new Color(1f, 0.544f, 0.513f);
         } else

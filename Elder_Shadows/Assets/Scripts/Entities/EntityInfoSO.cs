@@ -13,6 +13,7 @@ public class EntityInfoSO : ScriptableObject
     [TextArea(5, 20)]
     public string description;
     public List<EntityAttackSO> attacks;
+    public List<EntityAttackSO> specialAttacks;
 
     public float health;
     public float speed;
@@ -24,6 +25,8 @@ public class EntityInfoSO : ScriptableObject
     public float magRes;
 
     public float attackCooldown;
+    public float specialAttackCooldown;
+    public float specialAttackChance;
     public float seeingRange;
 
     public Behavior reactionToPlayer;

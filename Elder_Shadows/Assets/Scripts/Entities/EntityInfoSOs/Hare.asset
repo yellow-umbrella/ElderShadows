@@ -17,6 +17,7 @@ MonoBehaviour:
   description: Small and fast herbivore animal, feeds mainly on grasses and herbs.
     Afraid of predators and humans.
   attacks: []
+  specialAttacks: []
   health: 5
   speed: 3
   physDmg: 0
@@ -24,6 +25,8 @@ MonoBehaviour:
   magDmg: 0
   magRes: 0
   attackCooldown: 0
+  specialAttackCooldown: 0
+  specialAttackChance: 0
   seeingRange: 3
   reactionToPlayer: 3
   reactionToTrustedPlayer: 2

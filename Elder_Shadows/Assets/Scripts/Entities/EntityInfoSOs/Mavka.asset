@@ -26,8 +26,8 @@ MonoBehaviour:
     feature distinguishing them from humans is their torn back so that you can see
     their ribs, guts and heart.'
   attacks:
-  - {fileID: 11400000, guid: c2c589bdcfcbcbb4aa7ed9b8da8f13a1, type: 2}
   - {fileID: 11400000, guid: f29a89755a44887409203a408e838354, type: 2}
+  specialAttacks: []
   health: 50
   speed: 1
   physDmg: 10
@@ -35,6 +35,8 @@ MonoBehaviour:
   magDmg: 10
   magRes: 1
   attackCooldown: 0.75
+  specialAttackCooldown: 0
+  specialAttackChance: 0
   seeingRange: 0
   reactionToPlayer: 0
   reactionToTrustedPlayer: 1

@@ -22,6 +22,11 @@ public class EntityBT : BehaviorTree.Tree
             // attack existing target
             new SequenceNode(new List<Node>
             {
+                new SelectorNode(new List<Node>
+                {
+                    new ChooseSpecialAttackNode(entity),
+                    new ChooseNormalAttackNode(entity)
+                }),
                 new TargetInAttackRangeCheck(entity),
                 new AttackTargetNode(entity)
             }),

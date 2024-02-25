@@ -20,7 +20,8 @@ MonoBehaviour:
     They look like children in white robes with empty, dead eyes and hold flames
     in their hands. Also, poterchas can turn themselves into lights.
   attacks:
-  - {fileID: 11400000, guid: c2c589bdcfcbcbb4aa7ed9b8da8f13a1, type: 2}
+  - {fileID: 11400000, guid: 88b7a097602747049b86e0183dc60a92, type: 2}
+  specialAttacks: []
   health: 10
   speed: 2
   physDmg: 3
@@ -28,6 +29,8 @@ MonoBehaviour:
   magDmg: 3
   magRes: 0
   attackCooldown: 2
+  specialAttackCooldown: 0
+  specialAttackChance: 0
   seeingRange: 0
   reactionToPlayer: 1
   reactionToTrustedPlayer: 2

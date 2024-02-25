@@ -7,8 +7,9 @@ public class FindPathToTargetNode : Node
 {
     private MovementController controller;
 
-    private float genCooldown = .5f;
+    private float genCooldown = .4f;
     private bool canGenerate = true;
+    private float offset = .8f;
 
     private GameObject target = null;
 
@@ -20,6 +21,13 @@ public class FindPathToTargetNode : Node
     public override NodeState Evaluate()
     {
         GameObject newTarget = (GameObject)GetData(AttackTargetNode.ATTACK_TARGET);
+
+        // already close enough
+        if (Vector2.Distance(controller.transform.position, newTarget.transform.position) < offset)
+        {
+            state = NodeState.FAILURE;
+            return state;
+        }
 
         // need to find new path
         if (!controller.IsGeneratingPath && (controller.ReachedEndOfPath || canGenerate || target != newTarget))

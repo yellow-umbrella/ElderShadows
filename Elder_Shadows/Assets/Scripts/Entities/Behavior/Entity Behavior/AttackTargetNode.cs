@@ -22,8 +22,10 @@ public class AttackTargetNode : Node
         {
             entity.Attack(target);
             entity.StartCoroutine(AttackCooldown());
+            state = NodeState.SUCCESS;
+            return state;
         }
-        state = NodeState.RUNNING;
+        state = NodeState.FAILURE;
         return state;
     }
 

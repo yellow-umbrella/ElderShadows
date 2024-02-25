@@ -10,16 +10,22 @@ namespace BehaviorTree
         public SequenceNode() : base() { }
         public SequenceNode(List<Node> children) : base(children) { }
 
+        private int runningInd = 0;
+
         public override NodeState Evaluate()
         {
             if (parent != null)
             {
-                SetData(PREV_ACTION, parent.GetData(PREV_ACTION));
+                if (parent.GetData(PREV_ACTION) != this)
+                {
+                    SetData(PREV_ACTION, null);
+                    runningInd = 0;
+                }
             }
 
-            foreach (Node node in children)
+            for (int i = runningInd; i < children.Count; i++)
             {
-                switch (node.Evaluate())
+                switch (children[i].Evaluate())
                 {
                     case NodeState.FAILURE:
                         state = NodeState.FAILURE;
@@ -29,14 +35,16 @@ namespace BehaviorTree
                         continue;
                     case NodeState.RUNNING:
                         state = NodeState.RUNNING;
-                        SetData(PREV_ACTION, node.GetData(PREV_ACTION));
+                        SetData(PREV_ACTION, children[i]);
+                        runningInd = i;
                         return state;
                 }
             }
 
+            runningInd = 0;
             if (children.Count != 0)
             {
-                SetData(PREV_ACTION, children[children.Count - 1].GetData(PREV_ACTION));
+                SetData(PREV_ACTION, children[children.Count - 1]);
             } else
             {
                 SetData(PREV_ACTION, this);

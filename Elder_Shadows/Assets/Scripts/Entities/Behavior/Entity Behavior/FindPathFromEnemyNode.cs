@@ -46,7 +46,9 @@ public class FindPathFromEnemyNode : Node
     private IEnumerator GenCooldown()
     {
         canGenerate = false;
+        parent.SetData(WalkNode.FINISH_WALK, false);
         yield return new WaitForSeconds(genCooldown);
         canGenerate = true;
+        parent.SetData(WalkNode.FINISH_WALK, true);
     }
 }

@@ -26,6 +26,13 @@ public class ActiveQuestNode : Node
             }
             questGiver.ShowActiveQuest();
         }
+
+        if (!questGiver.IsInteracting())
+        {
+            state = NodeState.SUCCESS; 
+            return state;
+        }
+
         state = NodeState.RUNNING;
         return state;
     }

@@ -28,11 +28,6 @@ public class TeleportNode : Node
 
     private void UpdateCenterPosition()
     {
-        Node node = this;
-        while (node.parent != null)
-        {
-            node = node.parent;
-        }
-        node.SetData(UpdatePathNode.CENTER_POSITION, (Vector2)npc.gameObject.transform.position);
+        GetRoot().SetData(UpdatePathNode.CENTER_POSITION, (Vector2)npc.transform.position);
     }
 }

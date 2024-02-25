@@ -9,8 +9,8 @@ public class UpdatePathNode : Node
     private Vector2 center;
     private float wanderingRadius;
 
-    private float timeToStandStill = 1f;
-    private float nextMovementTime = 0;
+    private float movementCooldown = 1f;
+    private bool canMove = true;
 
     public const string CENTER_POSITION = "center_position";
 
@@ -38,19 +38,21 @@ public class UpdatePathNode : Node
         }
 
         // there is existing path and obj can move on it
-        if (Time.time >= nextMovementTime && !controller.IsGeneratingPath)
+        if (canMove && !controller.IsGeneratingPath)
         {
-            return NodeState.SUCCESS;
+            state = NodeState.SUCCESS;
+            return state;
         }
 
         // in process of findig path
-        return NodeState.RUNNING;
+        state = NodeState.RUNNING;
+        return state;
     }
     
     private void SetNewPath()
     {
         controller.SetPath(ChooseNewPosition());
-        ResetTime();
+        controller.StartCoroutine(MovementCooldown());
     }
 
     // position inside wandering circle
@@ -59,8 +61,10 @@ public class UpdatePathNode : Node
         return center + Random.insideUnitCircle * wanderingRadius;
     }
 
-    private void ResetTime()
+    private IEnumerator MovementCooldown()
     {
-        nextMovementTime = Time.time + timeToStandStill;
+        canMove = false;
+        yield return new WaitForSeconds(movementCooldown);
+        canMove = true;
     }
 }

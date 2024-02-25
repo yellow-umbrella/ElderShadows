@@ -18,6 +18,13 @@ public class NewQuestNode : Node
         {
             questGiver.OfferQuest();
         }
+
+        if (!questGiver.IsInteracting())
+        {
+            state = NodeState.SUCCESS;
+            return state;
+        }
+
         state = NodeState.RUNNING;
         return state;
     }

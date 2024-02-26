@@ -17,9 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/HomeLocation.unity
     guid: c353c104bb4d242a6b11ff5a831b83da
-  - enabled: 1
-    path: Assets/Scenes/PlayersHouse.unity
-    guid: dca3f7bdc6885fa4bbd48f41a4a3daf5
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/Village.unity
     guid: 3d2d25d0df67d504083fa5b091c696dc

@@ -9285,9 +9285,9 @@ GameObject:
   - component: {fileID: 118909693950988734}
   - component: {fileID: 2496763557252335670}
   - component: {fileID: 2603963341396412039}
-  - component: {fileID: 1134093555356927714}
   - component: {fileID: 9009316999077059755}
   - component: {fileID: 4552322757163896953}
+  - component: {fileID: 5936662805807361708}
   m_Layer: 5
   m_Name: SkillTreeContainer
   m_TagString: Untagged
@@ -9354,36 +9354,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1134093555356927714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8370026338283771173}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Content: {fileID: 4736828905835552560}
-  m_Horizontal: 1
-  m_Vertical: 1
-  m_MovementType: 2
-  m_Elasticity: 2
-  m_Inertia: 1
-  m_DecelerationRate: 0.0001
-  m_ScrollSensitivity: 1
-  m_Viewport: {fileID: 118909693950988734}
-  m_HorizontalScrollbar: {fileID: 0}
-  m_VerticalScrollbar: {fileID: 0}
-  m_HorizontalScrollbarVisibility: 0
-  m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: 0
-  m_VerticalScrollbarSpacing: 0
-  m_OnValueChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &9009316999077059755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9415,6 +9385,39 @@ MonoBehaviour:
   - {fileID: 7239070072472477163}
   - {fileID: 932671385490947207}
   - {fileID: 2625767181266474191}
+--- !u!114 &5936662805807361708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370026338283771173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5289adf8f75e8f43bcf85c44b218d43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Content: {fileID: 4736828905835552560}
+  m_Horizontal: 1
+  m_Vertical: 1
+  m_MovementType: 2
+  m_Elasticity: 0.1
+  m_Inertia: 1
+  m_DecelerationRate: 0.00001
+  m_ScrollSensitivity: 1
+  m_Viewport: {fileID: 118909693950988734}
+  m_HorizontalScrollbar: {fileID: 0}
+  m_VerticalScrollbar: {fileID: 0}
+  m_HorizontalScrollbarVisibility: 0
+  m_VerticalScrollbarVisibility: 0
+  m_HorizontalScrollbarSpacing: 0
+  m_VerticalScrollbarSpacing: 0
+  m_OnValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  _minZoom: 0.1
+  _maxZoom: 10
+  _zoomLerpSpeed: 10
 --- !u!1 &8406329292963428352
 GameObject:
   m_ObjectHideFlags: 0

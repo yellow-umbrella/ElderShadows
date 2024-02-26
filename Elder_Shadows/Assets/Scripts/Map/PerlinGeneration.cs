@@ -9,7 +9,9 @@ using System.IO;
 public class PerlinGeneration : MonoBehaviour
 {
     public Tilemap tileMap;
-    public Tilemap wallsTileMap; 
+    public Tilemap wallsTileMap1;
+    public Tilemap wallsTileMap2; 
+    public Tilemap wallsTileMap3;
     public TileBase[] forestTiles;
     public TileBase[] waterTiles;
     public TileBase[] moutainTile;
@@ -96,7 +98,7 @@ public class PerlinGeneration : MonoBehaviour
             pSpawn.MovePlayerOnGrass();
             homeSpawn.spawnHome();
 
-            mapManager.Invoke("SaveLevelObjects", 1);
+            mapManager.Invoke("SaveLevelObjects", 2);
         }
 
     }
@@ -154,25 +156,29 @@ public class PerlinGeneration : MonoBehaviour
         {
             float dif = altitude - altitudeNum;
             //rock
-            if (0.005 <= dif && dif <= 0.025)
+            if (0.025 <= dif)
             {
-                wallsTileMap.SetTile(new Vector3Int(x, y, 0), moutainTile[2]);
+                wallsTileMap2.SetTile(new Vector3Int(x, y, 0), moutainTile[2]);
             }
-            if (0.025 < dif && dif <= 0.05)
+            if (0.05 < dif)
             {
-                wallsTileMap.SetTile(new Vector3Int(x, y, 0), moutainTile[1]);
+                wallsTileMap3.SetTile(new Vector3Int(x, y, 0), moutainTile[1]);
             }
-            else 
+            if (0 < dif)
             {
-                wallsTileMap.SetTile(new Vector3Int(x, y, 0), moutainTile[0]);
+                wallsTileMap1.SetTile(new Vector3Int(x, y, 0), moutainTile[0]);
             }
+
+            perlin *= forestTiles.Length - 1;
+            int tileNum = Mathf.RoundToInt(perlin);
+            tileMap.SetTile(new Vector3Int(x, y, 0), forestTiles[tileNum]);
         }
         else if (humidity >= humidityNum && altitude < altitudeNum)
         {
             //water
             perlin *= waterTiles.Length - 1;
             int tileNum = Mathf.RoundToInt(perlin);
-            wallsTileMap.SetTile(new Vector3Int(x, y, 0), waterTiles[tileNum]);
+            wallsTileMap1.SetTile(new Vector3Int(x, y, 0), waterTiles[tileNum]);
         }
         /*else if (humidity >= humidityNum && altitude >= altitudeNum) 
         {

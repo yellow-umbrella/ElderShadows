@@ -22,6 +22,8 @@ public class MapManager : MonoBehaviour
     public const string HOME_MAP_PATH = "/map";
     public const string HOME_MAP_FLOOR_PATH = "/home_floor.json";
     public const string HOME_MAP_WALLS_PATH = "/home_walls.json";
+    public const string HOME_MAP_WALLS_L2_PATH = "/home_walls2.json";
+    public const string HOME_MAP_WALLS_L3_PATH = "/home_walls3.json";
     public const string HOME_MAP_OBJECTS_PATH = "/home_objects.json";
 
     public static MapManager instance;
@@ -50,7 +52,8 @@ public class MapManager : MonoBehaviour
     
     public Tilemap tilemap;
     public Tilemap collisions;
-
+    public Tilemap collisions2;
+    public Tilemap collisions3;
 
     private void Update()
     {
@@ -62,15 +65,22 @@ public class MapManager : MonoBehaviour
         //if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A)) SaveLevelObjects();
     }
 
+    // add this method to refactor SaveLevel
+    public void SaveData() { }
+
     public void Savelevel()
     {
-        //get the bounds of the tilemap...
+        //get the bounds of the tilemap
         BoundsInt bounds = tilemap.cellBounds;
         BoundsInt c_bounds = collisions.cellBounds;
+        BoundsInt c_bounds2 = collisions2.cellBounds;
+        BoundsInt c_bounds3 = collisions3.cellBounds;
 
         //create a new leveldata
         LevelData mapData = new LevelData();
         LevelData collisionsData = new LevelData();
+        LevelData collisionsData2 = new LevelData();
+        LevelData collisionsData3 = new LevelData();
 
         //loop trougth the bounds of the tilemap
         for (int x = bounds.min.x; x < bounds.max.x; x++)
@@ -108,12 +118,46 @@ public class MapManager : MonoBehaviour
             }
         }
 
-        SaveLevelObjects();
+        for (int x = c_bounds2.min.x; x < c_bounds2.max.x; x++)
+        {
+            for (int y = c_bounds2.min.y; y < c_bounds2.max.y; y++)
+            {
+
+                TileBase c2_temp = collisions.GetTile(new Vector3Int(x, y, 0));
+                CustomTile tempTile2 = tiles.Find(t => t.tile == c2_temp);
+
+                if (tempTile2 != null)
+                {
+
+                    collisionsData2.tiles.Add(tempTile2.id);
+                    collisionsData2.poses.Add(new Vector3Int(x, y, 0));
+                }
+            }
+        }
+
+        for (int x = c_bounds3.min.x; x < c_bounds3.max.x; x++)
+        {
+            for (int y = c_bounds3.min.y; y < c_bounds3.max.y; y++)
+            {
+
+                TileBase c3_temp = collisions.GetTile(new Vector3Int(x, y, 0));
+                CustomTile tempTile3 = tiles.Find(t => t.tile == c3_temp);
+
+                if (tempTile3 != null)
+                {
+
+                    collisionsData3.tiles.Add(tempTile3.id);
+                    collisionsData3.poses.Add(new Vector3Int(x, y, 0));
+                }
+            }
+        }
+
+        //SaveLevelObjects();
 
         string json = JsonUtility.ToJson(mapData, true);
         string c_json = JsonUtility.ToJson(collisionsData, true);
-        //File.WriteAllText(Application.dataPath + "/homeLevel.json", json);
-        //File.WriteAllText(Application.dataPath + "/homeCollisionsLevel.json", c_json);
+        string c2_json = JsonUtility.ToJson(collisionsData2, true);
+        string c3_json = JsonUtility.ToJson(collisionsData3, true);
 
         try
         {
@@ -126,14 +170,16 @@ public class MapManager : MonoBehaviour
 
             File.WriteAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_FLOOR_PATH, json);
             File.WriteAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_WALLS_PATH, c_json);
+            File.WriteAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_WALLS_L2_PATH, c2_json);
+            File.WriteAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_WALLS_L3_PATH, c3_json);
         }
         catch
         {
             Debug.Log("Map directory not found");
         }
-        
 
 
+        SaveLevelObjects();
         //Debug.Log("Level was saved");
     }
 
@@ -159,7 +205,9 @@ public class MapManager : MonoBehaviour
                         levelObject.poses.Add(Vector3Int.FloorToInt(go.transform.position));
                     }
                     catch 
-                    { }
+                    {
+                        Debug.Log("Map objects not saved");
+                    }
 
                 }
 
@@ -223,13 +271,19 @@ public class MapManager : MonoBehaviour
 
         string json = File.ReadAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_FLOOR_PATH);
         string c_json = File.ReadAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_WALLS_PATH);
+        string c2_json = File.ReadAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_WALLS_L2_PATH);
+        string c3_json = File.ReadAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_WALLS_L3_PATH);
 
         LevelData data = JsonUtility.FromJson<LevelData>(json);
         LevelData c_data = JsonUtility.FromJson<LevelData>(c_json);
+        LevelData c2_data = JsonUtility.FromJson<LevelData>(c2_json);
+        LevelData c3_data = JsonUtility.FromJson<LevelData>(c3_json);
 
         //clear the tilemap
         tilemap.ClearAllTiles();
         collisions.ClearAllTiles();
+        collisions2.ClearAllTiles();
+        collisions3.ClearAllTiles();
 
         //place the tiles
         for (int i = 0; i < data.tiles.Count; i++)
@@ -239,6 +293,14 @@ public class MapManager : MonoBehaviour
         for (int i = 0; i < c_data.tiles.Count; i++)
         {
             collisions.SetTile(c_data.poses[i], tiles.Find(t => t.id == c_data.tiles[i]).tile);
+        }
+        for (int i = 0; i < c2_data.tiles.Count; i++)
+        {
+            collisions.SetTile(c2_data.poses[i], tiles.Find(t => t.id == c2_data.tiles[i]).tile);
+        }
+        for (int i = 0; i < c3_data.tiles.Count; i++)
+        {
+            collisions.SetTile(c3_data.poses[i], tiles.Find(t => t.id == c3_data.tiles[i]).tile);
         }
 
         LoadObjects();

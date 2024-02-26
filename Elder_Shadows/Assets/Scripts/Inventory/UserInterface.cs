@@ -17,6 +17,7 @@ public abstract class UserInterface : MonoBehaviour
     [SerializeField] protected GameObject descriptionsAreaTransform;
     
     private float shiftY = -1;
+    private bool dragEnded = true;
     void Start()
     {
         for (int i = 0; i < inventory.GetSlots.Length; i++)
@@ -75,10 +76,12 @@ public abstract class UserInterface : MonoBehaviour
     public void OnUp(GameObject obj)
     {
         if (MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver].ItemObject &&
-            (MouseData.slotHoveredOver != MouseData.activeSlot || !descriptionBoxObject.activeSelf))
+            (MouseData.slotHoveredOver != MouseData.activeSlot || !descriptionBoxObject || !MouseData.activeSlot))
         {
             SetNewActiveSlot(obj);
-            OpenDescription(obj);
+        
+            if (dragEnded) // OnUp is before OnDragEnd
+                OpenDescription();
         }
         
         if (!MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver].ItemObject)
@@ -98,6 +101,7 @@ public abstract class UserInterface : MonoBehaviour
     {
         MouseData.tempItemBeingDragged = CreateTempItem(obj);
         descriptionBoxObject.SetActive(false);
+        dragEnded = false;
     }
     public GameObject CreateTempItem(GameObject obj)
     {
@@ -127,7 +131,9 @@ public abstract class UserInterface : MonoBehaviour
         {
             InventorySlot mouseHoverSlotData = MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver];
             inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
+            
             SetNewActiveSlot(MouseData.slotHoveredOver);
+            dragEnded = true;
         }
     }
     public void OnDrag(GameObject obj)
@@ -147,15 +153,9 @@ public abstract class UserInterface : MonoBehaviour
         MouseData.activeSlot = obj;
         obj.transform.Find("ActiveFrame").gameObject.SetActive(true);
     }
-    
-    private void OpenDescription(GameObject obj)
+    private void OpenDescription()
     {
-        MouseData.activeSlot = obj;
-        MoveDescription(obj);
-    }
-
-    private void MoveDescription(GameObject obj)
-    {
+        var obj = MouseData.activeSlot;
         var descBoxRT = descriptionBoxObject.GetComponent<RectTransform>();
         var contentRT = gameObject.GetComponent<RectTransform>();
         descBoxRT.SetParent(descriptionsAreaTransform.transform);

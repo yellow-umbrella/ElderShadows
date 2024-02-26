@@ -10,7 +10,7 @@ public class CharacterMenuManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(HideMenu());
+        //StartCoroutine(HideMenu());
     }
 
     private IEnumerator HideMenu()

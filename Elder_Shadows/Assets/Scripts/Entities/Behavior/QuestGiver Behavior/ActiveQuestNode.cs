@@ -16,7 +16,7 @@ public class ActiveQuestNode : Node
     {
         GetRoot().SetData(ShowGratitudeNode.GRATITUDE, false);
 
-        if ((Node)parent.GetData(PREV_ACTION) != this)
+        if ((Node)parent.GetData(PREV_ACTION_CHILD) != this)
         {
             if (questGiver.FinishQuest())
             {

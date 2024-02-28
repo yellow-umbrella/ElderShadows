@@ -16,7 +16,7 @@ public class ShowDialogNode : Node
 
     public override NodeState Evaluate()
     {
-        if ((Node)parent.GetData(PREV_ACTION) != this)
+        if ((Node)parent.GetData(PREV_ACTION_CHILD) != this)
         {
             if (npc.ShowBusyDialog())
             {

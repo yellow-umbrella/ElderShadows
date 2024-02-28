@@ -69,9 +69,18 @@ public class BaseEntity : MonoBehaviour, IAttackable
     public Behavior CurrentReaction { get { return info.reactionToPlayer;} }
     public bool IsModified { get; private set; } = false;
     public float MaxDistanceFromPlayer { get; set; } = float.MaxValue;
-    public Vector2 LookDirection { get; private set; }
     public bool IsAttacking { get; set; }
     public bool CanInflictDamage { get; set; }
+    public int AttackDirection
+    {
+        get
+        {
+            if (attackDirection == Vector2.up) return 1;
+            if (attackDirection == Vector2.right) return 2;
+            if (attackDirection == Vector2.left) return 3;
+            return 0;
+        }
+    }
 
     [SerializeField] private EntityInfoSO info;
     [SerializeField] private Collider2D seeingRange;
@@ -82,6 +91,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
     private const int characterLayer = 7;
     private GameObject hitBy = null;
     private EntityAttackSO currentAttack = null;
+    private Vector2 attackDirection;
 
     private void Awake()
     {
@@ -193,7 +203,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
         IsAttacking = true;
         CanInflictDamage = false; // waiting for right moment in animation
         Vector2 dir = attackTarget.transform.position - transform.position;
-        LookDirection = MovementController.SnapVector(dir);
+        attackDirection = MovementController.SnapVector(dir);
         OnStartAttack?.Invoke(currentAttack.attackType);
     }
 

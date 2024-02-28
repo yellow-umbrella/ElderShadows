@@ -13,10 +13,10 @@ namespace BehaviorTree
         {
             if (parent != null)
             {
-                if (parent.GetData(PREV_ACTION) != this) 
-                    SetData(PREV_ACTION, null);
+                if (parent.GetData(PREV_ACTION_CHILD) != this) 
+                    SetData(PREV_ACTION_CHILD, null);
             }
-
+            SetData(RUNNING_ACTION, null);
             foreach (Node node in children)
             {
                 switch (node.Evaluate())
@@ -25,16 +25,17 @@ namespace BehaviorTree
                         continue;
                     case NodeState.SUCCESS:
                         state = NodeState.SUCCESS;
-                        SetData(PREV_ACTION, node);
+                        SetData(PREV_ACTION_CHILD, node);
                         return state;
                     case NodeState.RUNNING:
-                        SetData(PREV_ACTION, node);
+                        SetData(PREV_ACTION_CHILD, node);
+                        SetData(RUNNING_ACTION, node.GetData(RUNNING_ACTION));
                         state = NodeState.RUNNING;
                         return state;
                 }
             }
 
-            SetData(PREV_ACTION, null);
+            SetData(PREV_ACTION_CHILD, null);
             state = NodeState.FAILURE;
             return state;
         }

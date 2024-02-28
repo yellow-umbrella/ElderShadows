@@ -30,7 +30,7 @@ MonoBehaviour:
   specialAttacks: []
   health: 50
   speed: 1
-  physDmg: 10
+  physDmg: 0
   physRes: 1
   magDmg: 10
   magRes: 1

@@ -7,9 +7,9 @@ public class FindPathToTargetNode : Node
 {
     private MovementController controller;
 
-    private float genCooldown = .4f;
+    private float genCooldown = 1f;
     private bool canGenerate = true;
-    private float offset = .8f;
+    private float offset = .5f;
 
     private GameObject target = null;
 

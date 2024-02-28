@@ -11,12 +11,23 @@ public class MovementController : MonoBehaviour
     public float MoveSpeed { get; set; } = 1.0f;
     public bool ReachedEndOfPath { get; private set; }
     public bool IsGeneratingPath { get; private set; }
-    public Vector2 MovementDirection { get; private set; }
+    public int MovementDirection 
+    { 
+        get
+        {
+            if (movementDirection == Vector2.down) return 0;
+            if (movementDirection == Vector2.up) return 1;
+            if (movementDirection == Vector2.right) return 2;
+            if (movementDirection == Vector2.left) return 3;
+            return -1;
+        } 
+    }
 
     private Seeker seeker;
     private Path path;
     private int currentWaypoint = 0;
     private float nextWaypointDist = .5f;
+    private Vector2 movementDirection;
 
     private void Awake()
     {
@@ -73,7 +84,7 @@ public class MovementController : MonoBehaviour
         // move on path in direction of current waypoint
         Vector2 direction = (path.vectorPath[currentWaypoint] - transform.position).normalized;
         transform.Translate(direction * MoveSpeed * Time.deltaTime);
-        MovementDirection = SnapVector(direction);
+        movementDirection = SnapVector(direction);
         OnMoving?.Invoke();
 
         // if close to current waypoint move on to next

@@ -4,13 +4,22 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Animator))]
 public class BaseEntityVisuals : MonoBehaviour
 {
     [SerializeField] private Image healthBar;
     [SerializeField] private TextMeshProUGUI entityName;
     [SerializeField] private bool isMiniboss;
+    
     private BaseEntity entity;
     private MovementController movementController;
+    private EntityBT entityBT;
+    private Animator animator;
+
+    private const string WALK = "Walk";
+    private const string IDLE = "Idle";
+    private const string TARGETED_ATTACK = "TargetedAttack";
+    private const string DIRECTION = "Direction";
 
     private float maxValue;
 
@@ -18,6 +27,9 @@ public class BaseEntityVisuals : MonoBehaviour
     {
         movementController = GetComponentInParent<MovementController>();
         entity = GetComponentInParent<BaseEntity>();
+        entityBT = GetComponentInParent<EntityBT>();
+        animator = GetComponent<Animator>();
+
         maxValue = entity.Health;
         healthBar.fillAmount = 1;
         entityName.text = entity.Info.displayName;
@@ -28,8 +40,19 @@ public class BaseEntityVisuals : MonoBehaviour
     private void Entity_OnStartAttack(EntityAttackSO.AttackType attackType)
     {
         // trigger right animation based on attack type
+        animator.SetInteger(DIRECTION, entity.AttackDirection);
+        animator.SetTrigger(TARGETED_ATTACK);
+        StartCoroutine(Attack());
+    }
+
+    private IEnumerator Attack()
+    {
+        entity.IsAttacking = true;
+        //yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
+        yield return new WaitWhile(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= .5f);
         entity.CanInflictDamage = true;
-        // set in the end of animation
+
+        yield return new WaitWhile(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1f);
         entity.IsAttacking = false;
     }
 
@@ -37,6 +60,16 @@ public class BaseEntityVisuals : MonoBehaviour
     {
         healthBar.fillAmount = entity.Health / maxValue;
         SetHealthbarColor();
+        if (entityBT.ActiveNode is WalkNode)
+        {
+            animator.SetInteger(DIRECTION, movementController.MovementDirection);
+            animator.SetBool(WALK, true);
+        } else
+        {
+            animator.SetBool(WALK, false);
+        }
+        animator.SetBool(IDLE, !(entityBT.ActiveNode is WalkNode) 
+                            && !(entityBT.ActiveNode is AttackTargetNode));
     }
 
     private void SetNameColor()

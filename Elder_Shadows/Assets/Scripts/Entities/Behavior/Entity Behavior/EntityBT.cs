@@ -7,6 +7,8 @@ using BehaviorTree;
 [RequireComponent(typeof(BaseEntity))]
 public class EntityBT : BehaviorTree.Tree
 {
+    public Node ActiveNode { get { return root.GetData(Node.RUNNING_ACTION) as Node; } }
+
     [SerializeField] private float wanderingRadius = 4f;
 
     private MovementController controller;

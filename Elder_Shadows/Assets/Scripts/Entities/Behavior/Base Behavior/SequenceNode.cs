@@ -16,26 +16,27 @@ namespace BehaviorTree
         {
             if (parent != null)
             {
-                if (parent.GetData(PREV_ACTION) != this)
+                if (parent.GetData(PREV_ACTION_CHILD) != this)
                 {
-                    SetData(PREV_ACTION, null);
+                    SetData(PREV_ACTION_CHILD, null);
                     runningInd = 0;
                 }
             }
-
+            SetData(RUNNING_ACTION, null);
             for (int i = runningInd; i < children.Count; i++)
             {
                 switch (children[i].Evaluate())
                 {
                     case NodeState.FAILURE:
                         state = NodeState.FAILURE;
-                        SetData(PREV_ACTION, null);
+                        SetData(PREV_ACTION_CHILD, null);
                         return state;
                     case NodeState.SUCCESS:
                         continue;
                     case NodeState.RUNNING:
                         state = NodeState.RUNNING;
-                        SetData(PREV_ACTION, children[i]);
+                        SetData(PREV_ACTION_CHILD, children[i]);
+                        SetData(RUNNING_ACTION, children[i].GetData(RUNNING_ACTION));
                         runningInd = i;
                         return state;
                 }
@@ -44,10 +45,10 @@ namespace BehaviorTree
             runningInd = 0;
             if (children.Count != 0)
             {
-                SetData(PREV_ACTION, children[children.Count - 1]);
+                SetData(PREV_ACTION_CHILD, children[children.Count - 1]);
             } else
             {
-                SetData(PREV_ACTION, this);
+                SetData(PREV_ACTION_CHILD, this);
             }
             
             state = NodeState.SUCCESS;

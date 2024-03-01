@@ -61,7 +61,7 @@ public class PerlinGeneration : MonoBehaviour
 
     public void GenerateWorld()
     {
-        if (File.Exists(Application.persistentDataPath + "/map/home_floor.json") && File.Exists(Application.persistentDataPath + "/map/home_walls.json") && File.Exists(Application.persistentDataPath + "/map/home_objects.json"))
+        if (File.Exists(Application.persistentDataPath + "/map/home_floor.json") && File.Exists(Application.persistentDataPath + "/map/home_walls_l1.json") && File.Exists(Application.persistentDataPath + "/map/home_objects.json"))
         {
 
             mapManager.LoadLevel();
@@ -98,7 +98,7 @@ public class PerlinGeneration : MonoBehaviour
             pSpawn.MovePlayerOnGrass();
             homeSpawn.spawnHome();
 
-            mapManager.Invoke("SaveLevelObjects", 2);
+            mapManager.Invoke("SaveLevelObjects", 1);
         }
 
     }

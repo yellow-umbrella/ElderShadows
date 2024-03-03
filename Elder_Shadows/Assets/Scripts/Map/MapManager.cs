@@ -55,17 +55,9 @@ public class MapManager : MonoBehaviour
     public Tilemap collisions2;
     public Tilemap collisions3;
 
-    private void Update()
-    {
-        //save level when pressing Ctrl + A
-        //if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A)) Savelevel();
-        //load level when pressing Ctrl + L
-        //if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.L)) LoadLevel();
-        //save level when pressing Ctrl + A
-        //if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A)) SaveLevelObjects();
-    }
+    private void Update(){}
 
-    // add this method to refactor SaveLevel
+
     public void SaveTilemap(Tilemap tilemap, string save_name) 
     {
         BoundsInt bounds = tilemap.cellBounds;
@@ -109,19 +101,6 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    public void Savelevel()
-    {
-        SaveTilemap(tilemap, "home_floor");
-        SaveTilemap(collisions, "home_walls_l1");
-        SaveTilemap(collisions2, "home_walls_l2");
-        SaveTilemap(collisions3, "home_walls_l3");
-
-
-        SaveLevelObjects();
-        //Debug.Log("Level was saved");
-    }
-
-    // new save objects method
     public void SaveLevelObjects() 
     {
         GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
@@ -213,6 +192,18 @@ public class MapManager : MonoBehaviour
         {
             tilemap.SetTile(data.poses[i], tiles.Find(t => t.id == data.tiles[i]).tile);
         }
+    }
+
+    public void Savelevel()
+    {
+        SaveTilemap(tilemap, "home_floor");
+        SaveTilemap(collisions, "home_walls_l1");
+        SaveTilemap(collisions2, "home_walls_l2");
+        SaveTilemap(collisions3, "home_walls_l3");
+
+
+        SaveLevelObjects();
+        //Debug.Log("Level was saved");
     }
 
     public void LoadLevel()

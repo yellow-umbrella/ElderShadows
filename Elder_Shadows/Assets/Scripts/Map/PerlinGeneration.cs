@@ -12,23 +12,28 @@ public class PerlinGeneration : MonoBehaviour
     public Tilemap wallsTileMap1;
     public Tilemap wallsTileMap2; 
     public Tilemap wallsTileMap3;
+
     public TileBase[] forestTiles;
     public TileBase[] waterTiles;
     public TileBase[] moutainTile;
-    public TileBase mountainWaterTile;
+    //public TileBase mountainWaterTile;
+
     public GameObject[] forestVegetation;
     public GameObject[] forestRocks;
 
-    public float perlin;
+    private float perlin;
     public float scale;
-    public float seed;
+    private float seed;
 
     public int xOffset;
     public int yOffset;
 
     public float width;
     public float height;
-    
+
+    public float humidityNum;
+    public float altitudeNum;
+
     public float vegetationChance;
     public float rocksChance;
     
@@ -105,8 +110,8 @@ public class PerlinGeneration : MonoBehaviour
 
     void GenerateTile(int x, int y, float humidity, float altitude)
     {
-        float humidityNum = 0.65f;
-        float altitudeNum = 0.75f;
+        //float humidityNum = 0.65f;
+        //float altitudeNum = 0.75f;
 
         perlin = Mathf.PerlinNoise(x + Random.value, y + Random.value);
 

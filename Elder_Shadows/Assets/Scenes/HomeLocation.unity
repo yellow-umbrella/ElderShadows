@@ -1370,7 +1370,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b570720d27d5bc44ebf26ceb3d786c1f, type: 2}
   - {fileID: 11400000, guid: a21cca2c0e78ccf41874540c90f58571, type: 2}
   - {fileID: 11400000, guid: 1cebe2eb4f3c0da4d8c2e724a5aed1b6, type: 2}
-  mountainWaterTile: {fileID: 11400000, guid: 318e4d0fc9248ba4792e22de75217012, type: 2}
   forestVegetation:
   - {fileID: 339704381559359000, guid: 9114f1c5408d602409c80f5ee0722876, type: 3}
   - {fileID: 567821275017162559, guid: da421a8c418b4b441b20934e8c01b702, type: 3}
@@ -1390,13 +1389,13 @@ MonoBehaviour:
   forestRocks:
   - {fileID: 8668454307101324312, guid: ffd4b1463bea55d42b04296de4433b37, type: 3}
   - {fileID: 3091122331055360104, guid: a1ece6872f685904186284bc5208bbd8, type: 3}
-  perlin: 0.4573344
-  scale: 1.3
-  seed: 234
+  scale: 1
   xOffset: -151
   yOffset: -101
   width: 152
   height: 102
+  humidityNum: 0.7
+  altitudeNum: 0.6
   vegetationChance: 0.1
   rocksChance: 0.05
 --- !u!114 &331398647

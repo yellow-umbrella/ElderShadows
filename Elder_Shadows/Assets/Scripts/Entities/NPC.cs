@@ -72,7 +72,8 @@ public class NPC : MonoBehaviour, IInteractable
             List<Vector2> validPositions = new List<Vector2>();
             foreach (var point in pointsToTeleport)
             {
-                if (EntitySpawner.Instance.IsSafePosition(point.position))
+                if ((EntitySpawner.Instance != null && EntitySpawner.Instance.IsSafePosition(point.position)) 
+                    || (EntitySpawner.Instance == null && IsInvisible(point.position)))
                 {
                     validPositions.Add(point.position);
                 }
@@ -86,6 +87,7 @@ public class NPC : MonoBehaviour, IInteractable
         }
 
         // teleports near the player
+        if (EntitySpawner.Instance == null) { return false; }
         Vector2 position = transform.position;
         if (EntitySpawner.Instance.GetSafePosition(positionLimits, ref position))
         {
@@ -93,5 +95,17 @@ public class NPC : MonoBehaviour, IInteractable
             return true;
         }
         return false;
+    }
+
+    private bool IsInvisible(Vector2 position)
+    {
+        const float offset = .5f;
+        Vector2 viewportPos = Camera.main.WorldToViewportPoint(position);
+        if (Mathf.Min(viewportPos.x, viewportPos.y) >= 0 - offset
+            && Mathf.Max(viewportPos.x, viewportPos.y) <= 1 + offset)
+        {
+            return false;
+        }
+        return true;
     }
 }

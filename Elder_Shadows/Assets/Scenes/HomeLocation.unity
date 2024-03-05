@@ -1362,7 +1362,12 @@ MonoBehaviour:
   wallsTileMap1: {fileID: 1013516756}
   wallsTileMap2: {fileID: 140984296}
   wallsTileMap3: {fileID: 1404744111}
-  mapType: {fileID: 11400000, guid: fadafa141a496ab46b5082a152417e58, type: 2}
+  typeNumber: {fileID: 11400000, guid: 3aa7aa187043f5e4ea6a8d4bf14bb1ef, type: 2}
+  mapType:
+  - {fileID: 11400000, guid: ce9b7ef545b0bc24e810b227c5561b8a, type: 2}
+  - {fileID: 11400000, guid: ee3aae87cd3946e4382bb23c5d9eaf72, type: 2}
+  - {fileID: 11400000, guid: cbfe5f322e0c4df41956ae8c2d7d761a, type: 2}
+  - {fileID: 11400000, guid: fadafa141a496ab46b5082a152417e58, type: 2}
   scale: 1
   xOffset: -151
   yOffset: -101

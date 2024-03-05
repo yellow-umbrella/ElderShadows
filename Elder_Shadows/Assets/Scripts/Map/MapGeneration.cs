@@ -13,12 +13,12 @@ public class MapGeneration : MonoBehaviour
     public Tilemap wallsTileMap2; 
     public Tilemap wallsTileMap3;
 
-    public MapType mapType;
+    public MapTypeController typeNumber;
+    public List<MapType> mapType = new List<MapType>();
 
     private TileBase[] forestTiles;
     private TileBase[] waterTiles;
     private TileBase[] moutainTile;
-    //public TileBase mountainWaterTile;
 
     private GameObject[] forestVegetation;
     private GameObject[] forestRocks;
@@ -53,7 +53,7 @@ public class MapGeneration : MonoBehaviour
         pSpawn = GetComponent<PlayerSpawn>();
         homeSpawn = GetComponent<HomeSpawn>();
 
-        SetMapType();
+        ChooseMapType();
     }
 
     private void Start()
@@ -67,7 +67,26 @@ public class MapGeneration : MonoBehaviour
         mapManager.Savelevel();
     }
 
-    private void SetMapType() 
+    private void ChooseMapType() 
+    {
+        switch (typeNumber.type) 
+        {
+            case 0:
+                SetMapType(mapType[0]);
+                break;
+            case 1:
+                SetMapType(mapType[1]);
+                break;
+            case 2:
+                SetMapType(mapType[2]);
+                break;
+            case 3:
+                SetMapType(mapType[3]);
+                break;
+        }
+    }
+
+    private void SetMapType(MapType mapType) 
     {
         humidityNum = mapType.humidityNum;
         altitudeNum = mapType.altitudeNum;

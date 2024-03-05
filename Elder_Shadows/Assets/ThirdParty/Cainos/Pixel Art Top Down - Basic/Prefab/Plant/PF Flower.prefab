@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3679833107318686742}
   - component: {fileID: 3750370037490083862}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: PF Flower
-  m_TagString: Untagged
+  m_TagString: Tree
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

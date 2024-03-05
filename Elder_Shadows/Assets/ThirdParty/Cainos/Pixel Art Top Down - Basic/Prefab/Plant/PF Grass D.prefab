@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 9132832536761082797}
   - component: {fileID: 8765359296094965677}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: PF Grass D
-  m_TagString: Untagged
+  m_TagString: Tree
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

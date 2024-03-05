@@ -10,7 +10,6 @@ public class HomeLocationUIManager : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(MapTypeController.landscapeType);
         basicAttackButton.onClick.AddListener(CharacterController.instance.OnAttackButtonPressed);
     }
 }

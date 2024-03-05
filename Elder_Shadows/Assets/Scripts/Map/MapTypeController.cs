@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapTypeController : MonoBehaviour
+[CreateAssetMenu(fileName = "New MapTypeController", menuName = "LevelEditor/TypeController")]
+public class MapTypeController : ScriptableObject
 {
-    public static string landscapeType;
+    public int type;
 }

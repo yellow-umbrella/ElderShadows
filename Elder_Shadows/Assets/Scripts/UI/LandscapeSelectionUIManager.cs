@@ -8,32 +8,34 @@ public class LandscapeSelectionUIManager : BaseUIManager
 {
     [SerializeField] private SceneReference previousScene;
 
+    public MapTypeController mapType;
+
     public void LoadPreviousScene()
     {
         LoadScene(previousScene);
     }
 
-    public void ChooseLandscapeA(string input)
+    public void ChooseLandscapeA(int input)
     {
         //apply landscape A
-        MapTypeController.landscapeType = input;
-        Debug.Log("Landscape A");
+        mapType.type = input;
+        Debug.Log("Landscape Forest");
         LoadNextScene();
     }
 
-    public void ChooseLandscapeB(string input)
+    public void ChooseLandscapeB(int input)
     {
         //apply landscape B
-        MapTypeController.landscapeType = input;
-        Debug.Log("Landscape B");
+        mapType.type = input;
+        Debug.Log("Landscape Field");
         LoadNextScene();
     }
 
-    public void ChooseLandscapeC(string input)
+    public void ChooseLandscapeC(int input)
     {
         //apply landscape C
-        MapTypeController.landscapeType = input;
-        Debug.Log("Landscape C");
+        mapType.type = input;
+        Debug.Log("Landscape Mountains");
         LoadNextScene();
     }
 }

@@ -6,23 +6,25 @@ using UnityEditor;
 using System.Linq;
 using System.IO;
 
-public class PerlinGeneration : MonoBehaviour
+public class MapGeneration : MonoBehaviour
 {
     public Tilemap tileMap;
     public Tilemap wallsTileMap1;
     public Tilemap wallsTileMap2; 
     public Tilemap wallsTileMap3;
 
-    public TileBase[] forestTiles;
-    public TileBase[] waterTiles;
-    public TileBase[] moutainTile;
+    public MapType mapType;
+
+    private TileBase[] forestTiles;
+    private TileBase[] waterTiles;
+    private TileBase[] moutainTile;
     //public TileBase mountainWaterTile;
 
-    public GameObject[] forestVegetation;
-    public GameObject[] forestRocks;
+    private GameObject[] forestVegetation;
+    private GameObject[] forestRocks;
 
-    private float perlin;
     public float scale;
+    private float perlin;
     private float seed;
 
     public int xOffset;
@@ -31,11 +33,11 @@ public class PerlinGeneration : MonoBehaviour
     public float width;
     public float height;
 
-    public float humidityNum;
-    public float altitudeNum;
+    private float humidityNum;
+    private float altitudeNum;
 
-    public float vegetationChance;
-    public float rocksChance;
+    private float vegetationChance;
+    private float rocksChance;
     
     private List<GameObject> objectList = new List<GameObject>();
     private List<Vector3> posList = new List<Vector3>();
@@ -43,7 +45,6 @@ public class PerlinGeneration : MonoBehaviour
     private PlayerSpawn pSpawn;
     private HomeSpawn homeSpawn;
     private MapObject mapObject;
-    //private bool firstCheck = false;
 
     private void Awake() 
     {
@@ -51,6 +52,8 @@ public class PerlinGeneration : MonoBehaviour
         mapObject = GetComponent<MapObject>();
         pSpawn = GetComponent<PlayerSpawn>();
         homeSpawn = GetComponent<HomeSpawn>();
+
+        SetMapType();
     }
 
     private void Start()
@@ -63,6 +66,22 @@ public class PerlinGeneration : MonoBehaviour
 
         mapManager.Savelevel();
     }
+
+    private void SetMapType() 
+    {
+        humidityNum = mapType.humidityNum;
+        altitudeNum = mapType.altitudeNum;
+
+        vegetationChance = mapType.vegetationChance;
+        rocksChance = mapType.rocksChance;
+
+        forestTiles = mapType.forestTiles;
+        waterTiles = mapType.waterTiles;
+        moutainTile = mapType.moutainTile;
+
+        forestVegetation = mapType.forestVegetation;
+        forestRocks = mapType.forestRocks;
+}
 
     public void GenerateWorld()
     {
@@ -190,7 +209,6 @@ public class PerlinGeneration : MonoBehaviour
             //mountaine lake
             wallsTileMap.SetTile(new Vector3Int(x, y, 0), mountainWaterTile);
         }*/
-
     }
 
 }

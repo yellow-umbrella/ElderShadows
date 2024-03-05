@@ -40,8 +40,6 @@ public class MapManager : MonoBehaviour
         else Destroy(this);
 
         mapObject = GetComponent<MapObject>();
-
-        
     }
 
     private void Start()

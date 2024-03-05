@@ -12,4 +12,9 @@ public class SkillsDataBase : ScriptableObject
     {
         return skills[skillID];
     }
+    
+    public int GetCount()
+    {
+        return skills.Count;
+    }
 }

@@ -8,29 +8,21 @@ using UnityEngine.UI;
 public class SkillHeaderManager : MonoBehaviour
 {
     public bool isChosen = false;
-    
-    [SerializeField] private GameObject skillTreeTabOutline;
-    [SerializeField] private GameObject skillTreePage;
-    [SerializeField] private GameObject equippedSkillsTabOutline;
-    [SerializeField] private GameObject equippedSkillsPage;
-    [SerializeField] private GameObject emptyDescriptionObj;
-    [SerializeField] private GameObject descriptionObj;
-    [SerializeField] private TextMeshProUGUI header;
-    [SerializeField] private TextMeshProUGUI descriptionText;
+    public SkillData ChosenSkill;
+    public GameObject SkillListManager;
+
     [SerializeField] private GameObject unequipBtn;
-    [SerializeField] private bool skillChosen = false;
+    [SerializeField] private TextMeshProUGUI skillName;
+    [SerializeField] private GameObject skillIcon;
+    private bool skillChosen = false;
     
     public void Choose()
     {
-        if (!descriptionObj.activeSelf)
-        {
-            emptyDescriptionObj.SetActive(false);
-            descriptionObj.SetActive(true);
-        }
+        UpdateHeader();
+        SkillListManager.GetComponent<SkillListManager>().ChooseHeader(gameObject);
         
         if (!isChosen)
         {
-            Debug.Log(skillChosen);
             if (skillChosen)
             {
                 isChosen = true;
@@ -39,7 +31,7 @@ public class SkillHeaderManager : MonoBehaviour
             }
             else
             {
-                OpenSkillTree();
+                SkillListManager.GetComponent<SkillListManager>().OpenSkillTree();
             }
         }
         else
@@ -50,12 +42,12 @@ public class SkillHeaderManager : MonoBehaviour
         }
     }
 
-    private void OpenSkillTree()
+    public void UpdateHeader()
     {
-        equippedSkillsPage.SetActive(false);
-        skillTreePage.SetActive(true);
-        
-        equippedSkillsTabOutline.SetActive(false);
-        skillTreeTabOutline.SetActive(true);
+        if (ChosenSkill != null)
+        {
+            skillChosen = true;
+            skillName.text = ChosenSkill.name;
+        }
     }
 }

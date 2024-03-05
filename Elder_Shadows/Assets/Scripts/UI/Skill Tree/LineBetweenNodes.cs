@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class LineBetweenNodes : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public GameObject ParentNode;
+    public GameObject ChildNode;
 }

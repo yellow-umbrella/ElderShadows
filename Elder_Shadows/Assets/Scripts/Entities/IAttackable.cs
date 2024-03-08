@@ -18,5 +18,5 @@ public interface IAttackable
 
     public State TakeDamage(float damage, DamageType type, GameObject attacker);
     
-    //public State AddDebuff(Buff debuff, GameObject attacker);
+    public void AddDebuff(Buff debuff);
 }

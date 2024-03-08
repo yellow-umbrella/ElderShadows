@@ -251,6 +251,11 @@ public class BaseEntity : MonoBehaviour, IAttackable
         return IAttackable.State.Alive;
     }
 
+    public void AddDebuff(Buff debuff)
+    {
+        
+    }
+
     [ContextMenu("Die")]
     protected void Die()
     {

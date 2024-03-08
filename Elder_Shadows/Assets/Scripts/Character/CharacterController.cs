@@ -10,6 +10,7 @@ public class CharacterController : MonoBehaviour, IAttackable
     public CharacterDataManager dataManager;
     [SerializeField] public CombatController combat;
     [SerializeField] private CharacterVisionManager vision;
+    public List<Buff> buffs = new List<Buff>();
     
     public InventoryObject inventory;
     public CharacterEquipmentManager equipment;
@@ -53,8 +54,12 @@ public class CharacterController : MonoBehaviour, IAttackable
         {
             return IAttackable.State.Alive;
         }
-        
-        var puredmg = damage - dataManager.GetAttributeValue(type == IAttackable.DamageType.Physical ? Attributes.PhysDmg : Attributes.MagDmg);
+
+        var resistance =
+            dataManager.GetAttributeValue(type == IAttackable.DamageType.Physical
+                ? Attributes.PhysDmg
+                : Attributes.MagDmg);
+        var puredmg = (damage - resistance) >= 0 ? damage - resistance : 0;
         
         dataManager.DealDamage(puredmg);
         if (characterData.current_health <= 0)
@@ -67,6 +72,11 @@ public class CharacterController : MonoBehaviour, IAttackable
             OnHit(attacker);
         }
         return IAttackable.State.Alive;
+    }
+
+    public void AddDebuff(Buff debuff)
+    {
+        
     }
 
     private void Die()

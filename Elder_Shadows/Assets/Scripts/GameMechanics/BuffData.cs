@@ -7,12 +7,23 @@ public class BuffData: ScriptableObject
     [Header("General properties")]
     public string name;
     public string desc;
-    
+
     [Header("Attributes to change")]
-    public List<Attribute> attribute;
+    public Attributes attribute;
 
     [Header("Others")]
     public bool isPositive;
-    public float pct;
-    
+
+    public enum BuffType
+    {
+        AttributeMod,
+        HealthOverTime,
+        ManaMod
+    }
+    public bool isPercentile;
+    public BuffType type;
+    public IAttackable.DamageType dmgType;
+    public float value;
+    public float tickrate;
+
 }

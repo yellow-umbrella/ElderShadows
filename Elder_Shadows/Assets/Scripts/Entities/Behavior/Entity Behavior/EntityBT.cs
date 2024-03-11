@@ -21,6 +21,19 @@ public class EntityBT : BehaviorTree.Tree
 
         Node root = new SelectorNode(new List<Node>
         {
+            // delete if too far from player
+            new SequenceNode(new List<Node>
+            {
+                new TooFarCheck(entity.MaxDistanceFromPlayer, entity.transform),
+                new DeleteEntityNode(entity),
+            }),
+            // run away if not its activity time 
+            new SequenceNode(new List<Node>
+            {
+                new DayNightCheck(entity),
+                new FindPathFromPlayerNode(controller),
+                new WalkNode(controller)
+            }),
             // attack existing target
             new SequenceNode(new List<Node>
             {

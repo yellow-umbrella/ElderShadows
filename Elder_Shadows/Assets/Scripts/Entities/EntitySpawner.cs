@@ -10,7 +10,9 @@ public class EntitySpawner : MonoBehaviour
 {
     public static EntitySpawner Instance { get; private set; }
 
-    [SerializeField] private List<BaseEntity> entities = new List<BaseEntity>();
+    [SerializeField] private List<BaseEntity> nightEntities = new List<BaseEntity>();
+    [SerializeField] private List<BaseEntity> dayEntities = new List<BaseEntity>();
+    [SerializeField] private bool spawnEntities = true;
     [SerializeField] private Vector2 spawnLimits;
     [SerializeField] private Vector2 spawnInternalLimits;
     [SerializeField] private float spawnDelay;
@@ -35,11 +37,17 @@ public class EntitySpawner : MonoBehaviour
 
     private void Start()
     {
+        if (aStarManager == null)
+        {
+            AStarManager_OnFinishedScanning();
+            return;
+        }
         aStarManager.OnFinishedScanning += AStarManager_OnFinishedScanning;
     }
 
     private void OnDestroy()
     {
+        if (aStarManager == null) { return; }
         aStarManager.OnFinishedScanning -= AStarManager_OnFinishedScanning;
     }
 
@@ -54,7 +62,7 @@ public class EntitySpawner : MonoBehaviour
     {
         while (true)
         {
-            if (canSpawn && spawnCount < maxSpawnCount) { SpawnRandomEntity(); }
+            if (spawnEntities && canSpawn && spawnCount < maxSpawnCount) { SpawnRandomEntity(); }
             yield return new WaitForSeconds(spawnDelay);
         }
     }
@@ -62,16 +70,20 @@ public class EntitySpawner : MonoBehaviour
     private void SpawnRandomEntity()
     {
         // choosing entity to spawn
-        BaseEntity entity = entities[Random.Range(0, entities.Count)];
-
-        //find safe position to spawn
-        Vector2 position = new Vector2();
-        if (!GetSafePosition(spawnLimits, ref position))
+        BaseEntity entity;
+        if (DaycycleManager.instance != null && DaycycleManager.instance.IsNight)
         {
-            return;
+            entity = nightEntities[Random.Range(0, nightEntities.Count)];
+        } else
+        {
+            entity = dayEntities[Random.Range(0, dayEntities.Count)];
         }
 
-        SpawnEntity(entity, position);
+        //find safe position to spawn
+        if (GetSafePosition(out Vector2 position))
+        {
+            SpawnEntity(entity, position);
+        }
     }
 
     public void SpawnEntity(BaseEntity entity, Vector2 position)
@@ -81,26 +93,25 @@ public class EntitySpawner : MonoBehaviour
 
         instance.MaxDistanceFromPlayer = maxDistanceFromPlayer;
         instance.OnDeath += SpawnedEntity_OnDeath;
-        instance.OnTooFar += SpawnedEntity_OnTooFar;
+        instance.OnTooFar += DeleteEntity;
         spawnCount++;
     }
 
-    public bool GetSafePosition(Vector2 spawnLimits, ref Vector2 safePosition)
+    public bool GetSafePosition(out Vector2 safePosition)
     {
-        bool isAllowedPosition = false;
         Vector2 position = new Vector2();
-        Vector2 cameraLeftBottom = new Vector2();
-        Vector2 cameraRightTop = new Vector2();
         Vector2 minBound = new Vector2();
         Vector2 maxBound = new Vector2();
+        
+        // finding positions of visible corners on camera
+        Vector2 cameraLeftBottom = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, Camera.main.transform.position.z));
+        Vector2 cameraRightTop = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.transform.position.z));
+        
         int maxPosChecked = 100;
+        bool isAllowedPosition = false;
 
         while (!isAllowedPosition)
         {
-            // finding positions of visible corners on camera
-            cameraLeftBottom = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, Camera.main.transform.position.z));
-            cameraRightTop = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.transform.position.z));
-
             // choosing zone for spawning
             switch (Random.Range(0, 4))
             {
@@ -141,8 +152,9 @@ public class EntitySpawner : MonoBehaviour
             isAllowedPosition = IsGround(position);
             maxPosChecked--;
 
-            if (maxPosChecked <= 0)
+            if (maxPosChecked < 0)
             {
+                safePosition = new Vector2();
                 return false;
             }
         }
@@ -166,6 +178,7 @@ public class EntitySpawner : MonoBehaviour
 
     public bool IsGround(Vector2 position)
     {
+        if (grassTiles == null) { return true; }
         return grassTiles.Contains(position.ToVector2Int());
     }
 
@@ -181,7 +194,7 @@ public class EntitySpawner : MonoBehaviour
         return IsGround(position);
     }
 
-    private void SpawnedEntity_OnTooFar(BaseEntity entity)
+    public void DeleteEntity(BaseEntity entity)
     {
         Destroy(entity.gameObject);
         spawnCount--;

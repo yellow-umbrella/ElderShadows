@@ -111,14 +111,6 @@ public class BaseEntity : MonoBehaviour, IAttackable
             }
         }
     }
-
-    private void Update()
-    {
-        if (Vector2.Distance(CharacterController.instance.transform.position, transform.position) > MaxDistanceFromPlayer)
-        {
-            OnTooFar?.Invoke(this);
-        }
-    }
     
     public void Attack(GameObject attackTarget)
     {

@@ -43,11 +43,20 @@ public class EntityInfoSO : ScriptableObject
     public List<Modifier> possibleModifiers;
     public List<Drop> dropItems;
 
+    public EntityType entityType = EntityType.Default;
+
     private void OnValidate()
     {
 #if UNITY_EDITOR
         id = this.name;
         UnityEditor.EditorUtility.SetDirty(this);
 #endif
+    }
+
+    public enum EntityType
+    {
+        Default = 0,
+        Day = 1,
+        Night = 2,
     }
 }

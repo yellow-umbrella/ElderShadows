@@ -222,10 +222,6 @@ PrefabInstance:
       propertyPath: aStarManager
       value: 
       objectReference: {fileID: 383986261}
-    - target: {fileID: 7446471701872053721, guid: 7aede4b546c9ebe44b48f49d1b925f45, type: 3}
-      propertyPath: maxSpawnCount
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7446471701872053722, guid: 7aede4b546c9ebe44b48f49d1b925f45, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -273,10 +269,6 @@ PrefabInstance:
     - target: {fileID: 7446471701872053723, guid: 7aede4b546c9ebe44b48f49d1b925f45, type: 3}
       propertyPath: m_Name
       value: EntitySpawner
-      objectReference: {fileID: 0}
-    - target: {fileID: 7446471701872053723, guid: 7aede4b546c9ebe44b48f49d1b925f45, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7aede4b546c9ebe44b48f49d1b925f45, type: 3}

@@ -88,8 +88,7 @@ public class NPC : MonoBehaviour, IInteractable
 
         // teleports near the player
         if (EntitySpawner.Instance == null) { return false; }
-        Vector2 position = transform.position;
-        if (EntitySpawner.Instance.GetSafePosition(positionLimits, ref position))
+        if (EntitySpawner.Instance.GetSafePosition(out Vector2 position))
         {
             transform.position = position;
             return true;

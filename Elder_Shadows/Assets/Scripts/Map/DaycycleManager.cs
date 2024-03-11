@@ -6,6 +6,7 @@ using Modern2D;
 
 public class DaycycleManager : MonoBehaviour
 {
+    public static DaycycleManager instance;
     public LightingSystem light;
     [SerializeField]private float daycycleDuration = 600f; //in seconds
     [SerializeField] private float maxShadowLength;
@@ -14,7 +15,22 @@ public class DaycycleManager : MonoBehaviour
     [SerializeField] private Color sunsetLightColor;
     [SerializeField] private Color sunriseLightColor;
     
+    public bool IsNight
+    {
+        get
+        {
+            return currentTime > daycycleDuration * .75f;
+        }
+    }
+
     private float currentTime = 0f;
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else Destroy(gameObject);
+    }
 
     private void Start()
     {

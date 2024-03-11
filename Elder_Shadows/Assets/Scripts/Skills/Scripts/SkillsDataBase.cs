@@ -8,6 +8,8 @@ public class SkillsDataBase : ScriptableObject
     [SerializeField]
     private List<SkillData> skills;
 
+    public SkillData[] EquippedSkills = new SkillData[3];
+    
     public SkillData GetSkill(int skillID)
     {
         return skills[skillID];

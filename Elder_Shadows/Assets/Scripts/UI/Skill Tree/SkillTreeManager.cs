@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
@@ -25,6 +26,16 @@ public class SkillTreeManager : MonoBehaviour
         InitiateNodes();
         DrawLines();
         RefreshPoints();
+        RefreshEquippedSkills();
+    }
+
+    void RefreshEquippedSkills()
+    {
+        for (int i = 0; i < skillsDataBase.EquippedSkills.Length; i++)
+        {
+            if (skillsDataBase.EquippedSkills[i] != null && skillsDataBase.EquippedSkills[i].status != SkillData.SkillStatus.Equipped)
+                skillsDataBase.EquippedSkills[i] = null;
+        }
     }
 
     void InitiateNodes()
@@ -38,7 +49,7 @@ public class SkillTreeManager : MonoBehaviour
             switch (node.GetComponent<SkillNode>().skillData.ID)
             {
                 case 0:
-                    node.GetComponent<SkillNode>().skillData.status = SkillData.SkillStatus.Learned;
+                    node.GetComponent<SkillNode>().skillData.status = SkillData.SkillStatus.Equipped;
                     break;
                 case 1:
                     node.GetComponent<SkillNode>().skillData.status = SkillData.SkillStatus.Available;
@@ -66,7 +77,15 @@ public class SkillTreeManager : MonoBehaviour
                 s += j + ", ";
             }
         }
-        Debug.Log(s);
+        
+        skillsDataBase.EquippedSkills[0] = skillsDataBase.GetSkill(0);
+    }
+
+    private void OnEnable()
+    {
+        RefreshLines();
+        RefreshNodes(null);
+        RefreshPoints();
     }
 
     void DrawLines()
@@ -128,28 +147,32 @@ public class SkillTreeManager : MonoBehaviour
         }
     }
 
-    public void RefreshNodes(GameObject changedSkillNode)
+    public void RefreshNodes([CanBeNull] GameObject changedSkillNode)
     {
         for (int i = skillNodes.Count - 1; i >= 0; i--)
         {
             var tmpNode = skillNodes[i].GetComponent<SkillNode>();
-            if (tmpNode.previousSkillNode == changedSkillNode && changedSkillNode.GetComponent<SkillNode>().skillData.ID != 0 &&
-                tmpNode.skillData.status != SkillData.SkillStatus.Equipped && tmpNode.skillData.status != SkillData.SkillStatus.Learned)
+            if (changedSkillNode != null)
             {
-                switch (changedSkillNode.GetComponent<SkillNode>().skillData.status)
+                if (tmpNode.previousSkillNode == changedSkillNode && changedSkillNode.GetComponent<SkillNode>().skillData.ID != 0 &&
+                    tmpNode.skillData.status != SkillData.SkillStatus.Equipped && tmpNode.skillData.status != SkillData.SkillStatus.Learned)
                 {
-                    case SkillData.SkillStatus.Learned:
+                    switch (changedSkillNode.GetComponent<SkillNode>().skillData.status)
                     {
-                        tmpNode.skillData.status = SkillData.SkillStatus.Available;
-                        break;
+                        case SkillData.SkillStatus.Learned:
+                        {
+                            tmpNode.skillData.status = SkillData.SkillStatus.Available;
+                            break;
+                        }
+                        case SkillData.SkillStatus.Equipped:
+                        {
+                            tmpNode.skillData.status = SkillData.SkillStatus.Available;
+                            break;
+                        }
                     }
-                    case SkillData.SkillStatus.Equipped:
-                    {
-                        tmpNode.skillData.status = SkillData.SkillStatus.Available;
-                        break;
-                    }
-                }
+                }    
             }
+            
             skillNodes[i].GetComponent<SkillNode>().RefreshNode();
         }
     }

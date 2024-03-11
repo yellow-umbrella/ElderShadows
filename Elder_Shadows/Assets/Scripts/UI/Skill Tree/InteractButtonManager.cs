@@ -9,9 +9,7 @@ public class InteractButtonManager : MonoBehaviour
     [SerializeField] private SkillTreeManager skillTreeManager;
     [SerializeField] private TextMeshProUGUI buttonText;
     [SerializeField] private GameObject noSkillPointsPopup;
-    [SerializeField] private GameObject PassiveSkills;
-    [SerializeField] private GameObject SkillHeaderPrefab;
-    [SerializeField] private GameObject SkillListManager;
+    [SerializeField] private GameObject SkillSlots;
     public GameObject skillNode;
     
     public void Interact()
@@ -35,7 +33,7 @@ public class InteractButtonManager : MonoBehaviour
                 }
                 case SkillData.SkillStatus.Learned:
                 {
-                    skillNode.GetComponent<SkillNode>().skillData.Equip();
+                    SkillSlots.SetActive(true);
                     break;
                 }
                 case SkillData.SkillStatus.Equipped:
@@ -51,7 +49,6 @@ public class InteractButtonManager : MonoBehaviour
             {
                 skillNode.GetComponent<SkillNode>().skillData.Learn();
                 skillTreeManager.GetComponent<SkillTreeManager>().ReduceSkillPoints();
-                //AddPassiveSkill();
             }
             else
             {
@@ -99,16 +96,6 @@ public class InteractButtonManager : MonoBehaviour
                 break;
             }
         }
-    }
-
-    private void AddPassiveSkill()
-    {
-        GameObject skillHeader = Instantiate(SkillHeaderPrefab, Vector3.zero, Quaternion.identity, transform);
-        skillHeader.transform.SetParent(PassiveSkills.transform, false);
-
-        skillHeader.GetComponent<SkillHeaderManager>().ChosenSkill = skillNode.GetComponent<SkillNode>().skillData;
-        skillHeader.GetComponent<SkillHeaderManager>().SkillListManager = SkillListManager;
-        skillHeader.GetComponent<SkillHeaderManager>().UpdateHeader();
     }
 
     IEnumerator NotEnoughSkillPointsPopup()

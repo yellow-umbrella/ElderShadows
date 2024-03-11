@@ -10,6 +10,7 @@ public class SkillHeaderManager : MonoBehaviour
     public bool isChosen = false;
     public SkillData ChosenSkill;
     public GameObject SkillListManager;
+    public int index = -1;
 
     [SerializeField] private GameObject unequipBtn;
     [SerializeField] private TextMeshProUGUI skillName;
@@ -23,18 +24,43 @@ public class SkillHeaderManager : MonoBehaviour
         
         if (!isChosen)
         {
-            if (skillChosen)
+            if (skillChosen && SkillListData.PreviousHeader != gameObject)
             {
                 isChosen = true;
                 gameObject.GetComponent<Image>().color = new Color(0.52f, 0.35f, 0.24f, 0.54f);
                 unequipBtn.SetActive(true);
+
+                if (SkillListData.PreviousHeader == null)
+                {
+                    SkillListData.PreviousHeader = gameObject;
+                }
+                else
+                {
+                    SkillListData.PreviousHeader.GetComponent<SkillHeaderManager>().Unchoose();
+                    SkillListData.PreviousHeader = gameObject;
+                }
             }
             else
             {
                 SkillListManager.GetComponent<SkillListManager>().OpenSkillTree();
             }
         }
-        else
+    }
+
+    public void UnequipSkill()
+    {
+        if (ChosenSkill.status == SkillData.SkillStatus.Equipped)
+        {
+            ChosenSkill = null;
+            SkillListManager.GetComponent<SkillListManager>().UnequipSkill(index);
+            UpdateHeader();
+            Unchoose();
+        }
+    }
+
+    void Unchoose()
+    {
+        if (isChosen)
         {
             isChosen = false;
             gameObject.GetComponent<Image>().color = new Color(0.35f, 0.22f, 0.16f, 0.54f);
@@ -48,6 +74,11 @@ public class SkillHeaderManager : MonoBehaviour
         {
             skillChosen = true;
             skillName.text = ChosenSkill.name;
+        }
+        else
+        {
+            skillChosen = false;
+            skillName.text = "empty";
         }
     }
 }

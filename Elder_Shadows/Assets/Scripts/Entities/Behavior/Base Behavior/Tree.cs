@@ -6,6 +6,7 @@ namespace BehaviorTree
 {
     public abstract class Tree : MonoBehaviour
     {
+        public Node ActiveNode { get { return root.GetData(Node.RUNNING_ACTION) as Node; } }
         protected Node root = null;
 
         private void Start()

@@ -22,6 +22,17 @@ public class FindPathToTargetNode : Node
     {
         GameObject newTarget = (GameObject)GetData(AttackTargetNode.ATTACK_TARGET);
 
+        if (target == null && newTarget == null)
+        {
+            state = NodeState.FAILURE;
+            return state;
+        }
+
+        if (newTarget == null)
+        {
+            newTarget = target;
+        }
+
         // already close enough
         if (Vector2.Distance(controller.transform.position, newTarget.transform.position) < offset)
         {

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ca63e148a2d624b8e59617adae4f6c, type: 3}
+  m_Name: BaseTraderItems
+  m_EditorClassIdentifier: 
+  priceMult: 1.2
+  tradeItems:
+  - item: {fileID: 11400000, guid: 2e2b6cfa80dc1aa4abb590e26ee132a9, type: 2}
+    levelRequirement: 0
+    trustRequirement: 0
+  - item: {fileID: 11400000, guid: a4efddcac4e3b2549a055f87b3aaf765, type: 2}
+    levelRequirement: 5
+    trustRequirement: 0
+  - item: {fileID: 11400000, guid: c31b655fbf7ed47c88755c08dab402b9, type: 2}
+    levelRequirement: 0
+    trustRequirement: 0
+  - item: {fileID: 11400000, guid: 5c298fda67341f645a384973c4bd5dca, type: 2}
+    levelRequirement: 0
+    trustRequirement: 0
+  - item: {fileID: 11400000, guid: 73f7451ce3884fb47ad908604edd622c, type: 2}
+    levelRequirement: 0
+    trustRequirement: 0

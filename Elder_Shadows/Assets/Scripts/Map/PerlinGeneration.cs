@@ -17,6 +17,8 @@ public class PerlinGeneration : MonoBehaviour
     public GameObject[] forestVegetation;
     public GameObject[] forestRocks;
 
+    public GameObject PlayerCharacter;
+
     public float perlin;
     public float scale;
     public float seed;
@@ -126,6 +128,11 @@ public class PerlinGeneration : MonoBehaviour
 
                 objectList.Add(forestVegetation[rand_val]);
                 posList.Add(new Vector3(x, y, 0));
+                
+                if (plant.GetComponent<GenerativeObject>() != null)
+                {
+                    plant.GetComponent<GenerativeObject>().PlayerCharacter = PlayerCharacter;
+                }
             }
             else if (random >= 1f - rocksChance)
             {

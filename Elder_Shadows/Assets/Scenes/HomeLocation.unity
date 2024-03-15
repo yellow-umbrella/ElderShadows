@@ -1107,9 +1107,11 @@ MonoBehaviour:
   - {fileID: 567821275017162559, guid: 62a02087b7be14d179c66e5c2433405c, type: 3}
   - {fileID: 567821275017162559, guid: 62a02087b7be14d179c66e5c2433405c, type: 3}
   - {fileID: 567821275017162559, guid: 62a02087b7be14d179c66e5c2433405c, type: 3}
+  - {fileID: 3306388764947675764, guid: 42088bfd0c07e2a4db5d699078481c6d, type: 3}
   forestRocks:
   - {fileID: 8668454307101324312, guid: ffd4b1463bea55d42b04296de4433b37, type: 3}
-  - {fileID: 3091122331055360104, guid: a1ece6872f685904186284bc5208bbd8, type: 3}
+  - {fileID: 3091122331055360104, guid: 59605750671fcf946b4721762c27d901, type: 3}
+  PlayerCharacter: {fileID: 1774624591}
   perlin: 0.4573344
   scale: 1.3
   seed: 234
@@ -1150,7 +1152,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ec9643e32ec30be4b935c2eed33bbb1f, type: 2}
   - {fileID: 11400000, guid: eebc19fa033a55547a98cf5d7dc7dfef, type: 2}
   - {fileID: 11400000, guid: c477aac5eecba7a43bf6a926a843f8e3, type: 2}
+  - {fileID: 11400000, guid: 77f295295cbd5bc4695d70596b348667, type: 2}
+  - {fileID: 11400000, guid: 054fe2ae35ed8b141830bb4155524d44, type: 2}
   - {fileID: 11400000, guid: 0d736806e3ac0f7428914e7c5cd86c58, type: 2}
+  PlayerCharacter: {fileID: 1774624591}
   tilemap: {fileID: 862576976}
   collisions: {fileID: 1013516756}
 --- !u!114 &331398648

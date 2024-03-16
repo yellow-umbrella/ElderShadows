@@ -13,7 +13,7 @@ public class MapGeneration : MonoBehaviour
     public Tilemap wallsTileMap2; 
     public Tilemap wallsTileMap3;
 
-    public MapTypeController typeNumber;
+    public MapTypeController mapTypeController;
     public List<MapType> mapType = new List<MapType>();
 
     private TileBase[] forestTiles;
@@ -62,14 +62,14 @@ public class MapGeneration : MonoBehaviour
         GenerateWorld();
 
         // add code to save players last location
-        pSpawn.MovePlayerOnGrass();
+        //pSpawn.MovePlayerOnGrass();
 
-        mapManager.Savelevel();
+        //mapManager.Savelevel();
     }
 
     private void ChooseMapType() 
     {
-        switch (typeNumber.type) 
+        switch (mapTypeController.type) 
         {
             case 0:
                 SetMapType(mapType[0]);
@@ -104,10 +104,12 @@ public class MapGeneration : MonoBehaviour
 
     public void GenerateWorld()
     {
-        if (File.Exists(Application.persistentDataPath + "/map/home_floor.json") && File.Exists(Application.persistentDataPath + "/map/home_walls_l1.json") && File.Exists(Application.persistentDataPath + "/map/home_objects.json"))
+        if (File.Exists(Application.persistentDataPath + mapTypeController.directory + "/floor.json") && File.Exists(Application.persistentDataPath + mapTypeController.directory + "/walls.json") && File.Exists(Application.persistentDataPath + mapTypeController.directory + "/objects.json"))
         {
 
             mapManager.LoadLevel();
+            // temporary
+            pSpawn.MovePlayerOnGrass();
             //Debug.Log("Home map already exists");
 
         }
@@ -139,9 +141,9 @@ public class MapGeneration : MonoBehaviour
             mapManager.Savelevel();
 
             pSpawn.MovePlayerOnGrass();
-            homeSpawn.spawnHome();
+            //homeSpawn.spawnHome();
 
-            mapManager.Invoke("SaveLevelObjects", 1);
+            //mapManager.Invoke("SaveLevelObjects", 1);
         }
 
     }

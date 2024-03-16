@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5aed59c84df29d14380a793f87146db5, type: 3}
-  m_Name: HomeMapTypeController
+  m_Name: DynamicMapTypeController
   m_EditorClassIdentifier: 
   type: 0
-  directory: /map/home
+  directory: /map/dynamic

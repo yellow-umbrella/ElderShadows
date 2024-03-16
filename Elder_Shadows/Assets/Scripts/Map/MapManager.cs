@@ -19,12 +19,11 @@ public class LevelObject
 
 public class MapManager : MonoBehaviour
 {
-    public const string HOME_MAP_PATH = "/map";
-    public const string HOME_MAP_FLOOR_PATH = "/home_floor.json";
-    public const string HOME_MAP_WALLS_PATH = "/home_walls.json";
-    public const string HOME_MAP_WALLS_L2_PATH = "/home_walls2.json";
-    public const string HOME_MAP_WALLS_L3_PATH = "/home_walls3.json";
-    public const string HOME_MAP_OBJECTS_PATH = "/home_objects.json";
+    
+    public const string HOME_MAP_OBJECTS_PATH = "/objects.json";
+    public MapTypeController mapTypeController;
+    private string directory;
+    public string[] file_names;
 
     public static MapManager instance;
     public List<CustomTile> tiles = new List<CustomTile> ();
@@ -44,20 +43,23 @@ public class MapManager : MonoBehaviour
 
     private void Start()
     {
-        
+        //Savelevel();
     }
 
     
-    public Tilemap tilemap;
+    /*public Tilemap tilemap;
     public Tilemap collisions;
     public Tilemap collisions2;
-    public Tilemap collisions3;
+    public Tilemap collisions3;*/
+
+    public Tilemap[] tilemaps;
 
     private void Update(){}
 
 
     public void SaveTilemap(Tilemap tilemap, string save_name) 
     {
+        directory = mapTypeController.directory; //"/map"
         BoundsInt bounds = tilemap.cellBounds;
         LevelData mapData = new LevelData();
         string FILE_NAME = "/" + save_name + ".json";
@@ -84,14 +86,14 @@ public class MapManager : MonoBehaviour
 
         try
         {
-            string map_path = Application.persistentDataPath + HOME_MAP_PATH;
+            string map_path = Application.persistentDataPath + directory;
 
             if (!Directory.Exists(map_path))
             {
                 Directory.CreateDirectory(map_path);
             }
 
-            File.WriteAllText(Application.persistentDataPath + HOME_MAP_PATH + FILE_NAME, json);
+            File.WriteAllText(Application.persistentDataPath + directory + FILE_NAME, json);
         }
         catch
         {
@@ -101,6 +103,7 @@ public class MapManager : MonoBehaviour
 
     public void SaveLevelObjects() 
     {
+        directory = mapTypeController.directory; //"/map"
         GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
         List<GameObject> gameObject = new List<GameObject>();
         List<Vector3> position = new List<Vector3>();
@@ -130,7 +133,7 @@ public class MapManager : MonoBehaviour
         }
         try
         {
-            string map_path = Application.persistentDataPath + HOME_MAP_PATH;
+            string map_path = Application.persistentDataPath + directory;
             string json = JsonUtility.ToJson(levelObject, true);
 
             if (!Directory.Exists(map_path))
@@ -138,7 +141,7 @@ public class MapManager : MonoBehaviour
                 Directory.CreateDirectory(map_path);
             }
 
-            File.WriteAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_OBJECTS_PATH, json);
+            File.WriteAllText(Application.persistentDataPath + directory + HOME_MAP_OBJECTS_PATH, json);
             Debug.Log("Objects save ended");
         }
         catch
@@ -163,8 +166,9 @@ public class MapManager : MonoBehaviour
 
     public void LoadObjects()
     {
+        directory = mapTypeController.directory; //"/map"
         //string json = File.ReadAllText(Application.dataPath + "/homeObjects.json");
-        string json = File.ReadAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_OBJECTS_PATH);
+        string json = File.ReadAllText(Application.persistentDataPath + directory + HOME_MAP_OBJECTS_PATH);
         LevelObject o_data = JsonUtility.FromJson<LevelObject>(json);
 
         ClearLevelObjects("Tree");
@@ -180,8 +184,9 @@ public class MapManager : MonoBehaviour
 
     public void LoadTilemap(Tilemap tilemap, string save_name) 
     {
+        directory = mapTypeController.directory; //"/map"
         string FILE_NAME = "/" + save_name + ".json";
-        string json = File.ReadAllText(Application.persistentDataPath + HOME_MAP_PATH + FILE_NAME);
+        string json = File.ReadAllText(Application.persistentDataPath + directory + FILE_NAME);
         LevelData data = JsonUtility.FromJson<LevelData>(json);
 
         tilemap.ClearAllTiles();
@@ -194,22 +199,21 @@ public class MapManager : MonoBehaviour
 
     public void Savelevel()
     {
-        SaveTilemap(tilemap, "home_floor");
-        SaveTilemap(collisions, "home_walls_l1");
-        SaveTilemap(collisions2, "home_walls_l2");
-        SaveTilemap(collisions3, "home_walls_l3");
-
-
+        for (int i = 0; i < tilemaps.Length; i++) 
+        {
+            SaveTilemap(tilemaps[i], file_names[i]);
+        }
+        
         SaveLevelObjects();
         //Debug.Log("Level was saved");
     }
 
     public void LoadLevel()
     {
-        LoadTilemap(tilemap, "home_floor");
-        LoadTilemap(collisions, "home_walls_l1");
-        LoadTilemap(collisions2, "home_walls_l2");
-        LoadTilemap(collisions3, "home_walls_l3");
+        for (int i = 0; i < tilemaps.Length; i++) 
+        {
+            LoadTilemap(tilemaps[i], file_names[i]);
+        }
 
         LoadObjects();
     }

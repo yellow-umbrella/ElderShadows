@@ -6,4 +6,5 @@ using UnityEngine;
 public class MapTypeController : ScriptableObject
 {
     public int type;
+    public string directory;
 }

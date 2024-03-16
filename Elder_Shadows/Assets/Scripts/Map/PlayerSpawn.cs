@@ -9,12 +9,27 @@ using System.IO;
 public class PlayerSpawn : MonoBehaviour
 {
     public GameObject player;
+    public MapTypeController mapTypeController;
     private int AssertPosition;
+    private MapManager mapManager;
+
+    private void Awake()
+    {
+        mapManager = GetComponent<MapManager>();
+    }
+
+    public void Start() 
+    {
+
+        //Invoke("MovePlayerOnGrass", 0.1f);
+
+    }
 
     public void MovePlayerOnGrass()
     {
+        //mapManager.Savelevel();
         Vector3Int spawn_position = new Vector3Int();
-        string json = File.ReadAllText(Application.persistentDataPath + "/map/home_floor.json");
+        string json = File.ReadAllText(Application.persistentDataPath + mapTypeController.directory + "/floor.json");
         
         //file with grass tiles
         SpawnData data = JsonUtility.FromJson<SpawnData>(json);
@@ -31,7 +46,7 @@ public class PlayerSpawn : MonoBehaviour
 
     public void isPlayerOnGrass() 
     {
-        string json = File.ReadAllText(Application.persistentDataPath + "/map/home_floor.json");
+        string json = File.ReadAllText(Application.persistentDataPath + mapTypeController.directory + "/floor.json");
 
         //file with grass tiles
         SpawnData data = JsonUtility.FromJson<SpawnData>(json);

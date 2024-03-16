@@ -9,10 +9,23 @@ public class HomeSpawn : MonoBehaviour
     public GameObject player;
     public LayerMask treesLayer;
 
-    private MapManager mapManager = new MapManager();
+    private MapManager mapManager;
+
+    private void Awake()
+    {
+        mapManager = GetComponent<MapManager>();
+    }
+
+    private void Start() 
+    {
+        spawnHome();
+        //Invoke("spawnHome()", 0.5f);
+    }
 
     public void spawnHome()
     {
+        //mapManager.Savelevel();
+
         Vector3 home_position = new Vector3(player.transform.position.x, player.transform.position.y + 1, 0);
 
         GameObject homeObj = (GameObject)Instantiate(home, home_position, Quaternion.identity);
@@ -20,6 +33,7 @@ public class HomeSpawn : MonoBehaviour
         homeObj.layer = 17;
 
         removeTrees();
+        mapManager.Invoke("Savelevel", 1);
     }
 
     public void removeTrees()

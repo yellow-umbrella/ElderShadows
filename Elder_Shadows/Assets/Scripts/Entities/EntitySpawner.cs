@@ -21,7 +21,7 @@ public class EntitySpawner : MonoBehaviour
     private int spawnCount;
     private bool canSpawn = false;
     private HashSet<Vector2Int> grassTiles;
-    private const string TILE_DATA_PATH = "/map/home_floor.json";
+    private const string TILE_DATA_PATH = "/map/home/floor.json";
 
     private void Awake()
     {

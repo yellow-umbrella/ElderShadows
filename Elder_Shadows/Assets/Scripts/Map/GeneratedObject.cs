@@ -15,17 +15,11 @@ public class GeneratedObject : MonoBehaviour
     IEnumerator Rot()
     {
         yield return new WaitForSeconds(SecondsUntilDisappear);
-        DestroyFruit();
+        Destroy(gameObject);
     }
 
-    public void PickUpFruit()
-    {
-        DestroyFruit();
-    }
-
-    void DestroyFruit()
+    private void OnDestroy()
     {
         ParentTree.GeneratedFruits.Remove(gameObject);
-        Destroy(gameObject);    
     }
 }

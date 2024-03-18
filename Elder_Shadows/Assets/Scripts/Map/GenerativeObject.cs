@@ -79,7 +79,7 @@ public class GenerativeObject : MonoBehaviour
         GameObject newFruit = Instantiate(FruitPrefab, Vector3.zero, Quaternion.identity);
         newFruit.transform.SetParent(transform.parent, false);
 
-        Vector3 position = new Vector3(Random.Range(-GeneratableArea.x, GeneratableArea.x), Random.Range(-GeneratableArea.y, GeneratableArea.y), 0);
+        Vector3 position = new Vector3(Random.Range(-GeneratableArea.x, GeneratableArea.x), Random.Range(-GeneratableArea.y, 0), 0);
         newFruit.transform.position = transform.position + position;
         return newFruit;
     }

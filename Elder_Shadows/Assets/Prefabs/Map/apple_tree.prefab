@@ -183,7 +183,7 @@ MonoBehaviour:
   PlayerRange: 15
   FruitPrefab: {fileID: 3091122331055360104, guid: a1ece6872f685904186284bc5208bbd8, type: 3}
   GenerationDelayRange: {x: 10, y: 20}
-  GeneratableArea: {x: 0.4, y: 0.1}
+  GeneratableArea: {x: 0.5, y: 0.25}
   GeneratedFruits: []
 --- !u!1 &4848143547065010567
 GameObject:

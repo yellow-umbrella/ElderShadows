@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Lingonberries
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 0}
-  stackable: 0
+  stackable: 1
   type: 0
   description: Tiny, red berries that grow in mountains.
   data:
     Name: Lingonberries
-    Id: -1
+    Id: 15
     buffs: []
+  basePrice: 0

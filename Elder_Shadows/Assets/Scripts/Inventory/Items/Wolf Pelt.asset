@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Wolf Pelt
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 0}
-  stackable: 0
+  stackable: 1
   type: 9
   description: Thick and coarse hide obtained from wolves.
   data:
     Name: Wolf Pelt
-    Id: -1
+    Id: 34
     buffs: []
+  basePrice: 12

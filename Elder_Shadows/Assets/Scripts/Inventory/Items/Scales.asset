@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Scales
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 0}
-  stackable: 0
+  stackable: 1
   type: 9
   description: Tough and flexible scales used in crafting durable armor.
   data:
     Name: Scales
-    Id: -1
+    Id: 30
     buffs: []
+  basePrice: 0

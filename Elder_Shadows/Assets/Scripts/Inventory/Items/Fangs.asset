@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Fangs
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 0}
-  stackable: 0
+  stackable: 1
   type: 9
   description: Sharp fangs obtained from mythical creatures.
   data:
     Name: Fangs
     Id: -1
     buffs: []
+  basePrice: 0

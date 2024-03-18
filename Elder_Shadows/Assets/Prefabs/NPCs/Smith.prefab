@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1929206243429706181}
   - component: {fileID: 1929206243429706179}
   m_Layer: 6
-  m_Name: Trader
+  m_Name: Smith
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58479802df8c8814e8b7c2fe9ed7e777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemsToSell: {fileID: 11400000, guid: c3c911bf45478f1469c28e0b4c2960b4, type: 2}
+  itemsToSell: {fileID: 11400000, guid: 1ddd35f5c527dba4b9ca4b522abb6605, type: 2}
   ui: {fileID: 0}
 --- !u!114 &1929206243429706181
 MonoBehaviour:

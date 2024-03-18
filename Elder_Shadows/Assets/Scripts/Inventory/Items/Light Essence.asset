@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Light Essence
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 0}
-  stackable: 0
+  stackable: 1
   type: 9
   description: A radiant substance with powerful energy.
   data:
     Name: Light Essence
-    Id: -1
+    Id: 28
     buffs: []
+  basePrice: 0

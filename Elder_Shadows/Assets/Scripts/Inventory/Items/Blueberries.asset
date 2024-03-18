@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Blueberries
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 0}
-  stackable: 0
+  stackable: 1
   type: 0
   description: Small bluish-black berries that grow wild and have a sweet and sour
     taste.
   data:
     Name: Blueberries
-    Id: -1
+    Id: 12
     buffs: []
+  basePrice: 0

@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Flower
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 0}
-  stackable: 0
+  stackable: 1
   type: 8
   description: A delicate wildflower commonly found in the forest and meadow.
   data:
     Name: Flower
-    Id: -1
+    Id: 10
     buffs: []
+  basePrice: 0

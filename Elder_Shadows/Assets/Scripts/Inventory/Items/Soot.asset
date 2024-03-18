@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Soot
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 0}
-  stackable: 0
+  stackable: 1
   type: 9
   description: A black residue obtained from fires.
   data:
     Name: Soot
-    Id: -1
+    Id: 32
     buffs: []
+  basePrice: 0

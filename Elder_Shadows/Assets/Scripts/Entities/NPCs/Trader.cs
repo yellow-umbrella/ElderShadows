@@ -24,6 +24,7 @@ public class Trader : MonoBehaviour
         ui.ShowTradingWindow(this);
     }
 
+    // checks all possible items to sell and adds those with met requirements to currentItems
     private void SelectItems()
     {
         foreach (var tradeItem in itemsToSell.tradeItems)
@@ -34,7 +35,7 @@ public class Trader : MonoBehaviour
             {
                 currentItems.Add(tradeItem.item, new ItemInfo
                 {
-                    price = (int)(tradeItem.item.basePrice * itemsToSell.priceMult),
+                    price = SetPrice(tradeItem.item),
                     amount = 0,
                     fromPlayer = false
                 });
@@ -52,14 +53,19 @@ public class Trader : MonoBehaviour
     {
         if (!currentItems.ContainsKey(item)) { return false; }
         ItemInfo info = currentItems[item];
+        // only items bought from player have limited amount
         if (info.fromPlayer)
         {
             amount = Mathf.Min(amount, info.amount);
+            if (amount == 0) { return false; }
         }
+
         int price = amount * info.price;
         if (price > CharacterController.instance.dataManager.GetMoney()) { return false; }
+
         CharacterController.instance.dataManager.AddMoney(-price);
         CharacterController.instance.inventory.AddItem(new Item(item), amount);
+
         info.amount = Mathf.Max(0, info.amount - amount);
         currentItems[item] = info;
         return true;
@@ -76,6 +82,7 @@ public class Trader : MonoBehaviour
         if (!CharacterController.instance.inventory.RemoveItem(new Item(item), amount)) { return false; }
         int price = item.basePrice * amount;
         CharacterController.instance.dataManager.AddMoney(price);
+        // update current items with new item
         if (currentItems.ContainsKey(item))
         {
             ItemInfo info = currentItems[item];
@@ -85,11 +92,16 @@ public class Trader : MonoBehaviour
         {
             currentItems.Add(item, new ItemInfo
             {
-                price = (int)(item.basePrice * itemsToSell.priceMult),
+                price = SetPrice(item),
                 amount = amount,
                 fromPlayer = true
             });
         }
         return true;
+    }
+
+    private int SetPrice(ItemObject item)
+    {
+        return Mathf.CeilToInt(item.basePrice * itemsToSell.priceMult);
     }
 }

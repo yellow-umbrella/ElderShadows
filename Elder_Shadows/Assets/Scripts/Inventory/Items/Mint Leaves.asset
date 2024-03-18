@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Mint Leaves
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 0}
-  stackable: 0
+  stackable: 1
   type: 8
   description: A fragrant herb known for its refreshing properties.
   data:
     Name: Mint Leaves
-    Id: -1
+    Id: 11
     buffs: []
+  basePrice: 0

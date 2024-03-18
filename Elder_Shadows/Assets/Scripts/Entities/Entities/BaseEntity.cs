@@ -66,7 +66,17 @@ public class BaseEntity : MonoBehaviour, IAttackable
     public string ID { get { return info.id; } }
     public float Health { get; private set; }
     public int ExpForKill { get { return info.expForKill; } }
-    public Behavior CurrentReaction { get { return info.reactionToPlayer;} }
+    public Behavior CurrentReaction 
+    { 
+        get 
+        {
+            if (CharacterController.instance.dataManager.GetTrust() < info.trustRequired)
+            {
+                return info.reactionToPlayer;
+            }
+            return info.reactionToTrustedPlayer;
+        } 
+    }
     public bool IsModified { get; private set; } = false;
     public float MaxDistanceFromPlayer { get; set; } = float.MaxValue;
     public bool IsAttacking { get; set; }
@@ -258,6 +268,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
     {
         OnDeath?.Invoke(this);
         DropItems();
+        CharacterController.instance.dataManager.AddTrust(info.trustForKill);
         Destroy(gameObject);
     }
 

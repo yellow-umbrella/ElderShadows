@@ -6,6 +6,7 @@ using UnityEngine;
 public class GeneratedObject : MonoBehaviour
 {
     [SerializeField] private int SecondsUntilDisappear;
+    public GenerativeObject ParentTree;
     private void Start()
     {
         StartCoroutine(Rot());
@@ -24,7 +25,7 @@ public class GeneratedObject : MonoBehaviour
 
     void DestroyFruit()
     {
-        gameObject.GetComponentInParent<GenerativeObject>().GeneratedFruits.Remove(gameObject);
+        ParentTree.GeneratedFruits.Remove(gameObject);
         Destroy(gameObject);    
     }
 }

@@ -59,13 +59,13 @@ public class GenerativeObject : MonoBehaviour
             {
                 float time = Random.Range(GenerationDelayRange.x, GenerationDelayRange.y);
 
+                yield return new WaitForSeconds(time);
                 var fruit = CreateFruit();
                 GeneratedFruits.Add(fruit);
+                fruit.GetComponent<GeneratedObject>().ParentTree = this;
 
                 if (!playerInReach)
                     fruit.SetActive(false);
-
-                yield return new WaitForSeconds(time);
             }
             else
             {
@@ -77,10 +77,10 @@ public class GenerativeObject : MonoBehaviour
     private GameObject CreateFruit()
     {
         GameObject newFruit = Instantiate(FruitPrefab, Vector3.zero, Quaternion.identity);
-        newFruit.transform.SetParent(transform, false);
+        newFruit.transform.SetParent(transform.parent, false);
 
-        Vector2 position = new Vector2(Random.Range(-GeneratableArea.x, GeneratableArea.x), Random.Range(-GeneratableArea.y, GeneratableArea.y));
-        newFruit.transform.localPosition = position;
+        Vector3 position = new Vector3(Random.Range(-GeneratableArea.x, GeneratableArea.x), Random.Range(-GeneratableArea.y, GeneratableArea.y), 0);
+        newFruit.transform.position = transform.position + position;
         return newFruit;
     }
 }

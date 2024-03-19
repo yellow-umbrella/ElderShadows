@@ -28,6 +28,7 @@ public class MapManager : MonoBehaviour
     public static MapManager instance;
     public List<CustomTile> tiles = new List<CustomTile> ();
     public List<CustomGameObject> objects = new List<CustomGameObject>();
+    public GameObject PlayerCharacter;
 
     private MapObject mapObject;
     
@@ -179,6 +180,11 @@ public class MapManager : MonoBehaviour
             plant.transform.parent = transform;
 
             plant.layer = 17;
+            
+            if (plant.GetComponent<GenerativeObject>() != null)
+            {
+                plant.GetComponent<GenerativeObject>().PlayerCharacter = PlayerCharacter;
+            }
         }
     }
 

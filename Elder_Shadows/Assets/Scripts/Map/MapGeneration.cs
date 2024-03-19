@@ -23,6 +23,9 @@ public class MapGeneration : MonoBehaviour
     private GameObject[] forestVegetation;
     private GameObject[] forestRocks;
 
+    public GameObject PlayerCharacter;
+
+    public float perlin;
     public float scale;
     private float perlin;
     private float seed;
@@ -173,6 +176,11 @@ public class MapGeneration : MonoBehaviour
 
                 objectList.Add(forestVegetation[rand_val]);
                 posList.Add(new Vector3(x, y, 0));
+                
+                if (plant.GetComponent<GenerativeObject>() != null)
+                {
+                    plant.GetComponent<GenerativeObject>().PlayerCharacter = PlayerCharacter;
+                }
             }
             else if (random >= 1f - rocksChance)
             {

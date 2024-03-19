@@ -8,41 +8,59 @@ using UnityEngine.UI;
 public class SkillHeaderManager : MonoBehaviour
 {
     public bool isChosen = false;
-    
-    [SerializeField] private GameObject skillTreeTabOutline;
-    [SerializeField] private GameObject skillTreePage;
-    [SerializeField] private GameObject equippedSkillsTabOutline;
-    [SerializeField] private GameObject equippedSkillsPage;
-    [SerializeField] private GameObject emptyDescriptionObj;
-    [SerializeField] private GameObject descriptionObj;
-    [SerializeField] private TextMeshProUGUI header;
-    [SerializeField] private TextMeshProUGUI descriptionText;
+    public SkillData ChosenSkill;
+    public GameObject SkillListManager;
+    public int index = -1;
+
     [SerializeField] private GameObject unequipBtn;
-    [SerializeField] private bool skillChosen = false;
+    [SerializeField] private TextMeshProUGUI skillName;
+    [SerializeField] private GameObject skillIcon;
+    private bool skillChosen = false;
     
     public void Choose()
     {
-        if (!descriptionObj.activeSelf)
-        {
-            emptyDescriptionObj.SetActive(false);
-            descriptionObj.SetActive(true);
-        }
+        UpdateHeader();
+        SkillListManager.GetComponent<SkillListManager>().ChooseHeader(gameObject);
         
         if (!isChosen)
         {
-            Debug.Log(skillChosen);
-            if (skillChosen)
+            if (skillChosen && SkillListData.PreviousHeader != gameObject)
             {
                 isChosen = true;
                 gameObject.GetComponent<Image>().color = new Color(0.52f, 0.35f, 0.24f, 0.54f);
                 unequipBtn.SetActive(true);
+
+                if (SkillListData.PreviousHeader == null)
+                {
+                    SkillListData.PreviousHeader = gameObject;
+                }
+                else
+                {
+                    SkillListData.PreviousHeader.GetComponent<SkillHeaderManager>().Unchoose();
+                    SkillListData.PreviousHeader = gameObject;
+                }
             }
             else
             {
-                OpenSkillTree();
+                SkillListManager.GetComponent<SkillListManager>().OpenSkillTree();
             }
         }
-        else
+    }
+
+    public void UnequipSkill()
+    {
+        if (ChosenSkill.status == SkillData.SkillStatus.Equipped)
+        {
+            ChosenSkill = null;
+            SkillListManager.GetComponent<SkillListManager>().UnequipSkill(index);
+            UpdateHeader();
+            Unchoose();
+        }
+    }
+
+    void Unchoose()
+    {
+        if (isChosen)
         {
             isChosen = false;
             gameObject.GetComponent<Image>().color = new Color(0.35f, 0.22f, 0.16f, 0.54f);
@@ -50,12 +68,17 @@ public class SkillHeaderManager : MonoBehaviour
         }
     }
 
-    private void OpenSkillTree()
+    public void UpdateHeader()
     {
-        equippedSkillsPage.SetActive(false);
-        skillTreePage.SetActive(true);
-        
-        equippedSkillsTabOutline.SetActive(false);
-        skillTreeTabOutline.SetActive(true);
+        if (ChosenSkill != null)
+        {
+            skillChosen = true;
+            skillName.text = ChosenSkill.name;
+        }
+        else
+        {
+            skillChosen = false;
+            skillName.text = "empty";
+        }
     }
 }

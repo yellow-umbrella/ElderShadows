@@ -84,7 +84,7 @@ public class SkillTreeManager : MonoBehaviour
     private void OnEnable()
     {
         RefreshLines();
-        RefreshNodes(null);
+        RefreshNodes();
         RefreshPoints();
     }
 
@@ -93,13 +93,13 @@ public class SkillTreeManager : MonoBehaviour
         skillLines = new List<GameObject>();
         foreach (var skillNode in skillNodes)
         {
-            GameObject previousSkillNode = skillNode.GetComponent<SkillNode>().previousSkillNode;
+            SkillNode previousSkillNode = skillNode.GetComponent<SkillNode>().ParentSkillNode;
             
             if (skillNode != previousSkillNode)
             {
                 GameObject line = Instantiate(LinePrefab, Vector3.zero, Quaternion.identity, transform);
                 RectTransform lineRT = line.GetComponent<RectTransform>();
-                line.GetComponent<LineBetweenNodes>().ParentNode = previousSkillNode;
+                line.GetComponent<LineBetweenNodes>().ParentNode = previousSkillNode.gameObject;
                 line.GetComponent<LineBetweenNodes>().ChildNode = skillNode;
                 
                 line.transform.SetParent(LinesObj.transform, false);
@@ -147,33 +147,26 @@ public class SkillTreeManager : MonoBehaviour
         }
     }
 
-    public void RefreshNodes([CanBeNull] GameObject changedSkillNode)
+    public void RefreshNodes()
     {
-        for (int i = skillNodes.Count - 1; i >= 0; i--)
+        Queue<SkillNode> q = new Queue<SkillNode>();
+        bool[] flag = new bool[skillNodes.Count];
+        
+        q.Enqueue(skillNodes[0].GetComponent<SkillNode>());
+        flag[0] = true;
+
+        while (q.Count > 0)
         {
-            var tmpNode = skillNodes[i].GetComponent<SkillNode>();
-            if (changedSkillNode != null)
+            SkillNode w = q.Dequeue();
+            w.RefreshNode();
+            LinkedList<SkillNode> linkedNodes = w.ChildSkillNodes;
+            LinkedListNode<SkillNode> currentNode = linkedNodes.First;
+            while (currentNode != null && !flag[skillNodes.IndexOf(currentNode.Value.gameObject)])
             {
-                if (tmpNode.previousSkillNode == changedSkillNode && changedSkillNode.GetComponent<SkillNode>().skillData.ID != 0 &&
-                    tmpNode.skillData.status != SkillData.SkillStatus.Equipped && tmpNode.skillData.status != SkillData.SkillStatus.Learned)
-                {
-                    switch (changedSkillNode.GetComponent<SkillNode>().skillData.status)
-                    {
-                        case SkillData.SkillStatus.Learned:
-                        {
-                            tmpNode.skillData.status = SkillData.SkillStatus.Available;
-                            break;
-                        }
-                        case SkillData.SkillStatus.Equipped:
-                        {
-                            tmpNode.skillData.status = SkillData.SkillStatus.Available;
-                            break;
-                        }
-                    }
-                }    
+                q.Enqueue(currentNode.Value);
+                flag[skillNodes.IndexOf(currentNode.Value.gameObject)] = true;
+                currentNode = currentNode.Next;
             }
-            
-            skillNodes[i].GetComponent<SkillNode>().RefreshNode();
         }
     }
 

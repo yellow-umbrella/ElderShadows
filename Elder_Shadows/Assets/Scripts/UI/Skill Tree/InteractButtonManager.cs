@@ -56,7 +56,7 @@ public class InteractButtonManager : MonoBehaviour
             }
         }
         UpdateButton();
-        skillTreeManager.RefreshNodes(skillNode);
+        skillTreeManager.RefreshNodes();
         skillTreeManager.RefreshLines();
     }
 

@@ -9,13 +9,14 @@ public class SkillNode : MonoBehaviour
 {
     [SerializeField] private GameObject Frame;
     public SkillData skillData;
-    public GameObject previousSkillNode;
+    public SkillNode ParentSkillNode;
     [SerializeField] private GameObject DescriptionArea;
     [SerializeField] private TextMeshProUGUI DescriptionHeader;
     [SerializeField] private TextMeshProUGUI DescriptionText;
     [SerializeField] private TextMeshProUGUI DescriptionSkillType;
 
     public bool isChosen = false;
+    public LinkedList<SkillNode> ChildSkillNodes = new LinkedList<SkillNode>();
 
     public void DrawSkillNode()
     {
@@ -25,6 +26,8 @@ public class SkillNode : MonoBehaviour
             gameObject.GetComponent<RectTransform>().sizeDelta = tmp / 2;
         }
         RefreshNode();
+        if (ParentSkillNode != this)
+            ParentSkillNode.ChildSkillNodes.AddLast(this);
     }
 
     public void ChooseSkillNode()
@@ -58,6 +61,17 @@ public class SkillNode : MonoBehaviour
         else
         {
             Frame.SetActive(false);
+        }
+
+        if (ParentSkillNode.skillData.status == SkillData.SkillStatus.Unavailable || ParentSkillNode.skillData.status == SkillData.SkillStatus.Available)
+        {
+            skillData.status = SkillData.SkillStatus.Unavailable;
+        } else if ((ParentSkillNode.skillData.status == SkillData.SkillStatus.Learned ||
+                    ParentSkillNode.skillData.status == SkillData.SkillStatus.Equipped) &&
+                   skillData.status == SkillData.SkillStatus.Unavailable)
+        {
+            Debug.Log("changed available");
+            skillData.status = SkillData.SkillStatus.Available;
         }
         
         switch (skillData.status)

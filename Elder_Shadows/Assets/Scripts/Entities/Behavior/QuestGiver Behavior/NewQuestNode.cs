@@ -14,7 +14,7 @@ public class NewQuestNode : Node
 
     public override NodeState Evaluate()
     {
-        if ((Node)parent.GetData(PREV_ACTION) != this)
+        if ((Node)parent.GetData(PREV_ACTION_CHILD) != this)
         {
             questGiver.OfferQuest();
         }

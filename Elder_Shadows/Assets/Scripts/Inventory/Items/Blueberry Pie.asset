@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: Blueberry Pie
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 0}
-  stackable: 0
+  stackable: 1
   type: 0
   description: A delectable dessert made from blueberries using Domovyk's recipe.
   data:
     Name: Blueberry Pie
-    Id: -1
+    Id: 13
     buffs:
     - attribute: 0
       value: 12
       min: 10
       max: 16
+  basePrice: 0

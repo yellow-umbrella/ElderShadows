@@ -136,7 +136,8 @@ public class QuestManager : MonoBehaviour
             CharacterController.instance.inventory.AddItem(new Item(item), 1);
         }
         CharacterController.instance.dataManager.AddExperience(info.experience);
-        //CharacterController.instance.dataManager.AddTrust(info.trust);
+        CharacterController.instance.dataManager.AddTrust(info.trust);
+        CharacterController.instance.dataManager.AddMoney(info.money);
         onFinishQuest?.Invoke(id);
         return true;
     }

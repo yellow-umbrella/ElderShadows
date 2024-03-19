@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Thread
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 0}
-  stackable: 0
+  stackable: 1
   type: 9
   description: A basic material used in sewing and crafting.
   data:
     Name: Thread
-    Id: -1
+    Id: 33
     buffs: []
+  basePrice: 0

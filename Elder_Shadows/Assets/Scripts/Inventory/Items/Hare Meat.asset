@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Hare Meat
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 21300000, guid: 14e62563269c11443b9c936be93b95f4, type: 3}
-  stackable: 0
+  stackable: 1
   type: 0
   description: Tender and flavorful meat obtained from hunting hares.
   data:
     Name: Hare Meat
     Id: 1
     buffs: []
+  basePrice: 5

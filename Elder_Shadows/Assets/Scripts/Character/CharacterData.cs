@@ -8,6 +8,8 @@ public class CharacterData
         experience = 0;
         level = 1;
         statpoints = 0;
+        money = 10;
+        trust = 0;
         strength = 1;
         inteligence = 1;
         agility = 1;
@@ -29,6 +31,8 @@ public class CharacterData
     public int experience = 0;
     public int level = 1;
     public int statpoints = 0; //Determines the amount of unspent STATS upgrade points
+    public int money;
+    public int trust;
 
     [Header("Upgradeable Stats")]
     public int strength; //Responcible for Health, Regeneration, Physical Damage and Physical Resistance, or Armor
@@ -232,6 +236,24 @@ public class CharacterDataManager
     public int GetLevel()
     {
         return data.level;
+    }
+
+    public int GetMoney() { return data.money; }
+    public int GetTrust() { return data.trust; }
+
+    public bool AddMoney(int amount)
+    {
+        if (data.money + amount < 0)
+        {
+            return false;
+        }
+        data.money += amount;
+        return true;
+    }
+
+    public void AddTrust(int amount)
+    {
+        data.trust = Mathf.Max(0, data.trust + amount);
     }
 
     public void UpgradeStat(string stat)

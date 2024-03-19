@@ -46,3 +46,4 @@ MonoBehaviour:
   expForKill: 500
   possibleModifiers: []
   dropItems: []
+  entityType: 0

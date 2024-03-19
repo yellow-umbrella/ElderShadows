@@ -20,7 +20,8 @@ namespace BehaviorTree
         protected NodeState state;
         private Dictionary<string, object> data = new Dictionary<string, object>();
 
-        protected const string PREV_ACTION = "prev_success";
+        public const string PREV_ACTION_CHILD = "prev_success";
+        public const string RUNNING_ACTION = "active";
 
         public Node() 
         {
@@ -32,7 +33,8 @@ namespace BehaviorTree
             foreach (Node child in children)
             {
                 Attach(child);
-                child.SetData(PREV_ACTION, child);
+                child.SetData(PREV_ACTION_CHILD, child);
+                child.SetData(RUNNING_ACTION, child);
             }
         }
 

@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Bat Wings
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 0}
-  stackable: 0
+  stackable: 1
   type: 9
   description: A mystical item obtained from defeated nichnytsyas.
   data:
     Name: Bat Wings
     Id: -1
     buffs: []
+  basePrice: 0

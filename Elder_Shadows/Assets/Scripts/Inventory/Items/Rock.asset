@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Rock
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 0}
-  stackable: 0
+  stackable: 1
   type: 9
   description: A sturdy and common material.
   data:
     Name: Rock
     Id: -1
     buffs: []
+  basePrice: 0

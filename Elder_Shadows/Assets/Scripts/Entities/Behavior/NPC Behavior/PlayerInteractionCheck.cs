@@ -16,9 +16,11 @@ public class PlayerInteractionCheck : Node
     {
         if (interactable.IsInteracting())
         {
-            return NodeState.SUCCESS;
+            state = NodeState.SUCCESS;
+            return state;
         }
 
-        return NodeState.FAILURE;
+        state = NodeState.FAILURE;
+        return state;
     }
 }

@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Cloth
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 0}
-  stackable: 0
+  stackable: 1
   type: 9
   description: A versatile material used in crafting.
   data:
     Name: Cloth
-    Id: -1
+    Id: 22
     buffs: []
+  basePrice: 10

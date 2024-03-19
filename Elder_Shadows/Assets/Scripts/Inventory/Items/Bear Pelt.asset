@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Bear Pelt
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 0}
-  stackable: 0
+  stackable: 1
   type: 9
   description: Thick and resilient hide obtained from bears.
   data:
     Name: Bear Pelt
-    Id: -1
+    Id: 19
     buffs: []
+  basePrice: 0

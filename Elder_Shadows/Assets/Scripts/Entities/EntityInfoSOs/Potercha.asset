@@ -58,3 +58,4 @@ MonoBehaviour:
     chance: 0.5
   - itemInfo: {fileID: 11400000, guid: 2e2b6cfa80dc1aa4abb590e26ee132a9, type: 2}
     chance: 0.5
+  entityType: 2

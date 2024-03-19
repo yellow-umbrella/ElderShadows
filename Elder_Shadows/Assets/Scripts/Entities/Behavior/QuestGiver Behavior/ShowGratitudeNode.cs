@@ -21,7 +21,7 @@ public class ShowGratitudeNode : Node
         object obj = GetData(GRATITUDE);
         if (obj != null && (bool)obj)
         {
-            if ((Node)parent.GetData(PREV_ACTION) != this 
+            if ((Node)parent.GetData(PREV_ACTION_CHILD) != this 
                 && questGiver.ShowGratitudeDialog())
             {
                 timeToHide = Time.time + timeToShow;

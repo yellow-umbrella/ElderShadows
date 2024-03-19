@@ -46,8 +46,8 @@ public class Quest
 
     public bool IsMetRequirements()
     {
-        bool req = CharacterController.instance.dataManager.GetLevel() >= info.levelRequirement; 
-        //    && CharacterController.instance.dataManager.GetTrust() >= info.trustRequirement;
+        bool req = CharacterController.instance.dataManager.GetLevel() >= info.levelRequirement 
+                && CharacterController.instance.dataManager.GetTrust() >= info.trustRequirement;
         return req;
     }
 

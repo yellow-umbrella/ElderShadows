@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: Mint Tea
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 0}
-  stackable: 0
+  stackable: 1
   type: 0
   description: A refreshing beverage crafted from mint leaves.
   data:
     Name: Mint Tea
-    Id: -1
+    Id: 16
     buffs:
     - attribute: 8
       value: 1
       min: 1
       max: 2
+  basePrice: 0

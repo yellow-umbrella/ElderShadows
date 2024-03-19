@@ -5,13 +5,15 @@ using BehaviorTree;
 
 public class NpcBT : BehaviorTree.Tree
 {
-    [SerializeField] private MovementController controller;
-    [SerializeField] private NPC npc;
     [SerializeField] private float probabilityToTeleport = 0;
     [SerializeField] private float wanderingRadius = 4f;
+    private MovementController controller;
+    private NPC npc;
 
     protected override Node SetupTree()
     {
+        controller = gameObject.GetComponent<MovementController>();
+        npc = gameObject.GetComponent<NPC>();
         Node root = new SelectorNode(new List<Node>
         {
             // if player don`t see npc

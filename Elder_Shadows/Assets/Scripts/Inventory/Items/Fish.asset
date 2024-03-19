@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Fish
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 0}
-  stackable: 0
+  stackable: 1
   type: 0
   description: Freshly caught lake creatures that serve as a valuable source of sustenance.
   data:
     Name: Fish
     Id: -1
     buffs: []
+  basePrice: 0

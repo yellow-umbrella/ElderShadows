@@ -55,3 +55,4 @@ MonoBehaviour:
   dropItems:
   - itemInfo: {fileID: 11400000, guid: fbae51ae5eab85d4fb936113b16a7239, type: 2}
     chance: 0.5
+  entityType: 0

@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Dark Essence
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 0}
-  stackable: 0
+  stackable: 1
   type: 9
   description: A mysterious substance with potent magical properties.
   data:
     Name: Dark Essence
     Id: -1
     buffs: []
+  basePrice: 0

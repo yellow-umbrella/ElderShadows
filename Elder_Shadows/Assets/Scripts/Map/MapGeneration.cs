@@ -25,7 +25,7 @@ public class MapGeneration : MonoBehaviour
 
     public GameObject PlayerCharacter;
 
-    public float perlin;
+    //public float perlin;
     public float scale;
     private float perlin;
     private float seed;

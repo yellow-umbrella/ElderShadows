@@ -6,31 +6,38 @@ using UnityEditor;
 using System.Linq;
 using System.IO;
 
-public class PerlinGeneration : MonoBehaviour
+public class MapGeneration : MonoBehaviour
 {
     public Tilemap tileMap;
     public Tilemap wallsTileMap1;
     public Tilemap wallsTileMap2; 
     public Tilemap wallsTileMap3;
-    public TileBase[] forestTiles;
-    public TileBase[] waterTiles;
-    public TileBase[] moutainTile;
-    public TileBase mountainWaterTile;
-    public GameObject[] forestVegetation;
-    public GameObject[] forestRocks;
 
-    public float perlin;
+    public MapTypeController mapTypeController;
+    public List<MapType> mapType = new List<MapType>();
+
+    private TileBase[] forestTiles;
+    private TileBase[] waterTiles;
+    private TileBase[] moutainTile;
+
+    private GameObject[] forestVegetation;
+    private GameObject[] forestRocks;
+
     public float scale;
-    public float seed;
+    private float perlin;
+    private float seed;
 
     public int xOffset;
     public int yOffset;
 
     public float width;
     public float height;
-    
-    public float vegetationChance;
-    public float rocksChance;
+
+    private float humidityNum;
+    private float altitudeNum;
+
+    private float vegetationChance;
+    private float rocksChance;
     
     private List<GameObject> objectList = new List<GameObject>();
     private List<Vector3> posList = new List<Vector3>();
@@ -38,7 +45,6 @@ public class PerlinGeneration : MonoBehaviour
     private PlayerSpawn pSpawn;
     private HomeSpawn homeSpawn;
     private MapObject mapObject;
-    //private bool firstCheck = false;
 
     private void Awake() 
     {
@@ -46,6 +52,8 @@ public class PerlinGeneration : MonoBehaviour
         mapObject = GetComponent<MapObject>();
         pSpawn = GetComponent<PlayerSpawn>();
         homeSpawn = GetComponent<HomeSpawn>();
+
+        ChooseMapType();
     }
 
     private void Start()
@@ -54,17 +62,54 @@ public class PerlinGeneration : MonoBehaviour
         GenerateWorld();
 
         // add code to save players last location
-        pSpawn.MovePlayerOnGrass();
+        //pSpawn.MovePlayerOnGrass();
 
-        mapManager.Savelevel();
+        //mapManager.Savelevel();
     }
+
+    private void ChooseMapType() 
+    {
+        switch (mapTypeController.type) 
+        {
+            case 0:
+                SetMapType(mapType[0]);
+                break;
+            case 1:
+                SetMapType(mapType[1]);
+                break;
+            case 2:
+                SetMapType(mapType[2]);
+                break;
+            case 3:
+                SetMapType(mapType[3]);
+                break;
+        }
+    }
+
+    private void SetMapType(MapType mapType) 
+    {
+        humidityNum = mapType.humidityNum;
+        altitudeNum = mapType.altitudeNum;
+
+        vegetationChance = mapType.vegetationChance;
+        rocksChance = mapType.rocksChance;
+
+        forestTiles = mapType.forestTiles;
+        waterTiles = mapType.waterTiles;
+        moutainTile = mapType.moutainTile;
+
+        forestVegetation = mapType.forestVegetation;
+        forestRocks = mapType.forestRocks;
+}
 
     public void GenerateWorld()
     {
-        if (File.Exists(Application.persistentDataPath + "/map/home_floor.json") && File.Exists(Application.persistentDataPath + "/map/home_walls.json") && File.Exists(Application.persistentDataPath + "/map/home_objects.json"))
+        if (File.Exists(Application.persistentDataPath + mapTypeController.directory + "/floor.json") && File.Exists(Application.persistentDataPath + mapTypeController.directory + "/walls.json") && File.Exists(Application.persistentDataPath + mapTypeController.directory + "/objects.json"))
         {
 
             mapManager.LoadLevel();
+            // temporary
+            pSpawn.MovePlayerOnGrass();
             //Debug.Log("Home map already exists");
 
         }
@@ -96,17 +141,17 @@ public class PerlinGeneration : MonoBehaviour
             mapManager.Savelevel();
 
             pSpawn.MovePlayerOnGrass();
-            homeSpawn.spawnHome();
+            //homeSpawn.spawnHome();
 
-            mapManager.Invoke("SaveLevelObjects", 2);
+            //mapManager.Invoke("SaveLevelObjects", 1);
         }
 
     }
 
     void GenerateTile(int x, int y, float humidity, float altitude)
     {
-        float humidityNum = 0.65f;
-        float altitudeNum = 0.75f;
+        //float humidityNum = 0.65f;
+        //float altitudeNum = 0.75f;
 
         perlin = Mathf.PerlinNoise(x + Random.value, y + Random.value);
 
@@ -185,7 +230,6 @@ public class PerlinGeneration : MonoBehaviour
             //mountaine lake
             wallsTileMap.SetTile(new Vector3Int(x, y, 0), mountainWaterTile);
         }*/
-
     }
 
 }

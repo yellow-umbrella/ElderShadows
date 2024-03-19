@@ -5,6 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Custom gameobject", menuName = "LevelEditor/GameObject")]
 public class CustomGameObject : ScriptableObject
 {
-    public GameObject gobject ;
+    public GameObject gobject;
     public string id;
 }

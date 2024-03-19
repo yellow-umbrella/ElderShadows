@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7a16b88040ea745b932d1ea76e66fc, type: 3}
+  m_Name: Mountains
+  m_EditorClassIdentifier: 
+  humidityNum: 0.75
+  altitudeNum: 0.6
+  vegetationChance: 0.1
+  rocksChance: 0.065
+  forestTiles:
+  - {fileID: 11400000, guid: 52ba8470981b7a846808ab5043530e16, type: 2}
+  waterTiles:
+  - {fileID: 11400000, guid: 89a7c39041fcf534eb16e3a89a9d0b59, type: 2}
+  moutainTile:
+  - {fileID: 11400000, guid: b570720d27d5bc44ebf26ceb3d786c1f, type: 2}
+  - {fileID: 11400000, guid: a21cca2c0e78ccf41874540c90f58571, type: 2}
+  - {fileID: 11400000, guid: 1cebe2eb4f3c0da4d8c2e724a5aed1b6, type: 2}
+  forestVegetation:
+  - {fileID: 567821275017162559, guid: 62a02087b7be14d179c66e5c2433405c, type: 3}
+  - {fileID: 567821275017162559, guid: da421a8c418b4b441b20934e8c01b702, type: 3}
+  - {fileID: 3306388764947675764, guid: df11a320c9aff9d40b8af448dfe5617f, type: 3}
+  - {fileID: 5794507974818426479, guid: 14af1aedb2b056143b2279fb646fa321, type: 3}
+  - {fileID: 9050673618017265304, guid: a317b97590a7c0d4fa833ded0a52abc2, type: 3}
+  - {fileID: 4640557616411128908, guid: b583cff3ae4460c4e9691478ceaad729, type: 3}
+  forestRocks:
+  - {fileID: 8668454307101324312, guid: ffd4b1463bea55d42b04296de4433b37, type: 3}
+  - {fileID: 3091122331055360104, guid: a1ece6872f685904186284bc5208bbd8, type: 3}

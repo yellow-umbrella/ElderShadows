@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -19,12 +19,11 @@ public class LevelObject
 
 public class MapManager : MonoBehaviour
 {
-    public const string HOME_MAP_PATH = "/map";
-    public const string HOME_MAP_FLOOR_PATH = "/home_floor.json";
-    public const string HOME_MAP_WALLS_PATH = "/home_walls.json";
-    public const string HOME_MAP_WALLS_L2_PATH = "/home_walls2.json";
-    public const string HOME_MAP_WALLS_L3_PATH = "/home_walls3.json";
-    public const string HOME_MAP_OBJECTS_PATH = "/home_objects.json";
+    
+    public const string HOME_MAP_OBJECTS_PATH = "/objects.json";
+    public MapTypeController mapTypeController;
+    private string directory;
+    public string[] file_names;
 
     public static MapManager instance;
     public List<CustomTile> tiles = new List<CustomTile> ();
@@ -40,58 +39,40 @@ public class MapManager : MonoBehaviour
         else Destroy(this);
 
         mapObject = GetComponent<MapObject>();
-
-        
     }
 
     private void Start()
     {
-        
+        //Savelevel();
     }
 
     
-    public Tilemap tilemap;
+    /*public Tilemap tilemap;
     public Tilemap collisions;
     public Tilemap collisions2;
-    public Tilemap collisions3;
+    public Tilemap collisions3;*/
 
-    private void Update()
+    public Tilemap[] tilemaps;
+
+    private void Update(){}
+
+
+    public void SaveTilemap(Tilemap tilemap, string save_name) 
     {
-        //save level when pressing Ctrl + A
-        //if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A)) Savelevel();
-        //load level when pressing Ctrl + L
-        //if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.L)) LoadLevel();
-        //save level when pressing Ctrl + A
-        //if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A)) SaveLevelObjects();
-    }
-
-    // add this method to refactor SaveLevel
-    public void SaveData() { }
-
-    public void Savelevel()
-    {
-        //get the bounds of the tilemap
+        directory = mapTypeController.directory; //"/map"
         BoundsInt bounds = tilemap.cellBounds;
-        BoundsInt c_bounds = collisions.cellBounds;
-        BoundsInt c_bounds2 = collisions2.cellBounds;
-        BoundsInt c_bounds3 = collisions3.cellBounds;
-
-        //create a new leveldata
         LevelData mapData = new LevelData();
-        LevelData collisionsData = new LevelData();
-        LevelData collisionsData2 = new LevelData();
-        LevelData collisionsData3 = new LevelData();
+        string FILE_NAME = "/" + save_name + ".json";
 
-        //loop trougth the bounds of the tilemap
         for (int x = bounds.min.x; x < bounds.max.x; x++)
         {
             for (int y = bounds.min.y; y < bounds.max.y; y++)
             {
-                
+
                 TileBase temp = tilemap.GetTile(new Vector3Int(x, y, 0));
                 CustomTile tempTile = tiles.Find(t => t.tile == temp);
 
-                
+
                 if (tempTile != null)
                 {
                     //add the values to the leveldata
@@ -101,91 +82,28 @@ public class MapManager : MonoBehaviour
             }
         }
 
-        for (int x = c_bounds.min.x; x < c_bounds.max.x; x++)
-        {
-            for (int y = c_bounds.min.y; y < c_bounds.max.y; y++)
-            {
-                
-                TileBase c_temp = collisions.GetTile(new Vector3Int(x, y, 0));
-                CustomTile tempTile = tiles.Find(t => t.tile == c_temp);
-
-                if (tempTile != null)
-                {
-                    
-                    collisionsData.tiles.Add(tempTile.id);
-                    collisionsData.poses.Add(new Vector3Int(x, y, 0));
-                }
-            }
-        }
-
-        for (int x = c_bounds2.min.x; x < c_bounds2.max.x; x++)
-        {
-            for (int y = c_bounds2.min.y; y < c_bounds2.max.y; y++)
-            {
-
-                TileBase c2_temp = collisions.GetTile(new Vector3Int(x, y, 0));
-                CustomTile tempTile2 = tiles.Find(t => t.tile == c2_temp);
-
-                if (tempTile2 != null)
-                {
-
-                    collisionsData2.tiles.Add(tempTile2.id);
-                    collisionsData2.poses.Add(new Vector3Int(x, y, 0));
-                }
-            }
-        }
-
-        for (int x = c_bounds3.min.x; x < c_bounds3.max.x; x++)
-        {
-            for (int y = c_bounds3.min.y; y < c_bounds3.max.y; y++)
-            {
-
-                TileBase c3_temp = collisions.GetTile(new Vector3Int(x, y, 0));
-                CustomTile tempTile3 = tiles.Find(t => t.tile == c3_temp);
-
-                if (tempTile3 != null)
-                {
-
-                    collisionsData3.tiles.Add(tempTile3.id);
-                    collisionsData3.poses.Add(new Vector3Int(x, y, 0));
-                }
-            }
-        }
-
-        //SaveLevelObjects();
-
         string json = JsonUtility.ToJson(mapData, true);
-        string c_json = JsonUtility.ToJson(collisionsData, true);
-        string c2_json = JsonUtility.ToJson(collisionsData2, true);
-        string c3_json = JsonUtility.ToJson(collisionsData3, true);
 
         try
         {
-            string map_path = Application.persistentDataPath + HOME_MAP_PATH;
+            string map_path = Application.persistentDataPath + directory;
 
             if (!Directory.Exists(map_path))
             {
                 Directory.CreateDirectory(map_path);
             }
 
-            File.WriteAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_FLOOR_PATH, json);
-            File.WriteAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_WALLS_PATH, c_json);
-            File.WriteAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_WALLS_L2_PATH, c2_json);
-            File.WriteAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_WALLS_L3_PATH, c3_json);
+            File.WriteAllText(Application.persistentDataPath + directory + FILE_NAME, json);
         }
         catch
         {
             Debug.Log("Map directory not found");
         }
-
-
-        SaveLevelObjects();
-        //Debug.Log("Level was saved");
     }
 
-    // new save objects method
     public void SaveLevelObjects() 
     {
+        directory = mapTypeController.directory; //"/map"
         GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
         List<GameObject> gameObject = new List<GameObject>();
         List<Vector3> position = new List<Vector3>();
@@ -206,7 +124,7 @@ public class MapManager : MonoBehaviour
                     }
                     catch 
                     {
-                        Debug.Log("Map objects not saved");
+                        //Debug.Log("Map objects not saved");
                     }
 
                 }
@@ -215,7 +133,7 @@ public class MapManager : MonoBehaviour
         }
         try
         {
-            string map_path = Application.persistentDataPath + HOME_MAP_PATH;
+            string map_path = Application.persistentDataPath + directory;
             string json = JsonUtility.ToJson(levelObject, true);
 
             if (!Directory.Exists(map_path))
@@ -223,7 +141,7 @@ public class MapManager : MonoBehaviour
                 Directory.CreateDirectory(map_path);
             }
 
-            File.WriteAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_OBJECTS_PATH, json);
+            File.WriteAllText(Application.persistentDataPath + directory + HOME_MAP_OBJECTS_PATH, json);
             Debug.Log("Objects save ended");
         }
         catch
@@ -248,8 +166,9 @@ public class MapManager : MonoBehaviour
 
     public void LoadObjects()
     {
+        directory = mapTypeController.directory; //"/map"
         //string json = File.ReadAllText(Application.dataPath + "/homeObjects.json");
-        string json = File.ReadAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_OBJECTS_PATH);
+        string json = File.ReadAllText(Application.persistentDataPath + directory + HOME_MAP_OBJECTS_PATH);
         LevelObject o_data = JsonUtility.FromJson<LevelObject>(json);
 
         ClearLevelObjects("Tree");
@@ -263,44 +182,37 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    public void LoadLevel()
+    public void LoadTilemap(Tilemap tilemap, string save_name) 
     {
-        //load the json file to a leveldata
-        //string json = File.ReadAllText(Application.dataPath + "/homeLevel.json");
-        //string c_json = File.ReadAllText(Application.dataPath + "/homeCollisionsLevel.json");
-
-        string json = File.ReadAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_FLOOR_PATH);
-        string c_json = File.ReadAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_WALLS_PATH);
-        string c2_json = File.ReadAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_WALLS_L2_PATH);
-        string c3_json = File.ReadAllText(Application.persistentDataPath + HOME_MAP_PATH + HOME_MAP_WALLS_L3_PATH);
-
+        directory = mapTypeController.directory; //"/map"
+        string FILE_NAME = "/" + save_name + ".json";
+        string json = File.ReadAllText(Application.persistentDataPath + directory + FILE_NAME);
         LevelData data = JsonUtility.FromJson<LevelData>(json);
-        LevelData c_data = JsonUtility.FromJson<LevelData>(c_json);
-        LevelData c2_data = JsonUtility.FromJson<LevelData>(c2_json);
-        LevelData c3_data = JsonUtility.FromJson<LevelData>(c3_json);
 
-        //clear the tilemap
         tilemap.ClearAllTiles();
-        collisions.ClearAllTiles();
-        collisions2.ClearAllTiles();
-        collisions3.ClearAllTiles();
 
-        //place the tiles
         for (int i = 0; i < data.tiles.Count; i++)
         {
             tilemap.SetTile(data.poses[i], tiles.Find(t => t.id == data.tiles[i]).tile);
         }
-        for (int i = 0; i < c_data.tiles.Count; i++)
+    }
+
+    public void Savelevel()
+    {
+        for (int i = 0; i < tilemaps.Length; i++) 
         {
-            collisions.SetTile(c_data.poses[i], tiles.Find(t => t.id == c_data.tiles[i]).tile);
+            SaveTilemap(tilemaps[i], file_names[i]);
         }
-        for (int i = 0; i < c2_data.tiles.Count; i++)
+        
+        SaveLevelObjects();
+        //Debug.Log("Level was saved");
+    }
+
+    public void LoadLevel()
+    {
+        for (int i = 0; i < tilemaps.Length; i++) 
         {
-            collisions.SetTile(c2_data.poses[i], tiles.Find(t => t.id == c2_data.tiles[i]).tile);
-        }
-        for (int i = 0; i < c3_data.tiles.Count; i++)
-        {
-            collisions.SetTile(c3_data.poses[i], tiles.Find(t => t.id == c3_data.tiles[i]).tile);
+            LoadTilemap(tilemaps[i], file_names[i]);
         }
 
         LoadObjects();

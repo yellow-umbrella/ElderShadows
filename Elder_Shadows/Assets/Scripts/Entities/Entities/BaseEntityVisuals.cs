@@ -40,8 +40,11 @@ public class BaseEntityVisuals : MonoBehaviour
     private void Entity_OnStartAttack(EntityAttackSO.AttackType attackType)
     {
         // trigger right animation based on attack type
-        animator.SetInteger(DIRECTION, entity.AttackDirection);
-        animator.SetTrigger(TARGETED_ATTACK);
+        if (animator.runtimeAnimatorController != null)
+        {
+            animator.SetInteger(DIRECTION, entity.AttackDirection);
+            animator.SetTrigger(TARGETED_ATTACK);
+        }
         StartCoroutine(Attack());
     }
 
@@ -49,10 +52,22 @@ public class BaseEntityVisuals : MonoBehaviour
     {
         entity.IsAttacking = true;
         //yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
-        yield return new WaitWhile(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= .5f);
+        if (animator.runtimeAnimatorController != null)
+        {
+            yield return new WaitWhile(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= .5f);
+        } else
+        {
+            yield return new WaitForSeconds(1f);
+        }
         entity.CanInflictDamage = true;
-
-        yield return new WaitWhile(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1f);
+        if (animator.runtimeAnimatorController != null)
+        {
+            yield return new WaitWhile(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(1f);
+        }
         entity.IsAttacking = false;
     }
 
@@ -60,6 +75,7 @@ public class BaseEntityVisuals : MonoBehaviour
     {
         healthBar.fillAmount = entity.Health / maxValue;
         SetHealthbarColor();
+        if (animator.runtimeAnimatorController == null) { return; }
         if (entityBT.ActiveNode is WalkNode)
         {
             animator.SetInteger(DIRECTION, movementController.MovementDirection);

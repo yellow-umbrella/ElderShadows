@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -39,6 +40,7 @@ public class InteractButtonManager : MonoBehaviour
                 case SkillData.SkillStatus.Equipped:
                 {
                     skillNode.GetComponent<SkillNode>().skillData.Unequip();
+                    skillTreeManager.skillsDataBase.EquippedSkills[Array.IndexOf(skillTreeManager.skillsDataBase.EquippedSkills, skillNode.GetComponent<SkillNode>().skillData)] = null;
                     break;
                 }
             }

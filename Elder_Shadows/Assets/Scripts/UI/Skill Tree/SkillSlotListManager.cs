@@ -29,15 +29,25 @@ public class SkillSlotListManager : MonoBehaviour
     {
         var tmp = slot.GetComponent<ChooseSkillSlotManager>();
         tmp.ChosenSkill = ChosenSkillData;
+        
         if (skillsDataBase.EquippedSkills[tmp.index] != null)
         {
             skillsDataBase.EquippedSkills[tmp.index].Unequip();
             skillTreeManager.skillNodes.Find(n => n.GetComponent<SkillNode>().skillData == skillsDataBase.EquippedSkills[tmp.index])
                 .GetComponent<SkillNode>().RefreshNode();
         }
+
+        var i = Array.FindIndex(skillsDataBase.EquippedSkills, s => s == ChosenSkillData);
+        if (i != -1)
+        {
+            SkillSlots[i].GetComponent<ChooseSkillSlotManager>().ChosenSkill = null;
+            SkillSlots[i].GetComponent<ChooseSkillSlotManager>().UpdateHeader();
+        }
+        
         skillsDataBase.EquippedSkills[tmp.index] = ChosenSkillData;
         ChosenSkillData.Equip();
         InteractButton.GetComponent<InteractButtonManager>().skillNode.GetComponent<SkillNode>().RefreshNode();
+        InteractButton.GetComponent<InteractButtonManager>().UpdateButton();
     }
 
     public void SetInactive()

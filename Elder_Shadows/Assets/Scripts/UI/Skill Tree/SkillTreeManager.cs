@@ -14,7 +14,7 @@ public class SkillTreeManager : MonoBehaviour
     [SerializeField] private GameObject LinePrefab;
     [SerializeField] private GameObject LinesObj;
     [SerializeField] private TextMeshProUGUI SkillPointsCountText;
-    [SerializeField] private SkillsDataBase skillsDataBase;
+    [SerializeField] public SkillsDataBase skillsDataBase;
     
     public List<GameObject> skillNodes;
     public List<GameObject> skillLines;

@@ -40,6 +40,8 @@ public class TradingUIManager : MonoBehaviour
         }
         traderItems = new Dictionary<ItemObject, GameObject>();
         inventoryItems = new Dictionary<GameObject, InventorySlot>();
+        itemToBuy = null;
+        itemToSell = null;
     }
 
     private void UpdateTradingWindow()

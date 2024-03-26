@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c92f6916f51c84180ccd6986ebd922, type: 3}
   m_Name: Fish
   m_EditorClassIdentifier: 
-  uiDisplay: {fileID: 0}
+  uiDisplay: {fileID: 21300000, guid: adf92f5459022124193e381473dbcce6, type: 3}
   stackable: 1
   type: 0
   description: Freshly caught lake creatures that serve as a valuable source of sustenance.
   data:
     Name: Fish
-    Id: -1
+    Id: 14
     buffs: []
   basePrice: 0

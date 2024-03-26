@@ -229,20 +229,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4a612ee90b09f4792e1058e27800b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: BaseEntity
-  health: 10
-  moveSpeed: 0
-  expForKill: 5
-  dropItems: []
-  damage: 2
-  attackCooldown: 3
-  attackRange: {fileID: 1788062538696241501}
+  info: {fileID: 0}
   seeingRange: {fileID: 6314055669951699545}
-  reactionMask: []
-  reactionToPlayer: 0
-  reactionToTrustedPlayer: 0
-  trustRequired: 0
-  wanderingRadius: 4
+  dropItem: {fileID: 4150215526820532561, guid: b82d45c83a7427949bc2348cc2762559, type: 3}
 --- !u!61 &7580192812977098180
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -260,6 +260,7 @@ GameObject:
   - component: {fileID: 2769823255442001731}
   - component: {fileID: 7633626884690207112}
   - component: {fileID: 4799399384599412886}
+  - component: {fileID: 3955662932019429496}
   m_Layer: 0
   m_Name: HareVisuals
   m_TagString: Untagged
@@ -348,8 +349,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 2053607386136962209}
-  entity: {fileID: 4380414845481937082}
   entityName: {fileID: 294694172201144640}
+  isMiniboss: 0
+--- !u!95 &3955662932019429496
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2943493365220117380}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &3074637304051969365
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,7 +568,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec42a78632ed9543b7d6e62f5c471f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
 --- !u!114 &4380414845481937082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,36 +581,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info: {fileID: 11400000, guid: e24c990444c58e145bd8527e596bf195, type: 2}
-  health: 5
-  moveSpeed: 3
-  possibleModifiers:
-  - type: 2
-    chance: 0.5
-    modifier: 1.5
-  expForKill: 5
-  dropItems:
-  - itemInfo: {fileID: 11400000, guid: c31b655fbf7ed47c88755c08dab402b9, type: 2}
-    chance: 1
-  damage: 1
-  attackCooldown: 3
-  attackRange: {fileID: 5112880757809269999}
   seeingRange: {fileID: 5596017496038558039}
-  reactionToPlayer: 3
-  reactionToTrustedPlayer: 2
-  trustRequired: 20
-  aggressionTargets:
-    serializedVersion: 2
-    m_Bits: 0
-  targets:
-    serializedVersion: 2
-    m_Bits: 0
-  enemies:
-    serializedVersion: 2
-    m_Bits: 7936
-  scaryEnemies:
-    serializedVersion: 2
-    m_Bits: 1536
-  wanderingRadius: 4
+  dropItem: {fileID: 4150215526820532561, guid: b82d45c83a7427949bc2348cc2762559, type: 3}
 --- !u!114 &-4776698765681381929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -603,10 +595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad705f1589569d145a80a35815d62d83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 347912890076632134}
-  entity: {fileID: 4380414845481937082}
   wanderingRadius: 4
-  attackCooldown: 1
 --- !u!1 &5621260781650034789
 GameObject:
   m_ObjectHideFlags: 0

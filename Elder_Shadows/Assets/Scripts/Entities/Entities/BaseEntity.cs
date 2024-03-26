@@ -94,6 +94,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
 
     [SerializeField] private EntityInfoSO info;
     [SerializeField] private Collider2D seeingRange;
+    [SerializeField] private GroundItem dropItem;
 
     private float physDmg;
     private float magDmg;
@@ -286,10 +287,9 @@ public class BaseEntity : MonoBehaviour, IAttackable
                 float offset = 1f;
                 Vector2 pos = new Vector2(transform.position.x + Random.Range(-offset, offset), 
                     transform.position.y + Random.Range(-offset, offset));
-                GroundItem groundItem = new GameObject().AddComponent<GroundItem>();
-                groundItem.gameObject.AddComponent<SpriteRenderer>();
+                GroundItem groundItem = Instantiate(dropItem, pos, Quaternion.identity);
+                groundItem.gameObject.GetComponent<SpriteRenderer>().sprite = item.itemInfo.uiDisplay;
                 groundItem.item = item.itemInfo;
-                Instantiate(groundItem, pos, Quaternion.identity);
             }
         }
     }

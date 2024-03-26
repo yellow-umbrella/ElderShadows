@@ -316,6 +316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 11400000, guid: 51ffacb191c238f45b13d83287335b52, type: 2}
   seeingRange: {fileID: 8728303751395186868}
+  dropItem: {fileID: 4150215526820532561, guid: b82d45c83a7427949bc2348cc2762559, type: 3}
 --- !u!114 &5930382753387479
 MonoBehaviour:
   m_ObjectHideFlags: 0

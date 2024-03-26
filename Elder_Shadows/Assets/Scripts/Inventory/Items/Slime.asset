@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c92f6916f51c84180ccd6986ebd922, type: 3}
   m_Name: Slime
   m_EditorClassIdentifier: 
-  uiDisplay: {fileID: 0}
+  uiDisplay: {fileID: 21300000, guid: d1f94eb541d98c94c9e0a776707e9c7c, type: 3}
   stackable: 1
   type: 9
   description: A nasty gelatinous substance.
   data:
     Name: Slime
-    Id: -1
+    Id: 31
     buffs: []
   basePrice: 0

@@ -2650,8 +2650,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scene:
-    Scene: {fileID: 102900000, guid: c353c104bb4d242a6b11ff5a831b83da, type: 3}
-    SceneName: 
+    Scene: {fileID: 102900000, guid: 5ae50845c747d25458ffe929d9d7c638, type: 3}
+    SceneName: HomeLocation
     sceneIndex: 3
     sceneEnabled: 1
   mapTypeController: {fileID: 0}

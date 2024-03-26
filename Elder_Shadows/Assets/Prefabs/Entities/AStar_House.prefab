@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4715411248282760661}
   - component: {fileID: 4715411248282760666}
-  - component: {fileID: 4715411248282760667}
   m_Layer: 0
   m_Name: AStar_House
   m_TagString: Untagged
@@ -120,15 +119,3 @@ MonoBehaviour:
     pivotPointRoot: {fileID: 0}
     spreadOutCount: 1
   showGraphs: 1
---- !u!114 &4715411248282760667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4715411248282760660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2f5d856b044f7248a31ffd2a7068079, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

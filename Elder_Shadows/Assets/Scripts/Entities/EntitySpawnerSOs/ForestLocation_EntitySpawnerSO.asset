@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11fb5d4a9c27f064083e00f3bf9b2fb6, type: 3}
+  m_Name: ForestLocation_EntitySpawnerSO
+  m_EditorClassIdentifier: 
+  nightEntities:
+  - {fileID: 5792414836176843517, guid: 2e51f0a001b9cf746b5f799350b2a303, type: 3}
+  - {fileID: 5792414836176843517, guid: 90e2b6a480a2af44f9cffdb49447c472, type: 3}
+  dayEntities:
+  - {fileID: 4380414845481937082, guid: c072789f2304d214a992a8c359742c6a, type: 3}
+  - {fileID: 4380414845481937082, guid: 3ea68e1da9c6cf648b0894a4641b6957, type: 3}
+  - {fileID: 5792414836176843517, guid: b40265800627c2b48bbab64510469d6e, type: 3}
+  - {fileID: 5792414836176843517, guid: 2e51f0a001b9cf746b5f799350b2a303, type: 3}

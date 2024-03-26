@@ -10,8 +10,7 @@ public class EntitySpawner : MonoBehaviour
 {
     public static EntitySpawner Instance { get; private set; }
 
-    [SerializeField] private List<BaseEntity> nightEntities = new List<BaseEntity>();
-    [SerializeField] private List<BaseEntity> dayEntities = new List<BaseEntity>();
+    [SerializeField] private List<EntitySpawnerSO> locationEntitySpawners = new List<EntitySpawnerSO>();
     [SerializeField] private bool spawnEntities = true;
     [SerializeField] private Vector2 spawnLimits;
     [SerializeField] private Vector2 spawnInternalLimits;
@@ -27,6 +26,7 @@ public class EntitySpawner : MonoBehaviour
     private bool canSpawn = false;
     private HashSet<Vector2Int> grassTiles;
     private const string TILE_DATA_PATH = "/floor.json";
+    private EntitySpawnerSO currentSpawner;
 
     private void Awake()
     {
@@ -58,7 +58,19 @@ public class EntitySpawner : MonoBehaviour
     {
         canSpawn = true;
         GetTileData();
+        ChooseEntitySpawner();
         StartCoroutine(SpawnWithCooldown());
+    }
+
+    private void ChooseEntitySpawner()
+    {
+        if (isDynamicLocation)
+        {
+            currentSpawner = locationEntitySpawners[dynamicLocation.type - 1];
+        } else
+        {
+            currentSpawner = locationEntitySpawners[0];
+        }
     }
 
     private IEnumerator SpawnWithCooldown()
@@ -76,10 +88,10 @@ public class EntitySpawner : MonoBehaviour
         BaseEntity entity;
         if (DaycycleManager.instance != null && DaycycleManager.instance.IsNight)
         {
-            entity = nightEntities[Random.Range(0, nightEntities.Count)];
+            entity = currentSpawner.nightEntities[Random.Range(0, currentSpawner.nightEntities.Count)];
         } else
         {
-            entity = dayEntities[Random.Range(0, dayEntities.Count)];
+            entity = currentSpawner.dayEntities[Random.Range(0, currentSpawner.dayEntities.Count)];
         }
 
         //find safe position to spawn

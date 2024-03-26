@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7446471701872053722}
   - component: {fileID: 7446471701872053721}
   m_Layer: 0
-  m_Name: EntitySpawner_HomeLocation
+  m_Name: EntitySpawner_DynamicLocation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locationEntitySpawners:
-  - {fileID: 11400000, guid: 70adf9f2ddd9a834e8ab1e179878ed58, type: 2}
+  - {fileID: 11400000, guid: d94711f9e51a3fc498c4bdc9d4b09bd6, type: 2}
+  - {fileID: 11400000, guid: 45eeb7220ec862e4d9b7335a095064c7, type: 2}
+  - {fileID: 11400000, guid: e607964644e4d2a4aba0363808d7ddd9, type: 2}
   spawnEntities: 1
   spawnLimits: {x: 4, y: 4}
   spawnInternalLimits: {x: 1, y: 1}
@@ -53,6 +55,6 @@ MonoBehaviour:
   maxSpawnCount: 6
   maxDistanceFromPlayer: 20
   aStarManager: {fileID: 0}
-  isDynamicLocation: 0
+  isDynamicLocation: 1
   homeLocation: {fileID: 11400000, guid: 3aa7aa187043f5e4ea6a8d4bf14bb1ef, type: 2}
   dynamicLocation: {fileID: 11400000, guid: b0ddafc3890ccb84ea98654d7bb177a3, type: 2}

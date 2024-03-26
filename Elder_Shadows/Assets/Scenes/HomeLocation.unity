@@ -1504,6 +1504,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ee3aae87cd3946e4382bb23c5d9eaf72, type: 2}
   - {fileID: 11400000, guid: cbfe5f322e0c4df41956ae8c2d7d761a, type: 2}
   - {fileID: 11400000, guid: fadafa141a496ab46b5082a152417e58, type: 2}
+  PlayerCharacter: {fileID: 1774624591}
   scale: 1
   xOffset: -151
   yOffset: -101

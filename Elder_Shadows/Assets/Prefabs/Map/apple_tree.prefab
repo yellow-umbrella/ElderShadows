@@ -179,10 +179,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb4f78879ae40b7499ceae61281fd390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerCharacter: {fileID: 0}
   PlayerRange: 15
   FruitPrefab: {fileID: 3091122331055360104, guid: a1ece6872f685904186284bc5208bbd8, type: 3}
-  GenerationDelayRange: {x: 10, y: 20}
+  GenerationDelayRange: {x: 180, y: 300}
   GeneratableArea: {x: 0.5, y: 0.25}
   GeneratedFruits: []
 --- !u!1 &4848143547065010567

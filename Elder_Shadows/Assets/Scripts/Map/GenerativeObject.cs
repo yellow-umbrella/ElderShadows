@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class GenerativeObject : MonoBehaviour
 {
-    public GameObject PlayerCharacter;
+    private GameObject PlayerCharacter;
     [SerializeField] private int PlayerRange;
     [SerializeField] private GameObject FruitPrefab;
     [SerializeField] private Vector2Int GenerationDelayRange;
@@ -19,6 +19,7 @@ public class GenerativeObject : MonoBehaviour
 
     private void Start()
     {
+        PlayerCharacter = CharacterController.instance.gameObject;
         StartCoroutine(GenerateFruit());
     }
 

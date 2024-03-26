@@ -61,3 +61,6 @@ MonoBehaviour:
   maxSpawnCount: 6
   maxDistanceFromPlayer: 20
   aStarManager: {fileID: 0}
+  isDynamicLocation: 0
+  homeLocation: {fileID: 11400000, guid: 3aa7aa187043f5e4ea6a8d4bf14bb1ef, type: 2}
+  dynamicLocation: {fileID: 11400000, guid: b0ddafc3890ccb84ea98654d7bb177a3, type: 2}

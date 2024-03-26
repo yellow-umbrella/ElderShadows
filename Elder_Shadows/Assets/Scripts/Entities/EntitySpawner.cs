@@ -19,11 +19,14 @@ public class EntitySpawner : MonoBehaviour
     [SerializeField] private int maxSpawnCount;
     [SerializeField] private float maxDistanceFromPlayer;
     [SerializeField] private AStarManager aStarManager;
+    [SerializeField] private bool isDynamicLocation;
+    [SerializeField] private MapTypeController homeLocation;
+    [SerializeField] private MapTypeController dynamicLocation;
 
     private int spawnCount;
     private bool canSpawn = false;
     private HashSet<Vector2Int> grassTiles;
-    private const string TILE_DATA_PATH = "/map/home/floor.json";
+    private const string TILE_DATA_PATH = "/floor.json";
 
     private void Awake()
     {
@@ -167,7 +170,8 @@ public class EntitySpawner : MonoBehaviour
     {
         try
         {
-            string json = File.ReadAllText(Application.persistentDataPath + TILE_DATA_PATH);
+            string path = Path.Join(Application.persistentDataPath, isDynamicLocation?dynamicLocation.directory:homeLocation.directory, TILE_DATA_PATH);
+            string json = File.ReadAllText(path);
             SpawnData spawnData = JsonUtility.FromJson<SpawnData>(json);
             grassTiles = new HashSet<Vector2Int>(spawnData.poses.ConvertAll(vec => new Vector2Int(vec.x, vec.y)));
         } catch (Exception e)

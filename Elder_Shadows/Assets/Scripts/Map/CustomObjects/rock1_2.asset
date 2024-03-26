@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e5aeb1e25282c418d8f7f283491d56, type: 3}
   m_Name: rock1_2
   m_EditorClassIdentifier: 
-  gobject: {fileID: 3091122331055360104, guid: a1ece6872f685904186284bc5208bbd8, type: 3}
+  gobject: {fileID: 3091122331055360104, guid: 59605750671fcf946b4721762c27d901, type: 3}
   id: rock1_2

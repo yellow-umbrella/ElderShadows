@@ -111,6 +111,7 @@ public class MapGeneration : MonoBehaviour
         {
 
             mapManager.LoadLevel();
+
             // temporary
             pSpawn.MovePlayerOnGrass();
             //Debug.Log("Home map already exists");

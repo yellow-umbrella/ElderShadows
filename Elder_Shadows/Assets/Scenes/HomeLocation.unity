@@ -1124,6 +1124,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: cde94d41f4f6ab84686a8e9a6e95061f, type: 2}
+  onDespawn:
+    m_PersistentCalls:
+      m_Calls: []
+  onPickedUp:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!212 &148290394
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -13663,7 +13669,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scene:
     Scene: {fileID: 102900000, guid: c353c104bb4d242a6b11ff5a831b83da, type: 3}
-    SceneName: HomeLocation
+    SceneName: 
     sceneIndex: 3
     sceneEnabled: 1
   mapTypeController: {fileID: 0}

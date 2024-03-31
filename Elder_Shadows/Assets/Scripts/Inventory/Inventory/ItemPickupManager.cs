@@ -13,6 +13,7 @@ public class ItemPickupManager : MonoBehaviour
             Item _item = new Item(other.GetComponent<GroundItem>().item);
             Debug.Log(_item.Id);
             character.inventory.AddItem(_item, 1);
+            other.GetComponent<GroundItem>().onPickedUp.Invoke();
             Destroy(other.gameObject);
         }
     }

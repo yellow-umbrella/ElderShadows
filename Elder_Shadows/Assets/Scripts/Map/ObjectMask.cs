@@ -30,6 +30,7 @@ public class ObjectMask : MonoBehaviour
     private void FixedUpdate()
     {
         shadow.SetActive(!IsOffScreen());
+        renderer.enabled = !IsOffScreen();
     }
     
     bool IsOffScreen() {

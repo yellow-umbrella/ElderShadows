@@ -16,7 +16,7 @@ EditorBuildSettings:
     guid: 723058f8364e6443aa6d4a697e6d43c5
   - enabled: 1
     path: Assets/Scenes/HomeLocation.unity
-    guid: c353c104bb4d242a6b11ff5a831b83da
+    guid: 5ae50845c747d25458ffe929d9d7c638
   - enabled: 1
     path: Assets/Scenes/PlayersHouse.unity
     guid: 8e25fc0cd1c3b894a8af8a7cc24ab6fc

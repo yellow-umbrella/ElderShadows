@@ -94,14 +94,10 @@ public class EntitySpawner : MonoBehaviour
             entity = currentSpawner.dayEntities[Random.Range(0, currentSpawner.dayEntities.Count)];
         }
 
-        //find safe position to spawn
-        if (GetSafePosition(out Vector2 position))
-        {
-            SpawnEntity(entity, position);
-        }
+        SpawnEntity(entity);
     }
 
-    public void SpawnEntity(BaseEntity entity, Vector2 position)
+    public BaseEntity SpawnEntity(BaseEntity entity, Vector2 position)
     {
         Quaternion rotation = Quaternion.identity;
         BaseEntity instance = Instantiate(entity, position, rotation, transform);
@@ -110,6 +106,16 @@ public class EntitySpawner : MonoBehaviour
         instance.OnDeath += SpawnedEntity_OnDeath;
         instance.OnTooFar += DeleteEntity;
         spawnCount++;
+        return instance;
+    }
+
+    public BaseEntity SpawnEntity(BaseEntity entity)
+    {
+        if (GetSafePosition(out Vector2 position))
+        {
+            return SpawnEntity(entity, position);
+        }
+        return null;
     }
 
     public bool GetSafePosition(out Vector2 safePosition)

@@ -9,6 +9,8 @@ public abstract class EntityAttackSO : ScriptableObject
     public float dmgMultiplier;
     public List<AttackDebuff> debufs;
     public AttackType attackType;
+    public GameObject attackVFX;
+    public AudioClip attackSound;
 
     [Serializable]
     public struct AttackDebuff

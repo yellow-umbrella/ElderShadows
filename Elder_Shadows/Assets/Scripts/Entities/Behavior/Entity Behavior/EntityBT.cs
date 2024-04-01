@@ -66,4 +66,18 @@ public class EntityBT : BehaviorTree.Tree
         });
         return root;
     }
+
+    public void StartFocusedAttack(GameObject target, float time)
+    {
+        StartCoroutine(FocusedAttackTimer(target, time));
+    }
+
+    IEnumerator FocusedAttackTimer(GameObject target, float time)
+    {
+        yield return new WaitForFixedUpdate();
+        root.SetData(AttackTargetNode.ATTACK_TARGET, target);
+        root.SetData(TargetInSeeingRangeCheck.FOCUSED_ATTACK, true);
+        yield return new WaitForSeconds(time);
+        root.SetData(TargetInSeeingRangeCheck.FOCUSED_ATTACK, false);
+    }
 }

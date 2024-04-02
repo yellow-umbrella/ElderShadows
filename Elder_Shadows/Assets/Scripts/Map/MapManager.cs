@@ -180,11 +180,6 @@ public class MapManager : MonoBehaviour
             plant.transform.parent = transform;
 
             plant.layer = 17;
-            
-            if (plant.GetComponent<GenerativeObject>() != null)
-            {
-                plant.GetComponent<GenerativeObject>().PlayerCharacter = PlayerCharacter;
-            }
         }
     }
 

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(AudioSource))]
 public class BaseEntityVisuals : MonoBehaviour
 {
     [SerializeField] private Image healthBar;
@@ -15,6 +16,9 @@ public class BaseEntityVisuals : MonoBehaviour
     private MovementController movementController;
     private EntityBT entityBT;
     private Animator animator;
+    private AudioSource audioSource;
+    private EntityAttackSO attack;
+    private EntityAttackVFX attackVFX;
 
     private const string WALK = "Walk";
     private const string IDLE = "Idle";
@@ -29,6 +33,7 @@ public class BaseEntityVisuals : MonoBehaviour
         entity = GetComponentInParent<BaseEntity>();
         entityBT = GetComponentInParent<EntityBT>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
 
         maxValue = entity.Health;
         healthBar.fillAmount = 1;
@@ -37,29 +42,64 @@ public class BaseEntityVisuals : MonoBehaviour
         entity.OnStartAttack += Entity_OnStartAttack;
     }
 
-    private void Entity_OnStartAttack(EntityAttackSO.AttackType attackType)
+    private void Entity_OnStartAttack(EntityAttackSO attack)
     {
         // trigger right animation based on attack type
-        animator.SetInteger(DIRECTION, entity.AttackDirection);
-        animator.SetTrigger(TARGETED_ATTACK);
+        if (animator.runtimeAnimatorController != null)
+        {
+            animator.SetInteger(DIRECTION, entity.AttackDirection);
+            animator.SetTrigger(TARGETED_ATTACK);
+        }
+        this.attack = attack;
+        attackVFX = null;
         StartCoroutine(Attack());
     }
 
     private IEnumerator Attack()
     {
         entity.IsAttacking = true;
+        if (attack.attackSound != null)
+        {
+            audioSource.clip = attack.attackSound;
+            audioSource.Play();
+        }
+        if (attack.attackVFX != null)
+        {
+            Instantiate(attack.attackVFX, entity.transform).TryGetComponent(out attackVFX);
+        }
+        attackVFX?.SetupVFX(attack);
         //yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
-        yield return new WaitWhile(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= .5f);
-        entity.CanInflictDamage = true;
+        // wait for the middle of attack animation
+        if (animator.runtimeAnimatorController != null)
+        {
+            yield return new WaitWhile(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= .5f);
+        } else
+        {
+            yield return new WaitForSeconds(1f);
+        }
 
-        yield return new WaitWhile(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1f);
+        entity.CanInflictDamage = true;
+        attackVFX?.OnInflictDamage();
+        
+        // wait for the end of attack animation
+        if (animator.runtimeAnimatorController != null)
+        {
+            yield return new WaitWhile(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(1f);
+        }
+
         entity.IsAttacking = false;
+        attackVFX?.OnEndAttack();
     }
 
     private void Update()
     {
         healthBar.fillAmount = entity.Health / maxValue;
         SetHealthbarColor();
+        if (animator.runtimeAnimatorController == null) { return; }
         if (entityBT.ActiveNode is WalkNode)
         {
             animator.SetInteger(DIRECTION, movementController.MovementDirection);

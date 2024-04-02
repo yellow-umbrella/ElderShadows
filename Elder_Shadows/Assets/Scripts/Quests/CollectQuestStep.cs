@@ -10,7 +10,7 @@ public class CollectQuestStep : QuestStep
 
     int amountCollected = 0;
 
-    private void Start()
+    private void Awake()
     {
         QuestManager.instance.onTryFinishQuest += CheckCollectedItems;
     }

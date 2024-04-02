@@ -9,7 +9,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
 {
     public event Action<BaseEntity> OnDeath;
     public event Action<BaseEntity> OnTooFar;
-    public event Action<EntityAttackSO.AttackType> OnStartAttack;
+    public event Action<EntityAttackSO> OnStartAttack;
 
     public enum ModifierType
     {
@@ -94,6 +94,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
 
     [SerializeField] private EntityInfoSO info;
     [SerializeField] private Collider2D seeingRange;
+    [SerializeField] private GroundItem dropItem;
 
     private float physDmg;
     private float magDmg;
@@ -149,7 +150,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
                 AoEAttack(attackTarget, (AoEAttackSO)currentAttack, damage);
                 break;
             case EntityAttackSO.AttackType.Summon:
-                SummonAttack((SummonAttackSO)currentAttack);
+                SummonAttack(attackTarget, (SummonAttackSO)currentAttack);
                 break;
         }
     }
@@ -167,14 +168,16 @@ public class BaseEntity : MonoBehaviour, IAttackable
     {
         Debug.Log($"{gameObject} performed ranged attack on {targetObj.gameObject}");
         GameObject projectile = Instantiate(attack.projectile, transform.position, Quaternion.identity);
-        // setup projectile
+        projectile.GetComponent<Projectile>().Setup(targetObj.gameObject, gameObject, attack, damage);
     }
 
-    private void SummonAttack(SummonAttackSO attack)
+    private void SummonAttack(GameObject target, SummonAttackSO attack)
     {
         for (int i = 0; i < attack.amount; i++)
         {
-            EntitySpawner.Instance.SpawnEntity(attack.entities[Random.Range(0,attack.entities.Count)], transform.position);
+            BaseEntity entity = EntitySpawner.Instance.SpawnEntity(attack.entities[Random.Range(0, attack.entities.Count)]);
+            const float FOCUSED_TIME = 10f;
+            entity?.gameObject.GetComponent<EntityBT>().StartFocusedAttack(target, FOCUSED_TIME);
         }
         Debug.Log($"{gameObject} performed summon attack");
     }
@@ -206,7 +209,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
         CanInflictDamage = false; // waiting for right moment in animation
         Vector2 dir = attackTarget.transform.position - transform.position;
         attackDirection = MovementController.SnapVector(dir);
-        OnStartAttack?.Invoke(currentAttack.attackType);
+        OnStartAttack?.Invoke(currentAttack);
     }
 
     public bool CanAttack(GameObject attackTarget)
@@ -233,7 +236,7 @@ public class BaseEntity : MonoBehaviour, IAttackable
 
     public bool ChooseAttack(List<EntityAttackSO> attacks)
     {
-        if (info.attacks.Count == 0) { return false; }
+        if (attacks.Count == 0) { return false; }
         currentAttack = attacks[Random.Range(0, attacks.Count)];
         return true;
     }
@@ -286,10 +289,9 @@ public class BaseEntity : MonoBehaviour, IAttackable
                 float offset = 1f;
                 Vector2 pos = new Vector2(transform.position.x + Random.Range(-offset, offset), 
                     transform.position.y + Random.Range(-offset, offset));
-                GroundItem groundItem = new GameObject().AddComponent<GroundItem>();
-                groundItem.gameObject.AddComponent<SpriteRenderer>();
+                GroundItem groundItem = Instantiate(dropItem, pos, Quaternion.identity);
+                groundItem.gameObject.GetComponent<SpriteRenderer>().sprite = item.itemInfo.uiDisplay;
                 groundItem.item = item.itemInfo;
-                Instantiate(groundItem, pos, Quaternion.identity);
             }
         }
     }

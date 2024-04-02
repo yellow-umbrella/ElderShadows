@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c92f6916f51c84180ccd6986ebd922, type: 3}
   m_Name: Fur
   m_EditorClassIdentifier: 
-  uiDisplay: {fileID: 0}
+  uiDisplay: {fileID: 21300000, guid: 046f821c76a004e4c91b9f27ee906194, type: 3}
   stackable: 1
   type: 9
   description: Soft fur obtained from various creatures.

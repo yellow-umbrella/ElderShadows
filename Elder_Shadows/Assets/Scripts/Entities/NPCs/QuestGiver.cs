@@ -25,7 +25,7 @@ public class QuestGiver : NPC
                 || quest.state == Quest.QuestState.CAN_FINISH))
             {
                 activeQuest = quest;
-                onActiveQuestStateChange(activeQuest.state);
+                onActiveQuestStateChange?.Invoke(activeQuest.state);
                 break;
             }
         }

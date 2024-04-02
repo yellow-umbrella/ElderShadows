@@ -177,7 +177,7 @@ public class QuestManager : MonoBehaviour
                 Directory.CreateDirectory(path);
             }
             File.WriteAllText(path + quest.info.id + ".json", serializedData);
-            Debug.Log("Saved quest with id: " + quest.info.id + ": " + serializedData);
+            //Debug.Log("Saved quest with id: " + quest.info.id + ": " + serializedData);
         }
         catch (Exception e)
         {
@@ -194,7 +194,7 @@ public class QuestManager : MonoBehaviour
             if (File.Exists(path))
             {
                 string serializedData = File.ReadAllText(path);
-                Debug.Log("Loading quest with id: " + questInfo.id + ": " + serializedData);
+                //Debug.Log("Loading quest with id: " + questInfo.id + ": " + serializedData);
                 QuestData questData = JsonUtility.FromJson<QuestData>(serializedData);
                 quest = new Quest(questInfo, questData.state, questData.questStepIndex, questData.questStepStates);
             } else

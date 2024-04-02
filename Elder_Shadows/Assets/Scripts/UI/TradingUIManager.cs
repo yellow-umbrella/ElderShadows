@@ -40,6 +40,8 @@ public class TradingUIManager : MonoBehaviour
         }
         traderItems = new Dictionary<ItemObject, GameObject>();
         inventoryItems = new Dictionary<GameObject, InventorySlot>();
+        itemToBuy = null;
+        itemToSell = null;
     }
 
     private void UpdateTradingWindow()
@@ -90,6 +92,7 @@ public class TradingUIManager : MonoBehaviour
         } else
         {
             itemSlot.UpdateSlot(null, "", "");
+            itemSlot.OnDeselect();
         }
     }
 
@@ -104,6 +107,7 @@ public class TradingUIManager : MonoBehaviour
             if (itemInfo.amount <= 0)
             {
                 itemSlot.UpdateSlot(null, "", "");
+                itemSlot.OnDeselect();
             } else
             {
                 itemSlot.UpdateSlot(item, itemInfo.price.ToString("n0"), itemInfo.amount.ToString("n0"));
@@ -122,10 +126,12 @@ public class TradingUIManager : MonoBehaviour
             if (itemToBuy != null && traderItems[itemToBuy] != obj) 
             { 
                 traderItems[itemToBuy].GetComponent<TradingItemSlot>().OnDeselect();
+                itemToBuy = null;
             }
             if (itemToSell != null)
             {
                 itemToSell.GetComponent<TradingItemSlot>().OnDeselect();
+                itemToSell = null;
             }
             itemToBuy = item;
         } else
@@ -133,10 +139,12 @@ public class TradingUIManager : MonoBehaviour
             if (itemToSell != null && itemToSell != obj)
             {
                 itemToSell.GetComponent<TradingItemSlot>().OnDeselect();
+                itemToSell = null;
             }
             if (itemToBuy != null)
             {
                 traderItems[itemToBuy].GetComponent<TradingItemSlot>().OnDeselect();
+                itemToBuy = null;
             }
             itemToSell = obj;
         }

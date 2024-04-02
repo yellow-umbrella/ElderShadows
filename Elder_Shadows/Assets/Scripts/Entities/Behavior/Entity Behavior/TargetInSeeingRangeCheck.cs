@@ -9,6 +9,7 @@ public class TargetInSeeingRangeCheck : Node
     private BaseEntity entity;
     private float checkCooldown = .5f;
     private bool canCheck = true;
+    public const string FOCUSED_ATTACK = "focused_attack";
 
     public TargetInSeeingRangeCheck(BaseEntity entity)
     {
@@ -28,7 +29,8 @@ public class TargetInSeeingRangeCheck : Node
 
         // if have current target and can see it, than go to it
         GameObject target = (GameObject)GetData(AttackTargetNode.ATTACK_TARGET);
-        if (target != null && entity.CanSee(target))
+        object isFocusedAttack = GetData(FOCUSED_ATTACK);
+        if (target != null && (entity.CanSee(target) || isFocusedAttack is bool && (bool)isFocusedAttack))
         {
             state = NodeState.SUCCESS;
             return state;

@@ -20,3 +20,4 @@ MonoBehaviour:
     Name: Golden Sword
     Id: 5
     buffs: []
+  basePrice: 0

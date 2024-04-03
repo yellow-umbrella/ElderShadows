@@ -28,3 +28,4 @@ MonoBehaviour:
       value: 7
       min: 5
       max: 10
+  basePrice: 0

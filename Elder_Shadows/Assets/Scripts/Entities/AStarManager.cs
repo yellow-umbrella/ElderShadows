@@ -1,7 +1,9 @@
 using Pathfinding;
+using Pathfinding.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class AStarManager : MonoBehaviour
@@ -17,10 +19,9 @@ public class AStarManager : MonoBehaviour
 
     IEnumerator ScanMap()
     {
+        yield return new WaitForEndOfFrame();
         startedScanning = true;
-        yield return new WaitForFixedUpdate();
-        yield return new WaitForFixedUpdate();
-        AstarPath.active.Scan();
+        AstarPath.active.Scan(AstarPath.active.data.gridGraph);
     }
 
     private void Update()
@@ -28,6 +29,11 @@ public class AStarManager : MonoBehaviour
         if (startedScanning && !AstarPath.active.isScanning)
         {
             startedScanning = false;
+            SerializeSettings settings = new SerializeSettings();
+            settings.nodes = true;
+            byte[] bytes = AstarPath.active.data.SerializeGraphs(settings);
+            File.WriteAllBytes(Application.persistentDataPath + "/gg.bytes", bytes);
+
             OnFinishedScanning?.Invoke();
         }
     }

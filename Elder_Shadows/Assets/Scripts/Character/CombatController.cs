@@ -26,7 +26,7 @@ public class CombatController : MonoBehaviour
             expForKill = target.ExpForKill;
             if (canAttack)
             {
-                if (target?.TakeDamage(characterData.phys_dmg, IAttackable.DamageType.Physical, gameObject) == IAttackable.State.Dead)
+                if (target?.TakeDamage(characterData.phys_dmg, IAttackable.DamageType.Physical, CharacterController.instance.gameObject) == IAttackable.State.Dead)
                 {
                     onEnemyKilled.Invoke(target.ID);
                     dataManager.AddExperience(expForKill);

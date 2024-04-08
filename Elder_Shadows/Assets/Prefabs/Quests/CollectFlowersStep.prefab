@@ -46,3 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemToCollect: {fileID: 11400000, guid: e9cde16194ce5cd42926a701aa0b7835, type: 2}
   amountToCollect: 5
+  needToSpawn: 1
+  placeToSpawn: 2
+  itemPrefab: {fileID: 4150215526820532561, guid: b82d45c83a7427949bc2348cc2762559, type: 3}

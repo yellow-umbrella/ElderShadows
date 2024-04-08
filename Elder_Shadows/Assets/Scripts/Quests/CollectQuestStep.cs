@@ -7,18 +7,49 @@ public class CollectQuestStep : QuestStep
 {
     [SerializeField] ItemObject itemToCollect;
     [SerializeField] int amountToCollect;
+    [SerializeField] private bool needToSpawn = false;
+    [SerializeField] private EntitySpawner.MapType placeToSpawn;
+    [SerializeField] private GroundItem itemPrefab;
 
     int amountCollected = 0;
+    private List<GameObject> spawnedItems = new List<GameObject>();
 
     private void Awake()
     {
         QuestManager.instance.onTryFinishQuest += CheckCollectedItems;
     }
 
+    private void Start()
+    {
+        if (EntitySpawner.Instance != null)
+        {
+            EntitySpawner.Instance.OnStartSpawning += SpawnItems;
+        }
+    }
+
+    private void SpawnItems()
+    {
+        if (needToSpawn && placeToSpawn == EntitySpawner.Instance.CurrentLocation)
+        {
+            amountCollected = CharacterController.instance.inventory.GetAmountOfItem(new Item(itemToCollect));
+            for (int i = 0; i < amountToCollect - amountCollected; i++)
+            {
+                Vector2 pos = EntitySpawner.Instance.GetGlobalSafePosition();
+                GroundItem groundItem = Instantiate(itemPrefab, pos, Quaternion.identity, transform);
+                groundItem.gameObject.GetComponent<SpriteRenderer>().sprite = itemToCollect.uiDisplay;
+                groundItem.item = itemToCollect;
+            }
+        }
+    }
+
     protected override void OnDestroy()
     {
         base.OnDestroy();
         QuestManager.instance.onTryFinishQuest -= CheckCollectedItems;
+        if (EntitySpawner.Instance != null)
+        {
+            EntitySpawner.Instance.OnStartSpawning -= SpawnItems;
+        }
     }
 
     private void CheckCollectedItems(string id)
@@ -34,6 +65,7 @@ public class CollectQuestStep : QuestStep
 
     private void UpdateState()
     {
+        amountCollected = CharacterController.instance.inventory.GetAmountOfItem(new Item(itemToCollect));
         string state = amountCollected.ToString();
         ChangeState(state);
     }

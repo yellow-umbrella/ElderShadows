@@ -3,12 +3,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class EntitySpawner : MonoBehaviour
 {
     public static EntitySpawner Instance { get; private set; }
+    public MapType CurrentLocation {  get; private set; }
+
+    public event Action OnStartSpawning;
 
     [SerializeField] private List<EntitySpawnerSO> locationEntitySpawners = new List<EntitySpawnerSO>();
     [SerializeField] private bool spawnEntities = true;
@@ -28,6 +32,14 @@ public class EntitySpawner : MonoBehaviour
     private const string TILE_DATA_PATH = "/floor.json";
     private EntitySpawnerSO currentSpawner;
 
+    public enum MapType
+    {
+        Home = 0,
+        Forest = 1,
+        Field = 2,
+        Mountains = 3,
+    }
+
     private void Awake()
     {
         if (Instance != null)
@@ -36,6 +48,7 @@ public class EntitySpawner : MonoBehaviour
             return;
         }
         Instance = this;
+        ChooseEntitySpawner();
     }
 
     private void Start()
@@ -58,8 +71,8 @@ public class EntitySpawner : MonoBehaviour
     {
         canSpawn = true;
         GetTileData();
-        ChooseEntitySpawner();
         StartCoroutine(SpawnWithCooldown());
+        OnStartSpawning?.Invoke();
     }
 
     private void ChooseEntitySpawner()
@@ -67,9 +80,11 @@ public class EntitySpawner : MonoBehaviour
         if (isDynamicLocation)
         {
             currentSpawner = locationEntitySpawners[dynamicLocation.type - 1];
+            CurrentLocation = (MapType)dynamicLocation.type;
         } else
         {
             currentSpawner = locationEntitySpawners[0];
+            CurrentLocation = MapType.Home;
         }
     }
 
@@ -182,6 +197,15 @@ public class EntitySpawner : MonoBehaviour
 
         safePosition = position;
         return true;
+    }
+
+    public Vector2 GetGlobalSafePosition()
+    {
+        while (true)
+        {
+            Vector2 pos = grassTiles.ElementAt(Random.Range(0, grassTiles.Count));
+            if (IsSafePosition(pos)) return pos;
+        }
     }
 
     private void GetTileData()

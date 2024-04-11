@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c92f6916f51c84180ccd6986ebd922, type: 3}
   m_Name: Blueberry Pie
   m_EditorClassIdentifier: 
-  uiDisplay: {fileID: 0}
+  uiDisplay: {fileID: 21300000, guid: 8b87ffd67f83dbd4fad2fa7438ad5b0f, type: 3}
   stackable: 1
   type: 0
   description: A delectable dessert made from blueberries using Domovyk's recipe.

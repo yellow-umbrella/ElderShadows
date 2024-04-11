@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c92f6916f51c84180ccd6986ebd922, type: 3}
   m_Name: Blueberries
   m_EditorClassIdentifier: 
-  uiDisplay: {fileID: 0}
+  uiDisplay: {fileID: 21300000, guid: 8860e924a250bcb47b3962307085bb72, type: 3}
   stackable: 1
   type: 0
   description: Small bluish-black berries that grow wild and have a sweet and sour

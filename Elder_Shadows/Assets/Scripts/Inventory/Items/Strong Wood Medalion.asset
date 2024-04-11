@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c92f6916f51c84180ccd6986ebd922, type: 3}
   m_Name: Strong Wood Medalion
   m_EditorClassIdentifier: 
-  uiDisplay: {fileID: 0}
+  uiDisplay: {fileID: 21300000, guid: 60cb4b34c2ed92840a105cff9ed2214c, type: 3}
   stackable: 0
   type: 7
   description: A finely crafted pendant made from enchanted wood.
   data:
     Name: Strong Wood Medalion
-    Id: -1
+    Id: 6
     buffs:
     - attribute: 2
       value: 3
       min: 2
       max: 5
+  basePrice: 0

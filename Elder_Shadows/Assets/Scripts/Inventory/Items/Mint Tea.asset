@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c92f6916f51c84180ccd6986ebd922, type: 3}
   m_Name: Mint Tea
   m_EditorClassIdentifier: 
-  uiDisplay: {fileID: 0}
+  uiDisplay: {fileID: 21300000, guid: 61377b7d4313b2b4285c5cc7e33d5d34, type: 3}
   stackable: 1
   type: 0
   description: A refreshing beverage crafted from mint leaves.

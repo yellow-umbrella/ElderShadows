@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c92f6916f51c84180ccd6986ebd922, type: 3}
   m_Name: Wreath
   m_EditorClassIdentifier: 
-  uiDisplay: {fileID: 0}
+  uiDisplay: {fileID: 21300000, guid: 90886abf7f75b814395dcefd03a500d7, type: 3}
   stackable: 0
   type: 1
   description: A decorative item made from flowers and herbs.
   data:
     Name: Wreath
-    Id: -1
+    Id: 17
     buffs:
     - attribute: 7
       value: 2
       min: 1
       max: 3
+  basePrice: 0

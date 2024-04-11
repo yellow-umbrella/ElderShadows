@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c92f6916f51c84180ccd6986ebd922, type: 3}
   m_Name: Lingonberries
   m_EditorClassIdentifier: 
-  uiDisplay: {fileID: 0}
+  uiDisplay: {fileID: 21300000, guid: 99cf819a409478d4983846ca6818a4ce, type: 3}
   stackable: 1
   type: 0
   description: Tiny, red berries that grow in mountains.
